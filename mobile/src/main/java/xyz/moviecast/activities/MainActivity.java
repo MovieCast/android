@@ -1,39 +1,38 @@
 package xyz.moviecast.activities;
 
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.widget.TextView;
 
 import xyz.moviecast.R;
-import xyz.moviecast.base.entities.Movie;
-import xyz.moviecast.base.providers.MoviesProvider;
+import xyz.moviecast.base.Helpers.MovieHelper;
+import xyz.moviecast.base.models.Movie;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieHelper.OnMoviesDoneListener{
 
     private static final String TAG = "MAIN_ACTIVITY";
 
-    protected ViewPager viewPager;
+    private TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Thread thread = new Thread(new Runnable() {
+        MovieHelper helper = new MovieHelper(this);
+        helper.getMoviesOnPage(1, this);
+
+        textView = findViewById(R.id.textView);
+    }
+
+    @Override
+    public void onMoviesDone(final Movie[] movies) {
+        runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    MoviesProvider provider = new MoviesProvider();
-                    Movie[] movies = provider.loadPage(1);
-                    Log.d(TAG, "onCreate: The first movie in the array is: " + movies[0].toString());
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
+                textView.setText("A total of " + movies.length + " movies were found on the first page\n" +
+                        "The name of the first movie is " + movies[0].getTitle());
             }
         });
-        thread.start();
     }
 }

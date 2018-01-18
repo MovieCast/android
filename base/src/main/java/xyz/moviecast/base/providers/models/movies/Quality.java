@@ -1,27 +1,24 @@
-package xyz.moviecast.base.entities;
+package xyz.moviecast.base.providers.models.movies;
 
-public class Torrent {
+import org.codehaus.jackson.annotate.JsonProperty;
 
-    private String resolution;
+public class Quality {
+
+    @JsonProperty("hash")
     private String hash;
+    @JsonProperty("seeds")
     private int seeds;
+    @JsonProperty("peers")
     private int peers;
+    @JsonProperty("size")
     private int size;
+    @JsonProperty("fileSize")
     private String fileSize;
+    @JsonProperty("provider")
     private String provider;
 
-    public Torrent(String resolution, String hash, int seeds, int peers, int size, String fileSize, String provider) {
-        this.resolution = resolution;
-        this.hash = hash;
-        this.seeds = seeds;
-        this.peers = peers;
-        this.size = size;
-        this.fileSize = fileSize;
-        this.provider = provider;
-    }
+    public Quality() {
 
-    public String getResolution() {
-        return resolution;
     }
 
     public String getHash() {
