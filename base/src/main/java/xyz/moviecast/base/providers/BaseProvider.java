@@ -9,12 +9,12 @@ import okhttp3.OkHttpClient;
 
 public class BaseProvider {
 
-    static OkHttpClient okHttpClient;
+    static OkHttpClient client;
 
     public BaseProvider(Context context) {
 
-        if(okHttpClient == null){
-            okHttpClient = new OkHttpClient.Builder()
+        if(client == null){
+            client = new OkHttpClient.Builder()
                     .cache(new Cache(context.getCacheDir(), 10*1024*1024))
                     .connectTimeout(30, TimeUnit.SECONDS)
                     .readTimeout(30, TimeUnit.SECONDS)

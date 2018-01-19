@@ -30,7 +30,7 @@ public class MovieProvider extends MediaProvider<Movie> {
                         .build())
                 .build();
 
-        Response response = okHttpClient.newCall(request).execute();
+        Response response = client.newCall(request).execute();
         String body = response.body().string();
         return mapper.readValue(body, Page.class);
     }
