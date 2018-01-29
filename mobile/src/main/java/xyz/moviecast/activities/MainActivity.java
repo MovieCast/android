@@ -1,57 +1,84 @@
 package xyz.moviecast.activities;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import java.util.Arrays;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import xyz.moviecast.R;
-import xyz.moviecast.base.Helpers.MovieHelper;
-import xyz.moviecast.base.models.Movie;
+import xyz.moviecast.views.NonSwipeableViewPager;
 
-public class MainActivity extends AppCompatActivity implements MovieHelper.MovieHelperCallbacks {
+public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MAIN_ACTIVITY";
 
-    private ImageView textView;
-    private MovieHelper helper;
+    private ListView listView;
+    private DrawerLayout drawerLayout;
+    private NonSwipeableViewPager viewPager;
+    private ArrayAdapter<String> arrayAdapter;
+    private ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        helper = new MovieHelper(this);
 
-        helper.getMoviesOnPage(1, this);
+        listView = findViewById(R.id.navList);
+        drawerLayout = findViewById(R.id.drawerLayout);
+        viewPager = findViewById(R.id.nonSwipeableViewPager);
 
-        textView = findViewById(R.id.textView);
+        addDrawerItems();
+        setupDrawer();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        setTitle("");
     }
 
-    @Override
-    public void onMoviesDone(final Movie[] movies) {
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                textView.setText("A total of " + movies.length + " movies were found on the first page\n" +
-//                        "The name of the first movie is " + movies[0].getTitle());
-//            }
-//        });
-        helper.getMoviePosterImage(movies[3], this);
+    private void addDrawerItems(){
+        String[] osArray = {"Test1", "Test2", "Test3", "Test4"};
+        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, osArray);
+        listView.setAdapter(arrayAdapter);
     }
 
-    @Override
-    public void onImageDone(final byte[] imageData, String id, int type) {
-        final Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                textView.setImageBitmap(bitmap);
+    private void setupDrawer(){
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+
+            public void onDrawerOpened(View view) {
+                super.onDrawerOpened(view);
+                invalidateOptionsMenu();
             }
-        });
+
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                invalidateOptionsMenu();
+            }
+        };
+
+        drawerToggle.setDrawerIndicatorEnabled(true);
+        drawerLayout.setDrawerListener(drawerToggle);
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 }

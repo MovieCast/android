@@ -29,9 +29,8 @@ public class MovieHelper {
         imageProvider = new ImageProvider(context);
     }
 
-    public void getMoviesOnPage(int page, MovieHelperCallbacks callbacks){
+    public void getMoviesOnPage(int page, final MovieHelperCallbacks callbacks){
         final int finalPage = page;
-        final MovieHelperCallbacks finalCallback = callbacks;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -49,7 +48,7 @@ public class MovieHelper {
                             applicationMovies.put(movies[i].getId(), movies[i]);
                         }
                     }
-                    finalCallback.onMoviesDone(movies);
+                    callbacks.onMoviesDone(movies);
                 }catch (IOException e){
                     e.printStackTrace();
                 }
@@ -57,14 +56,15 @@ public class MovieHelper {
         }).start();
     }
 
-    public void getMoviePosterImage(xyz.moviecast.base.models.Movie movie, final MovieHelperCallbacks callbacks){
+    public void getMoviePosterImage(final xyz.moviecast.base.models.Movie movie, final MovieHelperCallbacks callbacks){
         final Movie jsonMovie = jsonMoviesMap.get(movie.getId());
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try{
                     byte[] imageData = imageProvider.provideImage(jsonMovie, ImageProvider.POSTER_IMAGE);
-                    callbacks.onImageDone(imageData, jsonMovie.getId(), ImageProvider.POSTER_IMAGE);
+                    movie.setPosterImageData(imageData);
+                    callbacks.onImageDone(movie, ImageProvider.POSTER_IMAGE);
                 }catch (IOException e){
                     e.printStackTrace();
                 }
@@ -75,6 +75,6 @@ public class MovieHelper {
 
     public interface MovieHelperCallbacks {
         void onMoviesDone(xyz.moviecast.base.models.Movie[] movies);
-        void onImageDone(final byte[] imageData, final String id, int type);
+        void onImageDone(xyz.moviecast.base.models.Movie movie, int type);
     }
 }
