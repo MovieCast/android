@@ -3,47 +3,60 @@ package xyz.moviecast.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-
 import xyz.moviecast.R;
-import xyz.moviecast.base.Helpers.MovieHelper;
-import xyz.moviecast.base.models.Movie;
-import xyz.moviecast.base.models.Rating;
-import xyz.moviecast.base.models.Torrent;
-import xyz.moviecast.views.MovieCatalogView;
 
-public class MovieFragment extends Fragment implements MovieHelper.MovieHelperCallbacks{
+public class MovieFragment extends Fragment {
 
-    private MovieCatalogView movieCatalogView;
-    private MovieHelper movieHelper;
+    private ViewPager viewPager;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movie, container, false);
-        movieCatalogView = view.findViewById(R.id.movieCatalogView);
-        movieHelper = new MovieHelper(getContext());
-        movieHelper.getMoviesOnPage(1, this);
+        viewPager = view.findViewById(R.id.viewPager);
+        Adapter adapter = new Adapter(getFragmentManager());
+        adapter.addFragment(new CatalogFragment(), "Trending");
+        adapter.addFragment(new CatalogFragment(), "Year");
+        adapter.addFragment(new CatalogFragment(), "A-Z");
+        viewPager.setAdapter(adapter);
+
+        addTabs();
         return view;
     }
 
-    @Override
-    public void onMoviesDone(Movie[] movies) {
-        for(int i = 0; i < movies.length; i++){
-            movieHelper.getMoviePosterImage(movies[i],this);
-        }
-    }
+    private void addTabs(){
+        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
-    @Override
-    public void onImageDone(final Movie movie, int type) {
-        getActivity().runOnUiThread(new Runnable() {
+        ActionBar.TabListener tabListener = new ActionBar.TabListener() {
+            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+                viewPager.setCurrentItem(tab.getPosition(), true);
+            }
+
+            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+            }
+
+            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+            }
+        };
+
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        actionBar.addTab(actionBar.newTab().setText("Trending").setTabListener(tabListener));
+        actionBar.addTab(actionBar.newTab().setText("Year").setTabListener(tabListener));
+        actionBar.addTab(actionBar.newTab().setText("A-Z").setTabListener(tabListener));
+
+        viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
-            public void run() {
-                movieCatalogView.addMovie(movie);
+            public void onPageSelected(int position) {
+                actionBar.setSelectedNavigationItem(position);
             }
         });
     }

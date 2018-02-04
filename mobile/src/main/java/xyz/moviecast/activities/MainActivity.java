@@ -1,5 +1,6 @@
 package xyz.moviecast.activities;
 
+import android.app.ActionBar;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
