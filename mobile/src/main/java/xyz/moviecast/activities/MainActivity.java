@@ -1,17 +1,23 @@
 package xyz.moviecast.activities;
 
+import android.app.ActionBar;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import xyz.moviecast.R;
+import xyz.moviecast.fragments.Adapter;
+import xyz.moviecast.fragments.MovieFragment;
+import xyz.moviecast.fragments.SettingsFragment;
 import xyz.moviecast.views.NonSwipeableViewPager;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,18 +39,32 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout);
         viewPager = findViewById(R.id.nonSwipeableViewPager);
 
+        Adapter adapter = new Adapter(getSupportFragmentManager());
+        adapter.addFragment(new MovieFragment(), "Movies");
+        adapter.addFragment(new SettingsFragment(), "Settings");
+        viewPager.setAdapter(adapter);
+
         addDrawerItems();
         setupDrawer();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        viewPager.setCurrentItem(0, true);
         setTitle("");
     }
 
     private void addDrawerItems(){
-        String[] osArray = {"Test1", "Test2", "Test3", "Test4"};
+        String[] osArray = {"Movies", "Settings"};
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, osArray);
         listView.setAdapter(arrayAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                viewPager.setCurrentItem(i, true);
+                drawerLayout.closeDrawers();
+            }
+        });
     }
 
     private void setupDrawer(){
