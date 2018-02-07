@@ -12,12 +12,6 @@ import xyz.moviecast.base.Helpers.MovieHelper;
 import xyz.moviecast.base.models.Movie;
 import xyz.moviecast.views.MovieCatalogView;
 
-/**
- * Class description  here
- *
- * @author Tim
- */
-
 public class CatalogFragment extends Fragment implements MovieHelper.MovieHelperCallbacks{
 
     public static final String TRENDING = "trending";
