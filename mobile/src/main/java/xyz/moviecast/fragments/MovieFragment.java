@@ -2,6 +2,7 @@ package xyz.moviecast.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -16,12 +17,13 @@ import xyz.moviecast.R;
 public class MovieFragment extends Fragment {
 
     private ViewPager viewPager;
+    private View parent;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_movie, container, false);
-        viewPager = view.findViewById(R.id.viewPager);
+        parent = inflater.inflate(R.layout.fragment_movie, container, false);
+        viewPager = parent.findViewById(R.id.viewPager);
         Adapter adapter = new Adapter(getFragmentManager());
         adapter.addFragment(new CatalogFragment(), "Trending");
         adapter.addFragment(new CatalogFragment(), "Year");
@@ -29,10 +31,37 @@ public class MovieFragment extends Fragment {
         viewPager.setAdapter(adapter);
 
         addTabs();
-        return view;
+//        addTabsOld();
+        return parent;
     }
 
     private void addTabs(){
+        TabLayout layout = parent.findViewById(R.id.tabLayout);
+        layout.addTab(layout.newTab().setText("Trending"));
+        layout.addTab(layout.newTab().setText("Year"));
+        layout.addTab(layout.newTab().setText("A-Z"));
+        layout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(layout));
+        layout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition(), true);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+    }
+
+    private void addTabsOld(){
         final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
 
         ActionBar.TabListener tabListener = new ActionBar.TabListener() {

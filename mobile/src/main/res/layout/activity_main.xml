@@ -7,12 +7,30 @@
     tools:context="xyz.moviecast.activities.MainActivity"
     android:id="@+id/drawerLayout">
 
-    <xyz.moviecast.views.NonSwipeableViewPager
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/nonSwipeableViewPager">
+        android:layout_height="match_parent">
 
-    </xyz.moviecast.views.NonSwipeableViewPager>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="?attr/colorPrimary"
+            android:elevation="0dp"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+        <xyz.moviecast.views.NonSwipeableViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/nonSwipeableViewPager"
+            android:layout_below="@+id/toolbar">
+
+        </xyz.moviecast.views.NonSwipeableViewPager>
+
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/navList"
