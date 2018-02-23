@@ -1,18 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="xyz.moviecast.MainActivity">
+    tools:context="xyz.moviecast.activities.MainActivity"
+    android:id="@+id/drawerLayout">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="?attr/colorPrimary"
+            android:elevation="0dp"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+        <xyz.moviecast.views.NonSwipeableViewPager
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/nonSwipeableViewPager"
+            android:layout_below="@+id/toolbar">
+
+        </xyz.moviecast.views.NonSwipeableViewPager>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="304dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@color/colorPrimaryDark">
+
+            <ImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:background="@mipmap/moviecast_icon"
+                android:scaleType="fitXY"
+                android:layout_marginBottom="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_gravity="start|bottom"/>
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/navList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/nav_drawer_color" />
+
+    </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>
