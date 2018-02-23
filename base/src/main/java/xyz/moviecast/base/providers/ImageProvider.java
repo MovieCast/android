@@ -23,6 +23,9 @@ public class ImageProvider extends BaseProvider {
     }
 
     public byte[] provideImage(Movie movie, int type) throws IOException{
+        if(movie == null)
+            return null;
+
         Images images = movie.getImages();
         if(images == null){
             return null;

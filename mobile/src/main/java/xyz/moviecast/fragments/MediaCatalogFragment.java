@@ -8,19 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import xyz.moviecast.R;
-import xyz.moviecast.base.Helpers.MovieHelper;
+import xyz.moviecast.base.helpers.MovieHelper;
 import xyz.moviecast.base.models.Movie;
 import xyz.moviecast.views.MovieCatalogView;
 
-public class CatalogFragment extends Fragment implements MovieHelper.MovieHelperCallbacks{
-
-    public static final String TRENDING = "trending";
-    public static final String YEAR = "year";
-    public static final String ALPHABETICAL = "a-z";
-
-    public static final int MOVIES = 0;
-    public static final int SERIES = 1;
-    public static final int ANIME = 2;
+public class MediaCatalogFragment extends Fragment implements MovieHelper.MovieHelperCallbacks{
 
     private MovieCatalogView movieCatalogView;
     private MovieHelper movieHelper;
@@ -40,7 +32,8 @@ public class CatalogFragment extends Fragment implements MovieHelper.MovieHelper
     @Override
     public void onMoviesDone(Movie[] movies) {
         for(int i = 0; i < movies.length; i++){
-            movieHelper.getMoviePosterImage(movies[i],this);
+            if(movies[i] != null)
+                movieHelper.getMoviePosterImage(movies[i],this);
         }
     }
 
