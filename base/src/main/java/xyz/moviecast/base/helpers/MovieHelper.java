@@ -1,4 +1,4 @@
-package xyz.moviecast.base.Helpers;
+package xyz.moviecast.base.helpers;
 
 import android.content.Context;
 

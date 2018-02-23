@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,25 +12,47 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import xyz.moviecast.R;
+import xyz.moviecast.base.Constants;
 
-public class MovieFragment extends Fragment {
+public class MediaContainerFragment extends Fragment {
+
+    public static final String KEY_TYPE = "TYPE";
 
     private ViewPager viewPager;
+    private ActionBar actionBar;
     private View parent;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        Bundle arguments = getArguments();
+        int type = arguments.getInt("TYPE", Constants.MOVIES);
+
         parent = inflater.inflate(R.layout.fragment_movie, container, false);
+        actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         viewPager = parent.findViewById(R.id.viewPager);
         Adapter adapter = new Adapter(getFragmentManager());
-        adapter.addFragment(new CatalogFragment(), "Trending");
-        adapter.addFragment(new CatalogFragment(), "Year");
-        adapter.addFragment(new CatalogFragment(), "A-Z");
+        adapter.addFragment(new MediaCatalogFragment(), "Trending");
+        adapter.addFragment(new MediaCatalogFragment(), "Year");
+        adapter.addFragment(new MediaCatalogFragment(), "A-Z");
+        adapter.addFragment(new MediaCatalogFragment(), "Updated");
+        adapter.addFragment(new MediaCatalogFragment(), "Rating");
         viewPager.setAdapter(adapter);
 
+        switch (type){
+            case Constants.MOVIES:
+                actionBar.setTitle("Movies");
+                break;
+            case Constants.SERIES:
+                actionBar.setTitle("Series");
+                break;
+            case Constants.ANIME:
+                actionBar.setTitle("Anime");
+                break;
+        }
+
         addTabs();
-//        addTabsOld();
         return parent;
     }
 
@@ -57,35 +78,6 @@ public class MovieFragment extends Fragment {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
-            }
-        });
-    }
-
-    private void addTabsOld(){
-        final ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-
-        ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-                viewPager.setCurrentItem(tab.getPosition(), true);
-            }
-
-            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-            }
-
-            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-            }
-        };
-
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-        actionBar.addTab(actionBar.newTab().setText("Trending").setTabListener(tabListener));
-        actionBar.addTab(actionBar.newTab().setText("Year").setTabListener(tabListener));
-        actionBar.addTab(actionBar.newTab().setText("A-Z").setTabListener(tabListener));
-
-        viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                actionBar.setSelectedNavigationItem(position);
             }
         });
     }

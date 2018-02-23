@@ -40,6 +40,9 @@ public class MovieCatalogView extends GridLayout {
     }
 
     public void addMovie(Movie movie){
+        if(movie == null)
+            return;
+
         ImageView imageView = new ImageView(context);
         byte[] imageData = movie.getPosterImageData();
         Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
