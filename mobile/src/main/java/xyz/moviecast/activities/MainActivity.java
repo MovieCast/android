@@ -15,7 +15,7 @@ import android.widget.ListView;
 
 import xyz.moviecast.R;
 import xyz.moviecast.base.Constants;
-import xyz.moviecast.fragments.FragmentAdapter;
+import xyz.moviecast.adapters.FragmentAdapter;
 import xyz.moviecast.fragments.MediaContainerFragment;
 import xyz.moviecast.fragments.SettingsFragment;
 import xyz.moviecast.views.NonSwipeableViewPager;

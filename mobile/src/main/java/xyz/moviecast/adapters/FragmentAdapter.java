@@ -1,4 +1,4 @@
-package xyz.moviecast.fragments;
+package xyz.moviecast.adapters;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +8,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 
 import java.util.ArrayList;
+
+import xyz.moviecast.fragments.MediaCatalogFragment;
+import xyz.moviecast.fragments.MediaContainerFragment;
 
 public class FragmentAdapter extends FragmentPagerAdapter {
 

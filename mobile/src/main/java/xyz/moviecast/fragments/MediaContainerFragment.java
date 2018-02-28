@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import xyz.moviecast.R;
+import xyz.moviecast.adapters.FragmentAdapter;
 import xyz.moviecast.base.Constants;
 
 public class MediaContainerFragment extends Fragment {
