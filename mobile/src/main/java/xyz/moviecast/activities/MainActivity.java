@@ -15,7 +15,7 @@ import android.widget.ListView;
 
 import xyz.moviecast.R;
 import xyz.moviecast.base.Constants;
-import xyz.moviecast.fragments.Adapter;
+import xyz.moviecast.fragments.FragmentAdapter;
 import xyz.moviecast.fragments.MediaContainerFragment;
 import xyz.moviecast.fragments.SettingsFragment;
 import xyz.moviecast.views.NonSwipeableViewPager;
@@ -52,16 +52,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addFragments(){
-        Adapter adapter = new Adapter(getSupportFragmentManager());
-
-        MediaContainerFragment movieFragment = new MediaContainerFragment();
-        Bundle movieArguments = new Bundle();
-        movieArguments.putInt(MediaContainerFragment.KEY_TYPE, Constants.MOVIES);
-        movieFragment.setArguments(movieArguments);
-        adapter.addFragment(movieFragment, "Movies");
-
-        adapter.addFragment(new SettingsFragment(), "Settings");
-        viewPager.setAdapter(adapter);
+        FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager());
+        fragmentAdapter.addFragment(new MediaContainerFragment(), Constants.MOVIES);
+        fragmentAdapter.addFragment(new SettingsFragment(), Constants.SETTINGS);
+        viewPager.setAdapter(fragmentAdapter);
     }
 
     private void addDrawerItems(){

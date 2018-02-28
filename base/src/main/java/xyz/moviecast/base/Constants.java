@@ -11,5 +11,6 @@ public class Constants {
     public static final int MOVIES = 0;
     public static final int SERIES = 1;
     public static final int ANIME = 2;
+    public static final int SETTINGS = 3;
 
 }

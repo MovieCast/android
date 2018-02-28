@@ -17,6 +17,7 @@ import xyz.moviecast.base.Constants;
 public class MediaContainerFragment extends Fragment {
 
     public static final String KEY_TYPE = "TYPE";
+    private static final String TAG = "MEDIA_CONTAINER";
 
     private ViewPager viewPager;
     private ActionBar actionBar;
@@ -29,16 +30,14 @@ public class MediaContainerFragment extends Fragment {
         Bundle arguments = getArguments();
         int type = arguments.getInt("TYPE", Constants.MOVIES);
 
-        parent = inflater.inflate(R.layout.fragment_movie, container, false);
+        parent = inflater.inflate(R.layout.fragment_media_container, container, false);
         actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         viewPager = parent.findViewById(R.id.viewPager);
-        Adapter adapter = new Adapter(getFragmentManager());
-        adapter.addFragment(new MediaCatalogFragment(), "Trending");
-        adapter.addFragment(new MediaCatalogFragment(), "Year");
-        adapter.addFragment(new MediaCatalogFragment(), "A-Z");
-        adapter.addFragment(new MediaCatalogFragment(), "Updated");
-        adapter.addFragment(new MediaCatalogFragment(), "Rating");
-        viewPager.setAdapter(adapter);
+        FragmentAdapter fragmentAdapter = new FragmentAdapter(getFragmentManager());
+        fragmentAdapter.addFragment(new MediaCatalogFragment(), type, Constants.TRENDING);
+        fragmentAdapter.addFragment(new MediaCatalogFragment(), type, Constants.YEAR);
+        fragmentAdapter.addFragment(new MediaCatalogFragment(), type, Constants.ALPHABETICAL);
+        viewPager.setAdapter(fragmentAdapter);
 
         switch (type){
             case Constants.MOVIES:

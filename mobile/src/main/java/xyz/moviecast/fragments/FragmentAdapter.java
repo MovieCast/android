@@ -1,5 +1,6 @@
 package xyz.moviecast.fragments;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -8,32 +9,33 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-public class Adapter extends FragmentStatePagerAdapter {
+public class FragmentAdapter extends FragmentPagerAdapter {
 
     private static final String TAG = "FRAGMENT_ADAPTER";
 
     private ArrayList<Fragment> fragments = new ArrayList<>();
-    private ArrayList<String> names = new ArrayList<>();
-    private int lastPosition = -1;
 
-    public Adapter(FragmentManager fm) {
+    public FragmentAdapter(FragmentManager fm) {
         super(fm);
     }
 
-    public String getCurrentTitle(){
-        if(lastPosition != -1)
-            return names.get(lastPosition);
-        return null;
+    public void addFragment(Fragment fragment, int type, String sorting){
+        Bundle bundle = new Bundle();
+        bundle.putInt(MediaCatalogFragment.KEY_TYPE, type);
+        bundle.putString(MediaCatalogFragment.KEY_SORTING, sorting);
+        fragment.setArguments(bundle);
+        fragments.add(fragment);
     }
 
-    public void addFragment(Fragment fragment, String title){
+    public void addFragment(Fragment fragment, int type){
+        Bundle bundle = new Bundle();
+        bundle.putInt(MediaContainerFragment.KEY_TYPE, type);
+        fragment.setArguments(bundle);
         fragments.add(fragment);
-        names.add(title);
     }
 
     @Override
     public Fragment getItem(int position) {
-        lastPosition = position;
         Log.d(TAG, "getItem: getItem(" + position + ") called");
         return fragments.get(position);
     }
