@@ -9,6 +9,10 @@ public class Page {
 
     @JsonProperty("page")
     private int pageNumber;
+    @JsonProperty("totalResults")
+    private int totalResults;
+    @JsonProperty("totalPages")
+    private int totalPages;
     @JsonProperty("results")
     private List<Movie> movies = new ArrayList<>();
 
@@ -18,5 +22,13 @@ public class Page {
 
     public List<Movie> getMovies() {
         return movies;
+    }
+
+    public int getTotalResults() {
+        return totalResults;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
     }
 }

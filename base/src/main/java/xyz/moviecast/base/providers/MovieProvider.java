@@ -2,6 +2,8 @@ package xyz.moviecast.base.providers;
 
 import android.content.Context;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -9,6 +11,7 @@ import okhttp3.CacheControl;
 import okhttp3.Request;
 import okhttp3.Request.Builder;
 import okhttp3.Response;
+import xyz.moviecast.base.providers.models.ResultsPage;
 import xyz.moviecast.base.providers.models.movies.Movie;
 import xyz.moviecast.base.providers.models.movies.Page;
 
@@ -19,6 +22,19 @@ public class MovieProvider extends MediaProvider<Movie> {
 
     public MovieProvider(Context context) {
         super(context);
+    }
+
+    @Override
+    public int getTotalAmountOfMedia() throws IOException {
+        Request request = new Builder()
+                .url(URL_PAGE)
+                .cacheControl(new CacheControl.Builder()
+                        .maxAge(7, TimeUnit.DAYS)
+                        .build())
+                .build();
+        Response response = client.newCall(request).execute();
+        String body = response.body().string();
+        return mapper.readValue(body, ResultsPage.class).getTotalRestults();
     }
 
     @Override

@@ -13,10 +13,11 @@ public abstract class MediaProvider<T> extends BaseProvider {
 
     static final ObjectMapper mapper = new ObjectMapper();
 
-    public MediaProvider(Context context) {
+    MediaProvider(Context context) {
         super(context);
     }
 
+    public abstract int getTotalAmountOfMedia() throws IOException;
     public abstract Page providePage(int page) throws IOException;
     public abstract T provideDetails(T object) throws IOException;
 }

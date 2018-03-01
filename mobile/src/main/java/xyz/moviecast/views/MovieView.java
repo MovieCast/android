@@ -1,6 +1,7 @@
 package xyz.moviecast.views;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
 
@@ -24,6 +25,8 @@ public class MovieView extends AppCompatImageView {
     }
 
     public void setMovie(Movie movie){
+//        byte[] data = movie.getPosterImageData();
+//        setImageBitmap(BitmapFactory.decodeByteArray(data, 0, data.length));
         setImageResource(R.drawable.deadpool);
     }
 }

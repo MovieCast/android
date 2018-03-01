@@ -7,11 +7,11 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 
-public class BaseProvider {
+class BaseProvider {
 
     static OkHttpClient client;
 
-    public BaseProvider(Context context) {
+    BaseProvider(Context context) {
 
         if(client == null){
             client = new OkHttpClient.Builder()

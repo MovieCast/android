@@ -4,77 +4,70 @@ import android.content.Context;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import xyz.moviecast.base.providers.ImageProvider;
+import xyz.moviecast.base.models.Movie;
+import xyz.moviecast.base.models.Torrent;
 import xyz.moviecast.base.providers.MovieProvider;
-import xyz.moviecast.base.providers.models.movies.Movie;
 import xyz.moviecast.base.providers.models.movies.Page;
+import xyz.moviecast.base.providers.models.movies.Torrents;
 
 public class MovieHelper {
 
-    private static List<String> trending = new ArrayList<>();
-    private static List<String> year = new ArrayList<>();
-    private static List<String> alphabetical = new ArrayList<>();
-    private static Map<String, Movie> jsonMoviesMap = new HashMap<>();
-    private static Map<String, xyz.moviecast.base.models.Movie> applicationMovies = new HashMap<>();
+    public static final int INTEGER_NO_RESULT = -1;
 
-    private MovieProvider movieProvider;
-    private ImageProvider imageProvider;
+    private static MovieHelper instance;
+    private MovieProvider provider;
 
-    public MovieHelper(Context context) {
-        movieProvider = new MovieProvider(context);
-        imageProvider = new ImageProvider(context);
+    public MovieHelper getInstance(Context context){
+        if(instance == null)
+            instance = new MovieHelper(context);
+        return instance;
     }
 
-    public void getMoviesOnPage(int page, final MovieHelperCallbacks callbacks){
-        final int finalPage = page;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    Page page = movieProvider.providePage(finalPage);
-                    List<Movie> movieList = page.getMovies();
-                    Movie[] jsonMovies = new Movie[movieList.size()];
-                    jsonMovies = movieList.toArray(jsonMovies);
+    public MovieHelper(Context context){
+        provider = new MovieProvider(context);
+    }
 
-                    xyz.moviecast.base.models.Movie[] movies = new xyz.moviecast.base.models.Movie[jsonMovies.length];
-                    for(int i = 0; i < jsonMovies.length; i++){
-                        movies[i] = jsonMovies[i].toApplicationMovie();
-                        if(!jsonMoviesMap.containsKey(jsonMovies[i].getId())) {
-                            jsonMoviesMap.put(jsonMovies[i].getId(), jsonMovies[i]);
-                            applicationMovies.put(movies[i].getId(), movies[i]);
-                        }
-                    }
-                    callbacks.onMoviesDone(movies);
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
+    public MovieHelperResult getMovie(String sorting, int position){
+        try {
+            Page page = provider.providePage(position / 50);
+            xyz.moviecast.base.providers.models.movies.Movie movieModel = page.getMovies().get(position % 50);
+            return null;
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public MovieHelperResult getMovieListSize(){
+        try{
+            return new MovieHelperResult(provider.getTotalAmountOfMedia(), null);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public class MovieHelperResult{
+        private int intRestult = INTEGER_NO_RESULT;
+        private Movie movieResult = null;
+
+        public MovieHelperResult(int intRestult, Movie movieResult){
+            if(intRestult == INTEGER_NO_RESULT && movieResult != null)
+                this.movieResult = movieResult;
+
+            if(intRestult != INTEGER_NO_RESULT && movieResult == null){
+                this.intRestult = intRestult;
             }
-        }).start();
-    }
+        }
 
-    public void getMoviePosterImage(final xyz.moviecast.base.models.Movie movie, final MovieHelperCallbacks callbacks){
-        final Movie jsonMovie = jsonMoviesMap.get(movie.getId());
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    byte[] imageData = imageProvider.provideImage(jsonMovie, ImageProvider.POSTER_IMAGE);
-                    movie.setPosterImageData(imageData);
-                    callbacks.onImageDone(movie, ImageProvider.POSTER_IMAGE);
-                }catch (IOException e){
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+        public int getIntRestult() {
+            return intRestult;
+        }
 
-    }
-
-    public interface MovieHelperCallbacks {
-        void onMoviesDone(xyz.moviecast.base.models.Movie[] movies);
-        void onImageDone(xyz.moviecast.base.models.Movie movie, int type);
+        public Movie getMovieResult() {
+            return movieResult;
+        }
     }
 }
