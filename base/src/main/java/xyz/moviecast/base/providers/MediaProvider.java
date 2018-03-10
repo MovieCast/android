@@ -6,6 +6,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import xyz.moviecast.base.providers.BaseProvider;
 import xyz.moviecast.base.providers.models.movies.Page;
 
@@ -18,6 +20,6 @@ public abstract class MediaProvider<T> extends BaseProvider {
     }
 
     public abstract int getTotalAmountOfMedia() throws IOException;
-    public abstract Page providePage(int page) throws IOException;
+    public abstract Call providePage(int page, String sorting, Callback callback) throws IOException;
     public abstract T provideDetails(T object) throws IOException;
 }

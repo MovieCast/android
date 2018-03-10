@@ -19,13 +19,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
     private int type;
     private String sorting;
     private static MovieHelper movieHelper;
-    private static int size = 0;
+    private static int size = 100;
 
     public RecyclerViewAdapter(int type, String sorting, Context context) {
         this.type = type;
         this.sorting = sorting;
-        movieHelper = new MovieHelper(context);
-        new AdatapterTask().execute();
+        movieHelper = MovieHelper.getInstance(context);
     }
 
     @Override
@@ -43,21 +42,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return size;
-    }
-
-    private class AdatapterTask extends AsyncTask<Void, Void, MovieHelperResult>{
-
-        @Override
-        protected MovieHelperResult doInBackground(Void... voids) {
-            return movieHelper.getMovieListSize();
-        }
-
-        @Override
-        protected void onPostExecute(MovieHelperResult movieHelperResult) {
-            if(movieHelperResult != null){
-                size = movieHelperResult.getIntRestult();
-//                notifyDataSetChanged();
-            }
-        }
     }
 }

@@ -1,73 +1,90 @@
 package xyz.moviecast.base.helpers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
+import org.codehaus.jackson.map.ObjectMapper;
+
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 import xyz.moviecast.base.models.Movie;
-import xyz.moviecast.base.models.Torrent;
 import xyz.moviecast.base.providers.MovieProvider;
-import xyz.moviecast.base.providers.models.movies.Page;
-import xyz.moviecast.base.providers.models.movies.Torrents;
 
-public class MovieHelper {
-
-    public static final int INTEGER_NO_RESULT = -1;
+public class MovieHelper implements Callback {
 
     private static MovieHelper instance;
+    private static int id = 0;
+    private ObjectMapper mapper;
     private MovieProvider provider;
+    private Map<Call, Integer> callToIdMap;
+    private Map<Integer, MovieHelperCallback> idToCallbackMap;
 
-    public MovieHelper getInstance(Context context){
+    public static MovieHelper getInstance(Context context){
         if(instance == null)
             instance = new MovieHelper(context);
         return instance;
     }
 
-    public MovieHelper(Context context){
+    @SuppressLint("UseSparseArrays")
+    private MovieHelper(Context context){
         provider = new MovieProvider(context);
+        callToIdMap = new HashMap<>();
+        idToCallbackMap = new HashMap<>();
+        mapper = new ObjectMapper();
     }
 
-    public MovieHelperResult getMovie(String sorting, int position){
+    public int getMovie(String sorting, int position, MovieHelperCallback callback){
+
         try {
-            Page page = provider.providePage(position / 50);
-            xyz.moviecast.base.providers.models.movies.Movie movieModel = page.getMovies().get(position % 50);
-            return null;
-        }catch(IOException e){
+            Call call = provider.providePage((position / 50) + 1, sorting, this);
+            callToIdMap.put(call, ++id);
+            idToCallbackMap.put(id, callback);
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return id;
     }
 
-    public MovieHelperResult getMovieListSize(){
-        try{
-            return new MovieHelperResult(provider.getTotalAmountOfMedia(), null);
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-        return null;
+    public int getMovieListSize(){
+        return 100;
     }
 
-    public class MovieHelperResult{
-        private int intRestult = INTEGER_NO_RESULT;
-        private Movie movieResult = null;
+    @Override
+    public void onFailure(Call call, IOException e) {
+        Integer integer = callToIdMap.get(call);
+        MovieHelperCallback callback = idToCallbackMap.get(integer);
+        callback.onFailure(integer, e);
+    }
 
-        public MovieHelperResult(int intRestult, Movie movieResult){
-            if(intRestult == INTEGER_NO_RESULT && movieResult != null)
-                this.movieResult = movieResult;
+    @Override
+    public void onResponse(Call call, Response response) throws IOException {
+        Integer integer = callToIdMap.get(call);
+        MovieHelperCallback callback = idToCallbackMap.get(integer);
+        xyz.moviecast.base.providers.models.movies.Movie movie = mapper.readValue(
+                response.body().string(), xyz.moviecast.base.providers.models.movies.Movie.class);
+        MovieHelperResult<Movie> result = new MovieHelperResult<>(movie.toApplicationMovie());
+        callback.onResponse(integer, result);
+    }
 
-            if(intRestult != INTEGER_NO_RESULT && movieResult == null){
-                this.intRestult = intRestult;
-            }
+    public class MovieHelperResult<T>{
+        private T data;
+
+        MovieHelperResult(T data){
+            this.data = data;
         }
 
-        public int getIntRestult() {
-            return intRestult;
+        public T getData(){
+            return data;
         }
+    }
 
-        public Movie getMovieResult() {
-            return movieResult;
-        }
+    public interface MovieHelperCallback {
+        void onFailure(int id, IOException e);
+        void onResponse(int id, MovieHelperResult result);
     }
 }

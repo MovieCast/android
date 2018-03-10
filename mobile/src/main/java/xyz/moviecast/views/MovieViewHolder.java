@@ -25,23 +25,9 @@ public class MovieViewHolder extends RecyclerView.ViewHolder{
     public void updateMovie(String type, int position){
         this.type = type;
         this.position = position;
-        new HolderTask().execute();
     }
 
     public void setMovie(Movie movie){
         movieView.setMovie(movie);
-    }
-
-    private class HolderTask extends AsyncTask<Void, Void, MovieHelperResult>{
-
-        @Override
-        protected MovieHelperResult doInBackground(Void... voids) {
-            return movieHelper.getMovie(type, position);
-        }
-
-        @Override
-        protected void onPostExecute(MovieHelperResult movieHelperResult) {
-            movieView.setMovie(movieHelperResult.getMovieResult());
-        }
     }
 }

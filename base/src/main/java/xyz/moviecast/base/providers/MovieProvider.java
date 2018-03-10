@@ -1,24 +1,24 @@
 package xyz.moviecast.base.providers;
 
 import android.content.Context;
-
-import org.codehaus.jackson.annotate.JsonProperty;
+import android.support.annotation.NonNull;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.CacheControl;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.Request;
 import okhttp3.Request.Builder;
 import okhttp3.Response;
-import xyz.moviecast.base.providers.models.ResultsPage;
 import xyz.moviecast.base.providers.models.movies.Movie;
 import xyz.moviecast.base.providers.models.movies.Page;
 
 public class MovieProvider extends MediaProvider<Movie> {
 
-    private static final String URL_PAGE = "https://content.moviecast.xyz/movies/";
-    private static final String URL_DETAIL = "https://content.moviecast.xyz/movies/detail/";
+    private static final String URL_PAGE = "http://staging.content.moviecast.xyz/movies/";
+    private static final String URL_DETAIL = "http://staging.content.moviecast.xyz/movies/detail/";
 
     public MovieProvider(Context context) {
         super(context);
@@ -27,20 +27,34 @@ public class MovieProvider extends MediaProvider<Movie> {
     @Override
     public int getTotalAmountOfMedia() throws IOException {
         Request request = new Builder()
-                .url(URL_PAGE)
+                .url(URL_PAGE + "1")
                 .cacheControl(new CacheControl.Builder()
                         .maxAge(7, TimeUnit.DAYS)
                         .build())
                 .build();
         Response response = client.newCall(request).execute();
         String body = response.body().string();
-        return mapper.readValue(body, ResultsPage.class).getTotalRestults();
+        return mapper.readValue(body, Page.class).getTotalResults();
     }
 
     @Override
-    public Page providePage(int page) throws IOException{
+    public Call providePage(int page, String sorting, Callback callback) throws IOException{
         Request request = new Builder()
-                .url(URL_PAGE + page)
+                .url(URL_PAGE + page + "?sort=" + sorting)
+                .cacheControl(new CacheControl.Builder()
+                        .maxAge(7, TimeUnit.DAYS)
+                        .build())
+                .build();
+
+        Call call = client.newCall(request);
+        call.enqueue(callback);
+        return call;
+    }
+
+    @Override
+    public Movie provideDetails(@NonNull Movie object) throws IOException{
+        Request request = new Builder()
+                .url(URL_DETAIL + object.getId())
                 .cacheControl(new CacheControl.Builder()
                         .maxAge(7, TimeUnit.DAYS)
                         .build())
@@ -48,11 +62,6 @@ public class MovieProvider extends MediaProvider<Movie> {
 
         Response response = client.newCall(request).execute();
         String body = response.body().string();
-        return mapper.readValue(body, Page.class);
-    }
-
-    @Override
-    public Movie provideDetails(Movie object) throws IOException{
-        return null;
+        return mapper.readValue(body, Movie.class);
     }
 }

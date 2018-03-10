@@ -3,11 +3,7 @@ package xyz.moviecast.base.providers.models.movies;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
-import xyz.moviecast.base.models.Torrent;
 
 public class Movie {
 
@@ -34,34 +30,35 @@ public class Movie {
     @JsonProperty("certification")
     private String certification;
     @JsonProperty("torrents")
-    private Torrents torrents;
+    private ArrayList<Torrent> torrents;
     @JsonProperty("rating")
     private Rating rating;
     @JsonProperty("images")
     private Images images;
     @JsonProperty("genres")
     private List<String> genres = new ArrayList<>();
+    @JsonProperty("language")
+    private String language;
 
     public Movie() {
 
     }
 
     public xyz.moviecast.base.models.Movie toApplicationMovie(){
-        List<Torrent> torrents = null;
-        if(this.torrents != null) {
-            torrents = new ArrayList<>();
-            Map<String, Quality> qualities = this.torrents.getQualities();
 
-            Iterator<String> stringIterator = qualities.keySet().iterator();
-            while (stringIterator.hasNext()) {
-                String key = stringIterator.next();
-                Quality quality = qualities.get(key);
-                torrents.add(new Torrent(key, quality.getHash(), quality.getSeeds(), quality.getPeers(), quality.getSize(), quality.getFileSize(), quality.getProvider()));
-            }
+        List<xyz.moviecast.base.models.Torrent> torrents = new ArrayList<>();
+        for(int i = 0; i < this.torrents.size(); i++){
+            Torrent torrent = this.torrents.get(i);
+            torrents.add(new xyz.moviecast.base.models.Torrent(torrent.getQuality(), torrent.getHash(),
+                    torrent.getSeeds(), torrent.getPeers(), torrent.getSize(), torrent.getFileSize(),
+                    torrent.getProvider()));
         }
 
-        return new xyz.moviecast.base.models.Movie(id, title, year, slug, synopsis, duration, country, released, trailer, certification,
-                torrents, new xyz.moviecast.base.models.Rating(rating.getVotes(), rating.getWatching(), rating.getPercentage()), genres);
+        xyz.moviecast.base.models.Rating rating = new xyz.moviecast.base.models.Rating(
+                this.rating.getVotes(), this.rating.getWatching(), this.rating.getPercentage());
+
+       return new xyz.moviecast.base.models.Movie(id, title, year, slug, synopsis, duration,
+               country, released, trailer, certification, torrents, rating, genres);
     }
 
     public String getId() {
@@ -108,7 +105,7 @@ public class Movie {
         return certification;
     }
 
-    public Torrents getTorrents() {
+    public ArrayList<Torrent> getTorrents() {
         return torrents;
     }
 
@@ -122,5 +119,9 @@ public class Movie {
 
     public List<String> getGenres() {
         return genres;
+    }
+
+    public String getLanguage() {
+        return language;
     }
 }

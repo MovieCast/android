@@ -24,6 +24,7 @@ public class MovieView extends AppCompatImageView {
         setAdjustViewBounds(true);
     }
 
+    //TODO: show the correct image
     public void setMovie(Movie movie){
 //        byte[] data = movie.getPosterImageData();
 //        setImageBitmap(BitmapFactory.decodeByteArray(data, 0, data.length));

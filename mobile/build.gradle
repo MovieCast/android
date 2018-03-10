@@ -37,4 +37,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation project(':base')
     implementation 'com.android.support:design:27.0.2'
+    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+
 }
