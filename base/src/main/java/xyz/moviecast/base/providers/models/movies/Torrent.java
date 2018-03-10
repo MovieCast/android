@@ -1,24 +1,43 @@
 package xyz.moviecast.base.providers.models.movies;
 
-import org.codehaus.jackson.annotate.JsonAnyGetter;
-import org.codehaus.jackson.annotate.JsonAnySetter;
+public class Torrent {
 
-import java.util.HashMap;
-import java.util.Map;
+    private String hash;
+    private int seeds;
+    private int peers;
+    private int size;
+    private String quality;
+    private String fileSize;
+    private String provider;
 
-public class Torrents {
-
-    private Map<String, Quality> qualities = new HashMap<>();
-
-    @JsonAnyGetter
-    public Map<String, Quality> getQualities(){
-        return qualities;
+    public Torrent() {
     }
 
-    @JsonAnySetter
-    public void setQualities(String name, Quality quality){
-        qualities.put(name, quality);
+    public String getHash() {
+        return hash;
     }
 
+    public int getSeeds() {
+        return seeds;
+    }
 
+    public int getPeers() {
+        return peers;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public String getQuality() {
+        return quality;
+    }
+
+    public String getFileSize() {
+        return fileSize;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
 }
