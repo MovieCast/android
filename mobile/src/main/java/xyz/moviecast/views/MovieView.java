@@ -22,6 +22,7 @@ public class MovieView extends AppCompatImageView {
                 RecyclerView.LayoutParams.WRAP_CONTENT));
         setScaleType(ScaleType.FIT_START);
         setAdjustViewBounds(true);
+        setImageResource(R.drawable.deadpool);
     }
 
     //TODO: show the correct image

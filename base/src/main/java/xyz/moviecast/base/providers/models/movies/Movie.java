@@ -47,11 +47,13 @@ public class Movie {
     public xyz.moviecast.base.models.Movie toApplicationMovie(){
 
         List<xyz.moviecast.base.models.Torrent> torrents = new ArrayList<>();
-        for(int i = 0; i < this.torrents.size(); i++){
-            Torrent torrent = this.torrents.get(i);
-            torrents.add(new xyz.moviecast.base.models.Torrent(torrent.getQuality(), torrent.getHash(),
-                    torrent.getSeeds(), torrent.getPeers(), torrent.getSize(), torrent.getFileSize(),
-                    torrent.getProvider()));
+        if(this.torrents != null) {
+            for (int i = 0; i < this.torrents.size(); i++) {
+                Torrent torrent = this.torrents.get(i);
+                torrents.add(new xyz.moviecast.base.models.Torrent(torrent.getQuality(), torrent.getHash(),
+                        torrent.getSeeds(), torrent.getPeers(), torrent.getSize(), torrent.getFileSize(),
+                        torrent.getProvider()));
+            }
         }
 
         xyz.moviecast.base.models.Rating rating = new xyz.moviecast.base.models.Rating(

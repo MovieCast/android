@@ -1,5 +1,7 @@
 package xyz.moviecast.base;
 
+import android.app.Application;
+
 public class Constants {
 
     public static final String ALPHABETICAL = "name";
@@ -12,5 +14,4 @@ public class Constants {
     public static final int SERIES = 1;
     public static final int ANIME = 2;
     public static final int SETTINGS = 3;
-
 }

@@ -25,16 +25,16 @@ public class MovieProvider extends MediaProvider<Movie> {
     }
 
     @Override
-    public int getTotalAmountOfMedia() throws IOException {
+    public Call getTotalAmountOfMedia(Callback callback) throws IOException {
         Request request = new Builder()
                 .url(URL_PAGE + "1")
                 .cacheControl(new CacheControl.Builder()
                         .maxAge(7, TimeUnit.DAYS)
                         .build())
                 .build();
-        Response response = client.newCall(request).execute();
-        String body = response.body().string();
-        return mapper.readValue(body, Page.class).getTotalResults();
+        Call call = client.newCall(request);
+        call.enqueue(callback);
+        return call;
     }
 
     @Override

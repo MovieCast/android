@@ -1,20 +1,22 @@
 package xyz.moviecast.views;
 
-import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
+import java.io.IOException;
+
+import xyz.moviecast.activities.MainActivity;
 import xyz.moviecast.base.helpers.MovieHelper;
 import xyz.moviecast.base.models.Movie;
 import xyz.moviecast.base.helpers.MovieHelper.MovieHelperResult;
 
-public class MovieViewHolder extends RecyclerView.ViewHolder{
+public class MovieViewHolder extends RecyclerView.ViewHolder implements MovieHelper.MovieHelperCallback {
+
+    private static final String TAG = "MOVIE_VIEW_HOLDER";
 
     private MovieView movieView;
     private MovieHelper movieHelper;
-
-    private String type;
-    private int position;
 
     public MovieViewHolder(View itemView, MovieHelper movieHelper) {
         super(itemView);
@@ -22,12 +24,18 @@ public class MovieViewHolder extends RecyclerView.ViewHolder{
         this.movieHelper = movieHelper;
     }
 
-    public void updateMovie(String type, int position){
-        this.type = type;
-        this.position = position;
+    public void setMovie(String sorting, int position){
+        movieHelper.getMovie(sorting, position, this);
     }
 
-    public void setMovie(Movie movie){
-        movieView.setMovie(movie);
+    @Override
+    public void onFailure(int id, IOException e) {
+
+    }
+
+    @Override
+    public void onResponse(int id, MovieHelperResult result) {
+        MainActivity.getInstance().runOnUiThread(()->movieView.setMovie((Movie) result.getData()));
+        Log.d(TAG, "onResponse: Movie has been shown: " + ((Movie) result.getData()).getTitle());
     }
 }

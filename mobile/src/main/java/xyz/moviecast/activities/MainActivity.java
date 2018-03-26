@@ -13,15 +13,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.io.IOException;
 
 import xyz.moviecast.R;
 import xyz.moviecast.base.Constants;
 import xyz.moviecast.adapters.FragmentAdapter;
-import xyz.moviecast.base.providers.MovieProvider;
-import xyz.moviecast.base.providers.models.movies.Movie;
 import xyz.moviecast.fragments.MediaContainerFragment;
 import xyz.moviecast.fragments.SettingsFragment;
 import xyz.moviecast.views.NonSwipeableViewPager;
@@ -36,25 +33,17 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> arrayAdapter;
     private ActionBarDrawerToggle drawerToggle;
 
+    private static MainActivity instance;
+
+    public static MainActivity getInstance(){
+        return instance;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        final MovieProvider movieProvider = new MovieProvider(this);
-//        Thread thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Log.d(TAG, "run: " + movieProvider.getTotalAmountOfMedia());
-//                    Log.d(TAG, "run: " + movieProvider.provideDetails(null));
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                    Log.e(TAG, "run: ", e);
-//                }
-//            }
-//        });
-//        thread.start();
+        instance = this;
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

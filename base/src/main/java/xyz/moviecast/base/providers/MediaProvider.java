@@ -19,7 +19,7 @@ public abstract class MediaProvider<T> extends BaseProvider {
         super(context);
     }
 
-    public abstract int getTotalAmountOfMedia() throws IOException;
+    public abstract Call getTotalAmountOfMedia(Callback callback) throws IOException;
     public abstract Call providePage(int page, String sorting, Callback callback) throws IOException;
     public abstract T provideDetails(T object) throws IOException;
 }
