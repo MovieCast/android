@@ -49,17 +49,19 @@ public class MovieHelper implements Callback {
     }
 
     public int getMovie(String sorting, int position, MovieHelperCallback callback){
-        if(!moviesMap.keySet().contains(sorting)) {
+        if(!moviesIdMap.keySet().contains(sorting)) {
             moviesIdMap.put(sorting, new ArrayList<String>());
-            Log.d(TAG, "getMovie: Added ArrayList to the map");
+            Log.d(TAG, "getMovie: Added ArrayList to the map. Size of map is now: " + moviesIdMap.keySet().size());
         }else{
             ArrayList<String> ids = moviesIdMap.get(sorting);
             if(ids.size() >= position){
                 String movieId = ids.get(position);
                 Movie movie = moviesMap.get(movieId);
-                MovieHelperResult<Movie> result = new MovieHelperResult<>(movie);
-                callback.onResponse(++id, result);
-                return id;
+                if(movie != null) {
+                    MovieHelperResult<Movie> result = new MovieHelperResult<>(movie);
+                    callback.onResponse(++id, result);
+                    return id;
+                }
             }
         }
 
@@ -113,10 +115,13 @@ public class MovieHelper implements Callback {
             Movie movie = page.getMovies().get(position % 50).toApplicationMovie();
 
             ArrayList<String> movies = moviesIdMap.get(sorting);
+            while(movies.size() < position + 1)
+                movies.add(null);
             movies.add(position, movie.getId());
             moviesMap.put(movie.getId(), movie);
 
             MovieHelperResult<Movie> result = new MovieHelperResult<>(movie);
+            //TODO: if the movie has no image add the images using the ImageProvider
             callback.onResponse(id, result);
         }
 
