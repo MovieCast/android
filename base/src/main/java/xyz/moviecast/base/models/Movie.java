@@ -19,11 +19,14 @@ public class Movie {
     private String certification;
     private List<Torrent> torrents;
     private Rating rating;
-    private byte[] posterImageData;
-    private byte[] backgroundImageData;
+    private String posterImageUrl;
+    private String backgroundImageUrl;
     private List<String> genres = new ArrayList<>();
 
-    public Movie(String id, String title, String year, String slug, String synopsis, int duration, String country, int released, String trailerUrl, String certification, List<Torrent> torrents, Rating rating, List<String> genres) {
+    public Movie(String id, String title, String year, String slug, String synopsis, int duration,
+                 String country, int released, String trailerUrl, String certification,
+                 List<Torrent> torrents, Rating rating, String posterImageUrl,
+                 String backgroundImageUrl, List<String> genres) {
         this.id = id;
         this.title = title;
         this.year = year;
@@ -36,6 +39,8 @@ public class Movie {
         this.certification = certification;
         this.torrents = torrents;
         this.rating = rating;
+        this.posterImageUrl = posterImageUrl;
+        this.backgroundImageUrl = backgroundImageUrl;
         this.genres = genres;
     }
 
@@ -135,27 +140,27 @@ public class Movie {
         this.rating = rating;
     }
 
-    public byte[] getPosterImageData() {
-        return posterImageData;
-    }
-
-    public void setPosterImageData(byte[] posterImageData) {
-        this.posterImageData = posterImageData;
-    }
-
-    public byte[] getBackgroundImageData() {
-        return backgroundImageData;
-    }
-
-    public void setBackgroundImageData(byte[] backgroundImageData) {
-        this.backgroundImageData = backgroundImageData;
-    }
-
     public List<String> getGenres() {
         return genres;
     }
 
     public void setGenres(List<String> genres) {
         this.genres = genres;
+    }
+
+    public String getPosterImageUrl() {
+        return posterImageUrl;
+    }
+
+    public void setPosterImageUrl(String posterImageUrl) {
+        this.posterImageUrl = posterImageUrl;
+    }
+
+    public String getBackgroundImageUrl() {
+        return backgroundImageUrl;
+    }
+
+    public void setBackgroundImageUrl(String backgroundImageUrl) {
+        this.backgroundImageUrl = backgroundImageUrl;
     }
 }

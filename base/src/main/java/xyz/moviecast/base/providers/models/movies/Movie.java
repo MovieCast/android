@@ -60,7 +60,8 @@ public class Movie {
                 this.rating.getVotes(), this.rating.getWatching(), this.rating.getPercentage());
 
        return new xyz.moviecast.base.models.Movie(id, title, year, slug, synopsis, duration,
-               country, released, trailer, certification, torrents, rating, genres);
+               country, released, trailer, certification, torrents, rating, images.getPosterImage(),
+               images.getBackgroundImage(), genres);
     }
 
     public String getId() {

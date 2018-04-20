@@ -15,11 +15,7 @@ public abstract class MediaProvider<T> extends BaseProvider {
 
     static final ObjectMapper mapper = new ObjectMapper();
 
-    MediaProvider(Context context) {
-        super(context);
-    }
-
-    public abstract Call getTotalAmountOfMedia(Callback callback) throws IOException;
-    public abstract Call providePage(int page, String sorting, Callback callback) throws IOException;
-    public abstract T provideDetails(T object) throws IOException;
+    public abstract Call getTotalAmountOfMedia(Callback callback);
+    public abstract Call providePage(int page, String sorting, Callback callback);
+    public abstract T provideDetails(T object);
 }

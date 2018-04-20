@@ -40,6 +40,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Constants.context = this;
+        Constants.application = getApplication();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -74,12 +81,9 @@ public class MainActivity extends AppCompatActivity {
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, osArray);
         listView.setAdapter(arrayAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                viewPager.setCurrentItem(i, true);
-                drawerLayout.closeDrawers();
-            }
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            viewPager.setCurrentItem(i, true);
+            drawerLayout.closeDrawers();
         });
     }
 

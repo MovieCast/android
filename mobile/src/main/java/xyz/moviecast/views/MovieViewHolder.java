@@ -7,16 +7,20 @@ import android.view.View;
 import java.io.IOException;
 
 import xyz.moviecast.activities.MainActivity;
+import xyz.moviecast.base.helpers.HelperResult;
 import xyz.moviecast.base.helpers.MovieHelper;
 import xyz.moviecast.base.models.Movie;
-import xyz.moviecast.base.helpers.MovieHelper.MovieHelperResult;
+import xyz.moviecast.base.helpers.HelperCallback;
 
-public class MovieViewHolder extends RecyclerView.ViewHolder implements MovieHelper.MovieHelperCallback {
+public class MovieViewHolder extends RecyclerView.ViewHolder implements HelperCallback {
 
     private static final String TAG = "MOVIE_VIEW_HOLDER";
 
     private MovieView movieView;
     private MovieHelper movieHelper;
+    private int lastId;
+    private String sorting;
+    private int position;
 
     public MovieViewHolder(View itemView, MovieHelper movieHelper) {
         super(itemView);
@@ -25,17 +29,29 @@ public class MovieViewHolder extends RecyclerView.ViewHolder implements MovieHel
     }
 
     public void setMovie(String sorting, int position){
-        movieHelper.getMovie(sorting, position, this);
+        HelperResult result = movieHelper.getMovie(sorting, position, this);
+        if (result.getData() instanceof Integer)
+            lastId = (Integer) result.getData();
+        else if (result.getData() instanceof Movie)
+            changeMovie((Movie) result.getData());
+
+        this.sorting = sorting;
+        this.position = position;
+    }
+
+    private void changeMovie(Movie movie){
+        movieView.setMovie(movie);
     }
 
     @Override
     public void onFailure(int id, IOException e) {
-
+        e.printStackTrace();
     }
 
     @Override
-    public void onResponse(int id, MovieHelperResult result) {
-        MainActivity.getInstance().runOnUiThread(()->movieView.setMovie((Movie) result.getData()));
-        Log.d(TAG, "onResponse: Movie has been shown: " + ((Movie) result.getData()).getTitle());
+    public void onResponse(int id, HelperResult result) {
+        Log.d(TAG, "onResponse() called with: id = [" + id + "], result = [" + result + "]");
+        if(lastId == id)
+            changeMovie((Movie) result.getData());
     }
 }
