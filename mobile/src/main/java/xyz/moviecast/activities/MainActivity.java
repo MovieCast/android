@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         drawerToggle.setDrawerIndicatorEnabled(true);
-        drawerLayout.setDrawerListener(drawerToggle);
+        //drawerLayout.setDrawerListener(drawerToggle);
     }
 
     @Override
