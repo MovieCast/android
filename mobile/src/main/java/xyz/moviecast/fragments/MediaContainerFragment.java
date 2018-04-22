@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import xyz.moviecast.MobileApplication;
 import xyz.moviecast.R;
 import xyz.moviecast.adapters.FragmentAdapter;
+import xyz.moviecast.adapters.MediaPagerAdapter;
 import xyz.moviecast.base.Constants;
 import xyz.moviecast.base.managers.ProviderManager;
 import xyz.moviecast.base.providers.MediaProvider;
@@ -47,11 +48,11 @@ public class MediaContainerFragment extends Fragment {
         parent = inflater.inflate(R.layout.fragment_media_container, container, false);
         actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         viewPager = parent.findViewById(R.id.viewPager);
-        FragmentAdapter fragmentAdapter = new FragmentAdapter(getFragmentManager());
-        fragmentAdapter.addFragment(new MediaCatalogFragment(), type, Constants.TRENDING);
-        fragmentAdapter.addFragment(new MediaCatalogFragment(), type, Constants.YEAR);
-        fragmentAdapter.addFragment(new MediaCatalogFragment(), type, Constants.ALPHABETICAL);
-        viewPager.setAdapter(fragmentAdapter);
+//        FragmentAdapter fragmentAdapter = new FragmentAdapter(getFragmentManager());
+//        fragmentAdapter.addFragment(new MediaCatalogFragment(), type, Constants.TRENDING);
+//        fragmentAdapter.addFragment(new MediaCatalogFragment(), type, Constants.YEAR);
+//        fragmentAdapter.addFragment(new MediaCatalogFragment(), type, Constants.ALPHABETICAL);
+
 
         switch (type){
             case Constants.MOVIES:
@@ -80,17 +81,7 @@ public class MediaContainerFragment extends Fragment {
         MediaProvider.Filters filters = new MediaProvider.Filters();
         filters.setPage(1);
 
-        providerManager.getCurrentProvider().providePage(filters, new MediaProvider.MediaCallback() {
-            @Override
-            public void onSuccess(MediaProvider.Filters filters, List<Movie> items) {
-                Log.d(TAG, items.toString());
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-
-            }
-        });
+        viewPager.setAdapter(new MediaPagerAdapter(getFragmentManager(), providerManager.getCurrentProvider()));
     }
 
     private void addTabs(){

@@ -85,6 +85,8 @@ public abstract class MediaProvider<T> extends BaseProvider {
 
     abstract List<Movie> formatList(String response);
 
+    public abstract List<MediaProvider.Tab> getTabs();
+
     //public abstract Call getTotalAmountOfMedia(Callback callback);
     //public abstract Call providePage(int page, String sorting, Callback callback);
     //public abstract T provideDetails(T object);
@@ -100,14 +102,24 @@ public abstract class MediaProvider<T> extends BaseProvider {
         int page = 1;
 
         public Filters() {
-        }
-
-        public String getKeywords() {
-            return filters.get("keywords");
+            setSort(Sort.TRENDING);
+            setOrder(Order.DESC);
         }
 
         public void setKeywords(String keywords) {
             filters.put("keywords", keywords);
+        }
+
+        public void setSort(Sort sort) {
+            filters.put("sort", sort.toString().toLowerCase());
+        }
+
+        public void setOrder(Order order) {
+            if(order == Order.ASC) {
+                filters.put("order", "1");
+            } else {
+                filters.put("order", "-1");
+            }
         }
 
         public int getPage() {
@@ -120,6 +132,40 @@ public abstract class MediaProvider<T> extends BaseProvider {
 
         Set<Map.Entry<String, String>> getQueryParams() {
             return filters.entrySet();
+        }
+
+        public enum Sort { TRENDING, POPULARITY, RATING, RELEASED, YEAR, ALPHABET }
+
+        public enum Order { ASC, DESC }
+    }
+
+    public static class Tab {
+        private int id;
+        private String label;
+        private Filters.Sort sort;
+        private Filters.Order order;
+
+        Tab(int id, String label, Filters.Sort sort, Filters.Order order) {
+            this.id = id;
+            this.label = label;
+            this.sort = sort;
+            this.order = order;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public String getLabel() {
+            return label;
+        }
+
+        public Filters.Sort getSort() {
+            return sort;
+        }
+
+        public Filters.Order getOrder() {
+            return order;
         }
     }
 }

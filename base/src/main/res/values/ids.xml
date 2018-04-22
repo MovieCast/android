@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="global_filter_genres" type="id" />
+
+    <item name="movie_filter_trending" type="id" />
+    <item name="movie_filter_popular" type="id" />
+    <item name="movie_filter_rating" type="id" />
+    <item name="movie_filter_released" type="id" />
+    <item name="movie_filter_year" type="id" />
+    <item name="movie_filter_alphabetic" type="id" />
+</resources>

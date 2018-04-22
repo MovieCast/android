@@ -17,60 +17,29 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Request.Builder;
+import xyz.moviecast.base.R;
 import xyz.moviecast.base.providers.models.movies.Movie;
 import xyz.moviecast.base.providers.models.movies.Page;
 
 public class MovieProvider extends MediaProvider<Movie> {
 
-//    private static final String URL_PAGE = "http://staging.content.moviecast.xyz/movies/";
-//    private static final String URL_DETAIL = "http://staging.content.moviecast.xyz/movies/detail/";
-
     public MovieProvider(OkHttpClient client, ObjectMapper mapper) {
         super(client, mapper, "http://staging.content.moviecast.xyz", "/movies/", "/detail/");
     }
 
-//    @Override
-//    public Call getTotalAmountOfMedia(Callback callback) {
-//        Request request = new Builder()
-//                .url(URL_PAGE + "1")
-//                .cacheControl(new CacheControl.Builder()
-//                        .maxAge(7, TimeUnit.DAYS)
-//                        .build())
-//                .build();
-//        Call call = client.newCall(request);
-//        call.enqueue(callback);
-//        return call;
-//    }
-//
-//    @Override
-//    public Call providePage(int page, String sorting, Callback callback) {
-//        Request request = new Builder()
-//                .url(URL_PAGE + page + "?sort=" + sorting)
-//                .cacheControl(new CacheControl.Builder()
-//                        .maxAge(7, TimeUnit.DAYS)
-//                        .build())
-//                .build();
-//
-//        Call call = client.newCall(request);
-//        call.enqueue(callback);
-//        return call;
-//    }
+    @Override
+    public List<Tab> getTabs() {
+        List<Tab> tabs = new ArrayList<>();
 
-    //TODO: Implement Method
-//    @Override
-//    public Movie provideDetails(@NonNull Movie object){
-//        throw new RuntimeException("Not yet implemented!");
-//        Request request = new Builder()
-//                .url(URL_DETAIL + object.getId())
-//                .cacheControl(new CacheControl.Builder()
-//                        .maxAge(7, TimeUnit.DAYS)
-//                        .build())
-//                .build();
-//
-//        Response response = client.newCall(request).execute();
-//        String body = response.body().string();
-//        return mapper.readValue(body, Movie.class);
-//    }
+        tabs.add(new Tab(R.id.movie_filter_trending, "Trending", Filters.Sort.TRENDING, Filters.Order.DESC));
+        tabs.add(new Tab(R.id.movie_filter_popular, "Popular", Filters.Sort.POPULARITY, Filters.Order.DESC));
+        tabs.add(new Tab(R.id.movie_filter_rating, "Rating", Filters.Sort.RATING, Filters.Order.DESC));
+        tabs.add(new Tab(R.id.movie_filter_released, "Released", Filters.Sort.RELEASED, Filters.Order.DESC));
+        tabs.add(new Tab(R.id.movie_filter_year, "Year", Filters.Sort.YEAR, Filters.Order.DESC));
+        tabs.add(new Tab(R.id.movie_filter_alphabetic, "A - Z", Filters.Sort.ALPHABET, Filters.Order.ASC));
+
+        return tabs;
+    }
 
     @Override
     List<Movie> formatList(String response) {
