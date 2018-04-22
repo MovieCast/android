@@ -1,19 +1,29 @@
 package xyz.moviecast.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
+import xyz.moviecast.MobileApplication;
 import xyz.moviecast.R;
 import xyz.moviecast.adapters.FragmentAdapter;
 import xyz.moviecast.base.Constants;
+import xyz.moviecast.base.managers.ProviderManager;
+import xyz.moviecast.base.providers.MediaProvider;
+import xyz.moviecast.base.providers.models.movies.Movie;
 
 public class MediaContainerFragment extends Fragment {
 
@@ -23,6 +33,9 @@ public class MediaContainerFragment extends Fragment {
     private ViewPager viewPager;
     private ActionBar actionBar;
     private View parent;
+
+    @Inject
+    ProviderManager providerManager;
 
     @Nullable
     @Override
@@ -54,6 +67,30 @@ public class MediaContainerFragment extends Fragment {
 
         addTabs();
         return parent;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        MobileApplication.getInstance()
+                .getComponent()
+                .inject(this);
+
+        MediaProvider.Filters filters = new MediaProvider.Filters();
+        filters.setPage(1);
+
+        providerManager.getCurrentProvider().providePage(filters, new MediaProvider.MediaCallback() {
+            @Override
+            public void onSuccess(MediaProvider.Filters filters, List<Movie> items) {
+                Log.d(TAG, items.toString());
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+
+            }
+        });
     }
 
     private void addTabs(){

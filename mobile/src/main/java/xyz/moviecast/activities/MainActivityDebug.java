@@ -24,8 +24,6 @@ public class MainActivityDebug extends AppCompatActivity implements HelperCallba
     @Override
     protected void onStart() {
         super.onStart();
-        Constants.context = this;
-        Constants.application = getApplication();
     }
 
     @Override

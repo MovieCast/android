@@ -10,7 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 import xyz.moviecast.R;
+import xyz.moviecast.adapters.MediaGridAdapter;
 import xyz.moviecast.adapters.RecyclerViewAdapter;
 import xyz.moviecast.base.Constants;
 import xyz.moviecast.base.helpers.MovieHelper;
@@ -36,7 +39,8 @@ public class MediaCatalogFragment extends Fragment{
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
-        recyclerView.setAdapter(new RecyclerViewAdapter(type, sorting, getContext()));
+        //recyclerView.setAdapter(new RecyclerViewAdapter(type, sorting, getContext()));
+        recyclerView.setAdapter(new MediaGridAdapter(getContext(), new ArrayList<>(), 2));
 
         return view;
     }

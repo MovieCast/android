@@ -1,27 +1,30 @@
 package xyz.moviecast.base.providers;
 
-import android.content.Context;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.Cache;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
-import xyz.moviecast.base.Constants;
+import okhttp3.Request;
 
 class BaseProvider {
 
-    static OkHttpClient client;
+    private final OkHttpClient client;
+    protected final ObjectMapper mapper;
 
-    BaseProvider() {
+    BaseProvider(OkHttpClient client, ObjectMapper mapper) {
+        this.client = client;
+        this.mapper = mapper;
+    }
 
-        if(client == null){
-            client = new OkHttpClient.Builder()
-                    .cache(new Cache(Constants.context.getCacheDir(), 10*1024*1024))
-                    .connectTimeout(30, TimeUnit.SECONDS)
-                    .readTimeout(30, TimeUnit.SECONDS)
-                    .retryOnConnectionFailure(true)
-                    .build();
+    protected Call enqueue(Request request, Callback callback) {
+        request = request.newBuilder().tag(getClass()).build();
+
+        Call call = client.newCall(request);
+        if(callback != null) {
+            call.enqueue(callback);
         }
 
+        return call;
     }
 }

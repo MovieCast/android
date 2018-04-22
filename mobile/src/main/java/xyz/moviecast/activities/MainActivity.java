@@ -42,8 +42,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Constants.context = this;
-        Constants.application = getApplication();
     }
 
     @Override
