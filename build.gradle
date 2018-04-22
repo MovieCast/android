@@ -16,6 +16,19 @@ buildscript {
 
 }
 
+ext {
+    targetSdk = 27
+    compileSdk = 27
+    minSdk = 15
+
+    appCompatVersion = "27.1.0"
+    okHttpVersion = "3.10.0"
+    daggerVersion = "2.15"
+    picassoVersion = "2.71828"
+    jacksonVersion = "2.7.2"
+    javaxAnnotationVersion = "1.2"
+}
+
 allprojects {
     repositories {
         google()

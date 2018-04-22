@@ -1,11 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion rootProject.ext.compileSdk
+
     defaultConfig {
         applicationId "xyz.moviecast"
-        minSdkVersion 15
-        targetSdkVersion 26
+        minSdkVersion rootProject.ext.minSdk
+        targetSdkVersion rootProject.ext.targetSdk
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -27,21 +28,34 @@ android {
         exclude 'META-INF/ASL2.0'
     }
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+
+    api "com.android.support:support-v4:$appCompatVersion"
+    api "com.android.support:palette-v7:$appCompatVersion"
+    api "com.android.support:appcompat-v7:$appCompatVersion"
+    api "com.android.support:design:$appCompatVersion"
+
+    api 'com.android.support.constraint:constraint-layout:1.1.0'
+
+    api "com.squareup.okhttp3:okhttp:$okHttpVersion"
+    api "com.squareup.picasso:picasso:$picassoVersion"
+
+    api "com.google.dagger:dagger:$daggerVersion"
+    api "com.google.dagger:dagger-android:$daggerVersion"
+    api "com.google.dagger:dagger-android-support:$daggerVersion"
+
+    api project(':base')
+
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    implementation project(':base')
-    implementation 'com.android.support:design:26.1.0'
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-    implementation 'com.squareup.picasso:picasso:2.71828'
-
 }
