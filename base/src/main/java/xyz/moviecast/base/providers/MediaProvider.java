@@ -19,9 +19,10 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import xyz.moviecast.base.models.Media;
 import xyz.moviecast.base.providers.models.movies.Movie;
 
-public abstract class MediaProvider<T> extends BaseProvider {
+public abstract class MediaProvider extends BaseProvider {
 
     private static final String TAG = "MEDIA_PROVIDER";
 
@@ -29,9 +30,7 @@ public abstract class MediaProvider<T> extends BaseProvider {
     private String listPath;
     private String detailPath;
 
-    private Map<String, Movie> itemMap = new HashMap<>();
-
-    public MediaProvider(OkHttpClient client, ObjectMapper mapper, String baseUrl, String listPath, String detailPath) {
+    MediaProvider(OkHttpClient client, ObjectMapper mapper, String baseUrl, String listPath, String detailPath) {
         super(client, mapper);
 
         this.baseUrl = baseUrl;
@@ -68,11 +67,7 @@ public abstract class MediaProvider<T> extends BaseProvider {
                         return;
                     }
 
-                    List<Movie> items = formatList(rawResponse);
-                    for(Movie item : items) {
-                        itemMap.put(item.getId(), item);
-                    }
-
+                    List<Media> items = formatList(rawResponse);
                     callback.onSuccess(filters, items);
                     return;
                 }
@@ -83,16 +78,16 @@ public abstract class MediaProvider<T> extends BaseProvider {
 
     //public void provideDetails()
 
-    abstract List<Movie> formatList(String response);
+    abstract List<Media> formatList(String response);
 
-    public abstract List<MediaProvider.Tab> getTabs();
+    public abstract List<Tab> getTabs();
 
     //public abstract Call getTotalAmountOfMedia(Callback callback);
     //public abstract Call providePage(int page, String sorting, Callback callback);
     //public abstract T provideDetails(T object);
 
     public interface MediaCallback {
-        void onSuccess(Filters filters, List<Movie> items);
+        void onSuccess(Filters filters, List<Media> items);
         void onFailure(Exception e);
     }
 

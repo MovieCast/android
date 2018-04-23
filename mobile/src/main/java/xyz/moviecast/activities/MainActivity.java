@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
     private DrawerLayout drawerLayout;
-    private NonSwipeableViewPager viewPager;
     private ArrayAdapter<String> arrayAdapter;
     private ActionBarDrawerToggle drawerToggle;
 
@@ -57,24 +56,14 @@ public class MainActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.navList);
         drawerLayout = findViewById(R.id.drawerLayout);
-        //viewPager = findViewById(R.id.nonSwipeableViewPager);
 
-        //addFragments();
         addDrawerItems();
         setupDrawer();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        //viewPager.setCurrentItem(0, true);
-        //setTitle("");
-        showProvider(ProviderManager.ProviderType.MOVIE);
-    }
 
-    private void addFragments(){
-        FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager());
-        fragmentAdapter.addFragment(new MediaContainerFragment(), Constants.MOVIES);
-        fragmentAdapter.addFragment(new SettingsFragment(), Constants.SETTINGS);
-        viewPager.setAdapter(fragmentAdapter);
+        showProvider(ProviderManager.ProviderType.MOVIE);
     }
 
     private void addDrawerItems(){

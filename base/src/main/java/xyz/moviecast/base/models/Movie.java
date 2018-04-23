@@ -3,11 +3,10 @@ package xyz.moviecast.base.models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Movie {
+import xyz.moviecast.base.managers.ProviderManager;
 
-    private String id;
-    private String title;
-    private String year;
+public class Movie extends Media {
+
     private String slug;
     private String synopsis;
     private int duration;
@@ -16,18 +15,13 @@ public class Movie {
     private String trailerUrl;
     private String certification;
     private List<Torrent> torrents;
-    private Rating rating;
-    private String posterImageUrl;
-    private String backgroundImageUrl;
-    private List<String> genres = new ArrayList<>();
+    private List<String> genres;
 
     public Movie(String id, String title, String year, String slug, String synopsis, int duration,
                  String country, int released, String trailerUrl, String certification,
                  List<Torrent> torrents, Rating rating, String posterImageUrl,
                  String backgroundImageUrl, List<String> genres) {
-        this.id = id;
-        this.title = title;
-        this.year = year;
+        super(id, title, year, rating, posterImageUrl, backgroundImageUrl);
         this.slug = slug;
         this.synopsis = synopsis;
         this.duration = duration;
@@ -36,34 +30,7 @@ public class Movie {
         this.trailerUrl = trailerUrl;
         this.certification = certification;
         this.torrents = torrents;
-        this.rating = rating;
-        this.posterImageUrl = posterImageUrl;
-        this.backgroundImageUrl = backgroundImageUrl;
         this.genres = genres;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
     }
 
     public String getSlug() {
@@ -130,14 +97,6 @@ public class Movie {
         this.torrents = torrents;
     }
 
-    public Rating getRating() {
-        return rating;
-    }
-
-    public void setRating(Rating rating) {
-        this.rating = rating;
-    }
-
     public List<String> getGenres() {
         return genres;
     }
@@ -146,19 +105,8 @@ public class Movie {
         this.genres = genres;
     }
 
-    public String getPosterImageUrl() {
-        return posterImageUrl;
-    }
-
-    public void setPosterImageUrl(String posterImageUrl) {
-        this.posterImageUrl = posterImageUrl;
-    }
-
-    public String getBackgroundImageUrl() {
-        return backgroundImageUrl;
-    }
-
-    public void setBackgroundImageUrl(String backgroundImageUrl) {
-        this.backgroundImageUrl = backgroundImageUrl;
+    @Override
+    public ProviderManager.ProviderType getProviderType() {
+        return ProviderManager.ProviderType.MOVIE;
     }
 }

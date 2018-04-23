@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +16,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 import xyz.moviecast.base.models.Movie;
 import xyz.moviecast.base.providers.MovieProvider;
-import xyz.moviecast.base.providers.models.movies.Page;
+import xyz.moviecast.base.providers.models.general.Page;
 
 public class MovieHelper implements Callback{
 

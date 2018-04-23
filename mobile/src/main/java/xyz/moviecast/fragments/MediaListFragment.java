@@ -19,8 +19,10 @@ import xyz.moviecast.MobileApplication;
 import xyz.moviecast.R;
 import xyz.moviecast.adapters.MediaGridAdapter;
 import xyz.moviecast.base.managers.ProviderManager;
+import xyz.moviecast.base.models.Media;
 import xyz.moviecast.base.models.Movie;
 import xyz.moviecast.base.providers.MediaProvider;
+import xyz.moviecast.base.utils.ThreadUtils;
 
 public class MediaListFragment extends Fragment {
 
@@ -35,7 +37,7 @@ public class MediaListFragment extends Fragment {
 
     private Mode mode = Mode.NORMAL;
     private MediaProvider.Filters filters = new MediaProvider.Filters();
-    private ArrayList<Movie> items = new ArrayList<>();
+    private ArrayList<Media> items = new ArrayList<>();
 
     private RecyclerView recyclerView;
 
@@ -104,8 +106,17 @@ public class MediaListFragment extends Fragment {
         if(mediaAdapter.getItemCount() == 0) {
             providerManager.getCurrentProvider().providePage(filters, new MediaProvider.MediaCallback() {
                 @Override
-                public void onSuccess(MediaProvider.Filters filters, List<xyz.moviecast.base.providers.models.movies.Movie> items) {
-                    Log.d("MEDIA_LIST", "Successfully loaded " + items.size() + " new items");
+                public void onSuccess(MediaProvider.Filters filters, List<Media> newItems) {
+                    items.addAll(newItems);
+                    Log.d("MEDIA_LIST", "Successfully loaded " + newItems.size() + " new items, we have a total of " + items.size() + " media items");
+
+                    ThreadUtils.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mediaAdapter.setItems(items);
+                            //mPreviousTotal = mTotalItemCount = mAdapter.getItemCount();
+                        }
+                    });
                 }
 
                 @Override

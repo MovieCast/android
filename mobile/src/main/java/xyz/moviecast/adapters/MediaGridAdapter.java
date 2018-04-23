@@ -2,6 +2,7 @@ package xyz.moviecast.adapters;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
@@ -14,8 +15,10 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import xyz.moviecast.R;
+import xyz.moviecast.base.models.Media;
 import xyz.moviecast.base.models.Movie;
 
 public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -24,7 +27,7 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private int itemHeight;
     private int columns;
 
-    private ArrayList<Movie> items = new ArrayList<>();
+    private ArrayList<Media> items = new ArrayList<>();
 
     /**
      *
@@ -32,7 +35,7 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      * @param items
      * @param columns
      */
-    public MediaGridAdapter(Context context, ArrayList<Movie> items, int columns) {
+    public MediaGridAdapter(Context context, ArrayList<Media> items, int columns) {
         this.columns = columns;
 
         // Sorry little bit dirty atm...
@@ -46,25 +49,26 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         itemWidth = (screenWidth / columns);
         itemHeight = (int) (itemWidth / 0.677);
 
-        //setItems(items);
+        setItems(items);
     }
 
 
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.media_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
         params.width = itemWidth;
         params.height = itemHeight;
         holder.itemView.setLayoutParams(params);
 
-        Movie item = getItem(position);
+        Media item = getItem(position);
         if(item.getPosterImageUrl() != null && !item.getPosterImageUrl().equals("")) {
             Picasso.get().cancelRequest(((ViewHolder) holder).coverImage);
             Picasso.get().load(item.getPosterImageUrl())
@@ -78,7 +82,7 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return items.size();
     }
 
-    public Movie getItem(int position) {
+    public Media getItem(int position) {
         if(position < 0 || position >= items.size()) {
             return null;
         }
@@ -86,19 +90,21 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return items.get(position);
     }
 
+    public void setItems(List<Media> items) {
+        this.items.clear();
+        this.items.addAll(items);
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView coverImage;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
 
             coverImage = itemView.findViewById(R.id.cover_image);
             coverImage.setMinimumHeight(itemHeight);
-        }
-
-        public ImageView getCoverImage() {
-            return coverImage;
         }
     }
 }

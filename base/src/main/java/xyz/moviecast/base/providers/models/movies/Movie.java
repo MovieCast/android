@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
 
+import xyz.moviecast.base.providers.models.general.Images;
+import xyz.moviecast.base.providers.models.general.Rating;
+
 public class Movie {
 
     @JsonProperty("_id")

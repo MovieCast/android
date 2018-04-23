@@ -1,27 +1,18 @@
 package xyz.moviecast.base.providers;
 
-import android.support.annotation.NonNull;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-import okhttp3.CacheControl;
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Request.Builder;
 import xyz.moviecast.base.R;
+import xyz.moviecast.base.models.Media;
 import xyz.moviecast.base.providers.models.movies.Movie;
-import xyz.moviecast.base.providers.models.movies.Page;
+import xyz.moviecast.base.providers.models.general.Page;
 
-public class MovieProvider extends MediaProvider<Movie> {
+public class MovieProvider extends MediaProvider {
 
     public MovieProvider(OkHttpClient client, ObjectMapper mapper) {
         super(client, mapper, "http://staging.content.moviecast.xyz", "/movies/", "/detail/");
@@ -42,15 +33,18 @@ public class MovieProvider extends MediaProvider<Movie> {
     }
 
     @Override
-    List<Movie> formatList(String response) {
+    List<Media> formatList(String response) {
+        ArrayList<Media> formattedItems = new ArrayList<>();
+
         try {
             Page page = mapper.readValue(response, Page.class);
-            return page.getMovies();
+            for(Movie movie : page.getMovies()) {
+                formattedItems.add(movie.toApplicationMovie());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        // UHMMM??
-        return null;
+        return formattedItems;
     }
 }

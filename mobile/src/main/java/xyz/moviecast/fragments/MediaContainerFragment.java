@@ -53,26 +53,29 @@ public class MediaContainerFragment extends Fragment {
 
         viewPager = parent.findViewById(R.id.viewPager);
         tabs = parent.findViewById(R.id.tabLayout);
-        viewPager.setAdapter(new MediaPagerAdapter(getFragmentManager(), providerManager.getCurrentProvider()));
+
+        MediaProvider provider = providerManager.getCurrentProvider();
+
+        viewPager.setAdapter(new MediaPagerAdapter(getChildFragmentManager(), provider, provider.getTabs()));
+        updateTabs();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        updateTabs();
+        //updateTabs();
     }
 
-    private void updateTabs() {
-        tabs.setupWithViewPager(viewPager);
+    public void updateTabs() {
+        Log.d(TAG, "updateTabs(): called");
+        tabs.setupWithViewPager(viewPager, false);
+
         tabs.setTabGravity(TabLayout.GRAVITY_CENTER);
         tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
-        tabs.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
-
         if(tabs.getTabCount() > 0) {
-            tabs.getTabAt(0).select();
+            //tabs.getTabAt(0).select();
         }
     }
 }
