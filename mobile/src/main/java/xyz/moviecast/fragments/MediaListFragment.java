@@ -1,6 +1,7 @@
 package xyz.moviecast.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -114,25 +115,22 @@ public class MediaListFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                // TODO: Update page here...
-                Log.d("MEDIA_LIST", "Attempting to update item list");
-
                 int visibleItems = layoutManager.getChildCount();
                 int totalItems = layoutManager.getItemCount();
                 int firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
 
                 if((totalItems - visibleItems) <= firstVisibleItem + 6 && state == State.LOADED) {
+                    state = State.LOADING;
                     filters.setPage(filters.getPage()+1);
                     providerManager.getCurrentProvider().providePage(filters, pageCallback);
-
-                    state = State.LOADING;
+                    Log.d("MEDIA_LIST", "Attempting to update item list, fetching page: " + filters.getPage());
                 }
             }
         });

@@ -37,7 +37,7 @@ public class Movie {
     @JsonProperty("rating")
     private Rating rating;
     @JsonProperty("images")
-    private Images images;
+    private Images images = new Images();
     @JsonProperty("genres")
     private List<String> genres = new ArrayList<>();
     @JsonProperty("language")
@@ -62,7 +62,9 @@ public class Movie {
         xyz.moviecast.base.models.Rating rating = new xyz.moviecast.base.models.Rating(
                 this.rating.getVotes(), this.rating.getWatching(), this.rating.getPercentage());
 
-       return new xyz.moviecast.base.models.Movie(id, title, year, slug, synopsis, duration,
+        Images images = this.images != null ? this.images : new Images();
+
+        return new xyz.moviecast.base.models.Movie(id, title, year, slug, synopsis, duration,
                country, released, trailer, certification, torrents, rating, images.getPosterImage(),
                images.getBackgroundImage(), genres);
     }
