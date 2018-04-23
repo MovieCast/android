@@ -15,7 +15,4 @@ public class Constants {
     public static final int SERIES = 1;
     public static final int ANIME = 2;
     public static final int SETTINGS = 3;
-
-    public static Context context;
-    public static Application application;
 }

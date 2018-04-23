@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
-import xyz.moviecast.MovieCast;
+import xyz.moviecast.MobileApplication;
 import xyz.moviecast.activities.MainActivity;
 import xyz.moviecast.base.helpers.HelperCallback;
 import xyz.moviecast.base.helpers.MovieHelper;
@@ -50,7 +50,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter implements HelperC
 
     @Override
     public void onFailure(int id, IOException e) {
-        Toast.makeText(MovieCast.getContext(), "Something went wrong, can't load the movies", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(MobileApplication.getContext(), "Something went wrong, can't load the movies", Toast.LENGTH_SHORT).show();
         e.printStackTrace();
     }
 

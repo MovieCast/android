@@ -1,9 +1,11 @@
-package xyz.moviecast.base.providers.models.movies;
+package xyz.moviecast.base.providers.models.general;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import xyz.moviecast.base.providers.models.movies.Movie;
 
 public class Page {
 

@@ -1,6 +1,6 @@
-package xyz.moviecast.base.providers.models.movies;
+package xyz.moviecast.base.providers.models.general;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Images {
 

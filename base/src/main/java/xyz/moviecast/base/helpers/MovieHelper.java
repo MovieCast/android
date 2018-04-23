@@ -3,12 +3,11 @@ package xyz.moviecast.base.helpers;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +16,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 import xyz.moviecast.base.models.Movie;
 import xyz.moviecast.base.providers.MovieProvider;
-import xyz.moviecast.base.providers.models.movies.Page;
+import xyz.moviecast.base.providers.models.general.Page;
 
 public class MovieHelper implements Callback{
 
@@ -40,7 +39,7 @@ public class MovieHelper implements Callback{
 
     @SuppressLint("UseSparseArrays")
     private MovieHelper(){
-        movieProvider = new MovieProvider();
+        //movieProvider = new MovieProvider();
         mapper = new ObjectMapper();
 
         jsonCallToHelperDataMap = new HashMap<>();
@@ -65,15 +64,15 @@ public class MovieHelper implements Callback{
         }
 
         HelperData data = new HelperData(++id, position, sorting, callback);
-        Call call = movieProvider.providePage((position / 50) + 1, sorting, this);
-        jsonCallToHelperDataMap.put(call, data);
+        //Call call = movieProvider.providePage((position / 50) + 1, sorting, this);
+        //jsonCallToHelperDataMap.put(call, data);
         return new HelperResult<>(id);
     }
 
     public int getMovieListSize(HelperCallback callback){
         HelperData data = new HelperData(++id, -1, null, callback);
-        Call call = movieProvider.getTotalAmountOfMedia(this);
-        jsonCallToHelperDataMap.put(call, data);
+        //Call call = movieProvider.getTotalAmountOfMedia(this);
+        //jsonCallToHelperDataMap.put(call, data);
         return id;
     }
 

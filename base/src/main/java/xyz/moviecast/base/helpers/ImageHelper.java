@@ -7,13 +7,12 @@ import java.util.Map;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
-import xyz.moviecast.base.providers.ImageProvider;
 
 public class ImageHelper implements Callback {
 
     private Map<Call, HelperData> callToHelperDataMap;
     private Map<String, byte[]> imageMap;
-    private ImageProvider imageProvider;
+    //private ImageProvider imageProvider;
 
     private static ImageHelper instance;
     private static int id = 0;
@@ -27,7 +26,7 @@ public class ImageHelper implements Callback {
     private ImageHelper(){
         callToHelperDataMap = new HashMap<>();
         imageMap = new HashMap<>();
-        imageProvider = new ImageProvider();
+        //imageProvider = new ImageProvider();
     }
 
     public HelperResult getImage(String imageUrl, HelperCallback callback){
@@ -37,8 +36,8 @@ public class ImageHelper implements Callback {
         }
 
         HelperData data = new HelperData(++id, imageUrl, callback);
-        Call call = imageProvider.provideImage(imageUrl, this);
-        callToHelperDataMap.put(call, data);
+        //Call call = imageProvider.provideImage(imageUrl, this);
+        //callToHelperDataMap.put(call, data);
 
         return new HelperResult<>(id);
     }

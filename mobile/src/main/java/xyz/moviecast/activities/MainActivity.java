@@ -3,6 +3,7 @@ package xyz.moviecast.activities;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import xyz.moviecast.R;
 import xyz.moviecast.base.Constants;
 import xyz.moviecast.adapters.FragmentAdapter;
+import xyz.moviecast.base.managers.ProviderManager;
 import xyz.moviecast.fragments.MediaContainerFragment;
 import xyz.moviecast.fragments.SettingsFragment;
 import xyz.moviecast.views.NonSwipeableViewPager;
@@ -29,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView listView;
     private DrawerLayout drawerLayout;
-    private NonSwipeableViewPager viewPager;
     private ArrayAdapter<String> arrayAdapter;
     private ActionBarDrawerToggle drawerToggle;
 
@@ -42,8 +43,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Constants.context = this;
-        Constants.application = getApplication();
     }
 
     @Override
@@ -57,23 +56,14 @@ public class MainActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.navList);
         drawerLayout = findViewById(R.id.drawerLayout);
-        viewPager = findViewById(R.id.nonSwipeableViewPager);
 
-        addFragments();
         addDrawerItems();
         setupDrawer();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        viewPager.setCurrentItem(0, true);
-        setTitle("");
-    }
 
-    private void addFragments(){
-        FragmentAdapter fragmentAdapter = new FragmentAdapter(getSupportFragmentManager());
-        fragmentAdapter.addFragment(new MediaContainerFragment(), Constants.MOVIES);
-        fragmentAdapter.addFragment(new SettingsFragment(), Constants.SETTINGS);
-        viewPager.setAdapter(fragmentAdapter);
+        showProvider(ProviderManager.ProviderType.MOVIE);
     }
 
     private void addDrawerItems(){
@@ -82,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(arrayAdapter);
 
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
-            viewPager.setCurrentItem(i, true);
+            //viewPager.setCurrentItem(i, true);
             drawerLayout.closeDrawers();
         });
     }
@@ -120,5 +110,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
+
+    private void showProvider(ProviderManager.ProviderType provider) {
+        setTitle(ProviderManager.getProviderTitle(provider));
+
+        FragmentManager manager = getSupportFragmentManager();
+        MediaContainerFragment containerFragment = new MediaContainerFragment();
+        manager.beginTransaction().replace(R.id.container, containerFragment).commit();
     }
 }
