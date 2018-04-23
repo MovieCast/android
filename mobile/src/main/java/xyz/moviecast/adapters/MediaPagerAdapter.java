@@ -1,8 +1,11 @@
 package xyz.moviecast.adapters;
 
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import java.util.Locale;
 
 import xyz.moviecast.base.providers.MediaProvider;
 import xyz.moviecast.fragments.MediaListFragment;
@@ -14,6 +17,12 @@ public class MediaPagerAdapter extends FragmentStatePagerAdapter {
     public MediaPagerAdapter(FragmentManager fm, MediaProvider provider) {
         super(fm);
         this.provider = provider;
+    }
+
+    @Nullable
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return ((MediaProvider.Tab) provider.getTabs().get(position)).getLabel().toUpperCase(Locale.getDefault());
     }
 
     @Override

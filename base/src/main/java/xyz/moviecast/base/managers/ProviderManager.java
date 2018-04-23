@@ -23,4 +23,17 @@ public class ProviderManager {
     public MediaProvider getCurrentProvider() {
         return currentProvider;
     }
+
+    public static String getProviderTitle(ProviderType provider) {
+        switch (provider) {
+            case MOVIE:
+                return "Movies";
+            default:
+                return "Unknown";
+        }
+    }
+
+    public enum ProviderType {
+        MOVIE
+    }
 }
