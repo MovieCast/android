@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(arrayAdapter);
 
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            Log.d(TAG, "Drawer is currently non functioning sorry :/");
             //viewPager.setCurrentItem(i, true);
             drawerLayout.closeDrawers();
         });

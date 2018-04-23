@@ -32,16 +32,46 @@ public class MediaListFragment extends Fragment {
 
     public enum Mode { NORMAL, SEARCH }
 
+    private enum State {
+        UNINITIALISED, LOADING, LOADED
+    }
+
     @Inject
     ProviderManager providerManager;
 
     private Mode mode = Mode.NORMAL;
+    private State state = State.LOADING;
     private MediaProvider.Filters filters = new MediaProvider.Filters();
     private ArrayList<Media> items = new ArrayList<>();
 
     private RecyclerView recyclerView;
 
+    private GridLayoutManager layoutManager;
     private MediaGridAdapter mediaAdapter;
+
+    private MediaProvider.MediaCallback pageCallback = new MediaProvider.MediaCallback() {
+        @Override
+        public void onSuccess(MediaProvider.Filters filters, List<Media> newItems) {
+            newItems.removeAll(items);
+
+            if(newItems.size() != 0) {
+                items.addAll(newItems);
+
+                Log.d("MEDIA_LIST", "Successfully loaded " + newItems.size() + " new items, we have a total of " + items.size() + " media items");
+
+                ThreadUtils.runOnUiThread(() -> {
+                    mediaAdapter.setItems(items);
+                });
+            }
+
+            state = State.LOADED;
+        }
+
+        @Override
+        public void onFailure(Exception e) {
+            state = State.LOADED;
+        }
+    };
 
     public static MediaListFragment newInstance(Mode mode, MediaProvider.Filters.Sort sort, MediaProvider.Filters.Order order) {
         MediaListFragment fragment = new MediaListFragment();
@@ -75,8 +105,10 @@ public class MediaListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_media_catalog, container, false);
 
+        layoutManager = new GridLayoutManager(getActivity(), 2);
+
         recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.setLayoutManager(layoutManager);
 
         return view;
     }
@@ -89,9 +121,19 @@ public class MediaListFragment extends Fragment {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
                 // TODO: Update page here...
                 Log.d("MEDIA_LIST", "Attempting to update item list");
+
+                int visibleItems = layoutManager.getChildCount();
+                int totalItems = layoutManager.getItemCount();
+                int firstVisibleItem = layoutManager.findFirstVisibleItemPosition();
+
+                if((totalItems - visibleItems) <= firstVisibleItem + 6 && state == State.LOADED) {
+                    filters.setPage(filters.getPage()+1);
+                    providerManager.getCurrentProvider().providePage(filters, pageCallback);
+
+                    state = State.LOADING;
+                }
             }
         });
 
@@ -104,26 +146,7 @@ public class MediaListFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         if(mediaAdapter.getItemCount() == 0) {
-            providerManager.getCurrentProvider().providePage(filters, new MediaProvider.MediaCallback() {
-                @Override
-                public void onSuccess(MediaProvider.Filters filters, List<Media> newItems) {
-                    items.addAll(newItems);
-                    Log.d("MEDIA_LIST", "Successfully loaded " + newItems.size() + " new items, we have a total of " + items.size() + " media items");
-
-                    ThreadUtils.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mediaAdapter.setItems(items);
-                            //mPreviousTotal = mTotalItemCount = mAdapter.getItemCount();
-                        }
-                    });
-                }
-
-                @Override
-                public void onFailure(Exception e) {
-
-                }
-            });
+            providerManager.getCurrentProvider().providePage(filters, pageCallback);
         }
     }
 }
