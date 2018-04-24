@@ -140,6 +140,10 @@ public abstract class MediaProvider extends BaseProvider {
         private Filters.Sort sort;
         private Filters.Order order;
 
+        Tab(int id, int stringId, Filters.Sort sort, Filters.Order order) {
+            this(id, BaseApplication.getInstance().getString(stringId), sort, order);
+        }
+
         Tab(int id, String label, Filters.Sort sort, Filters.Order order) {
             this.id = id;
             this.label = label;
