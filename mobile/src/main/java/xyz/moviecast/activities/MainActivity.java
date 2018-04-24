@@ -1,8 +1,10 @@
 package xyz.moviecast.activities;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,10 +16,13 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import xyz.moviecast.MobileApplication;
 import xyz.moviecast.R;
+import xyz.moviecast.adapters.DrawerAdapter;
 import xyz.moviecast.base.managers.ProviderManager;
 import xyz.moviecast.fragments.MediaContainerFragment;
 
@@ -37,11 +42,6 @@ public class MainActivity extends AppCompatActivity implements ProviderManager.P
 
     public static MainActivity getInstance(){
         return instance;
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 
     @Override
@@ -68,17 +68,45 @@ public class MainActivity extends AppCompatActivity implements ProviderManager.P
         getSupportActionBar().setHomeButtonEnabled(true);
 
         showProvider(ProviderManager.ProviderType.MOVIES);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "MainActivity.onResume(): MainActivity has been resumed, adding provider listener.");
         providerManager.addProviderListener(this);
     }
 
-    private void addDrawerItems(){
-        String[] osArray = {"Movies", "Shows", "Settings"};
-        arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, osArray);
-        listView.setAdapter(arrayAdapter);
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "MainActivity.onPause(): MainActivity has been paused, removing provider listener.");
+        providerManager.removeProviderListener(this);
+    }
+
+    private void addDrawerItems() {
+        //String[] osArray = {"Movies", "Shows", "Settings"};
+        //arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, osArray);
+
+        ArrayList<DrawerAdapter.DrawerItem> drawerItems = new ArrayList<>();
+        drawerItems.add(new DrawerAdapter.DrawerItem.ProviderDrawerItem(R.drawable.ic_nav_movies, R.string.title_movies, ProviderManager.ProviderType.MOVIES));
+        drawerItems.add(new DrawerAdapter.DrawerItem.IntentDrawerItem(R.drawable.ic_nav_settings, R.string.title_settings, SettingsActivity.getIntent(this)));
+
+        DrawerAdapter adapter = new DrawerAdapter(this, drawerItems);
+
+        listView.setAdapter(adapter);
 
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
-            Log.d(TAG, "Drawer is currently non functioning sorry :/");
-            //viewPager.setCurrentItem(i, true);
+            DrawerAdapter.DrawerItem item = adapter.getItem(i);
+            switch (item.getType()) {
+                case INTENT:
+                    startActivity(((DrawerAdapter.DrawerItem.IntentDrawerItem) item).getIntent());
+                    break;
+                case PROVIDER:
+                    //showProvider(((DrawerAdapter.DrawerItem.ProviderDrawerItem) item).getProvider());
+                    providerManager.setCurrentProvider(((DrawerAdapter.DrawerItem.ProviderDrawerItem) item).getProvider());
+                    break;
+            }
             drawerLayout.closeDrawers();
         });
     }
@@ -98,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements ProviderManager.P
         };
 
         drawerToggle.setDrawerIndicatorEnabled(true);
-        //drawerLayout.setDrawerListener(drawerToggle);
+        drawerLayout.setDrawerListener(drawerToggle);
     }
 
     @Override
@@ -131,4 +159,7 @@ public class MainActivity extends AppCompatActivity implements ProviderManager.P
         Log.d(TAG, "Provider changed to: " + provider);
         showProvider(provider);
     }
+
+    // TODO: Move to own drawer fragment!!
+
 }

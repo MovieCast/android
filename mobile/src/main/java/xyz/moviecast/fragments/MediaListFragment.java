@@ -21,7 +21,6 @@ import xyz.moviecast.R;
 import xyz.moviecast.adapters.MediaGridAdapter;
 import xyz.moviecast.base.managers.ProviderManager;
 import xyz.moviecast.base.models.Media;
-import xyz.moviecast.base.models.Movie;
 import xyz.moviecast.base.providers.MediaProvider;
 import xyz.moviecast.base.utils.ThreadUtils;
 

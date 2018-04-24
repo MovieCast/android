@@ -39,7 +39,7 @@ public class MediaContainerFragment extends Fragment {
     ProviderManager providerManager;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return parent = inflater.inflate(R.layout.fragment_media_container, container, false);
     }
 
@@ -58,13 +58,6 @@ public class MediaContainerFragment extends Fragment {
 
         viewPager.setAdapter(new MediaPagerAdapter(getChildFragmentManager(), provider, provider.getTabs()));
         updateTabs();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        //updateTabs();
     }
 
     public void updateTabs() {
