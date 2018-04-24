@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addDrawerItems(){
-        String[] osArray = {"Movies", "Settings"};
+        String[] osArray = {"Movies", "Shows", "Settings"};
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, osArray);
         listView.setAdapter(arrayAdapter);
 
