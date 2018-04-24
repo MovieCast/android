@@ -160,6 +160,4 @@ public class MainActivity extends AppCompatActivity implements ProviderManager.P
         showProvider(provider);
     }
 
-    // TODO: Move to own drawer fragment!!
-
 }

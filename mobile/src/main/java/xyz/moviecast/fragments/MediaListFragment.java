@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -135,6 +136,10 @@ public class MediaListFragment extends Fragment {
         });
 
         mediaAdapter = new MediaGridAdapter(getActivity(), new ArrayList<>(), 2);
+        mediaAdapter.setOnItemClickListener((v, media) -> {
+            Log.d("MEDIA_LIST", "Clicked on media item " + media.getId() + " with title '" + media.getTitle() + "'");
+            Toast.makeText(getContext(), "Clicked on media item " + media.getId(), Toast.LENGTH_LONG).show();
+        });
         recyclerView.setAdapter(mediaAdapter);
     }
 

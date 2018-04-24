@@ -29,6 +29,8 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private ArrayList<Media> items = new ArrayList<>();
 
+    private OnItemClickListener itemClickListener;
+
     /**
      *
      * @param context
@@ -52,8 +54,6 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         setItems(items);
     }
 
-
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -69,6 +69,10 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         holder.itemView.setLayoutParams(params);
 
         Media item = getItem(position);
+
+        // We need the item later so add it to the view holder
+        ((ViewHolder) holder).media = item;
+
         if(item.getPosterImageUrl() != null && !item.getPosterImageUrl().equals("")) {
             Picasso.get().cancelRequest(((ViewHolder) holder).coverImage);
             Picasso.get().load(item.getPosterImageUrl())
@@ -96,15 +100,37 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        itemClickListener = listener;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView coverImage;
+        Media media;
 
         ViewHolder(View itemView) {
             super(itemView);
 
+            itemView.setOnClickListener(this);
+
             coverImage = itemView.findViewById(R.id.cover_image);
             coverImage.setMinimumHeight(itemHeight);
         }
+
+        public Media getMedia() {
+            return media;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if(itemClickListener != null) {
+                itemClickListener.onItemClick(v, getItem(getLayoutPosition()));
+            }
+        }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View v, Media media);
     }
 }
