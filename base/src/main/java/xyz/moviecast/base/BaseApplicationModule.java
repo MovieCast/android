@@ -7,14 +7,13 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import xyz.moviecast.base.data.DataModule;
+import xyz.moviecast.base.net.NetModule;
 import xyz.moviecast.base.managers.ManagerModule;
-import xyz.moviecast.base.managers.ProviderManager;
 import xyz.moviecast.base.providers.ProviderModule;
 
 @Module(
         includes = {
-                DataModule.class,
+                NetModule.class,
                 ProviderModule.class,
                 ManagerModule.class
         }

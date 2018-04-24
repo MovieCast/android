@@ -1,4 +1,4 @@
-package xyz.moviecast.base.data;
+package xyz.moviecast.base.net;
 
 import android.content.Context;
 
@@ -14,7 +14,7 @@ import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 
 @Module
-public class DataModule {
+public class NetModule {
 
     @Provides
     @Singleton
@@ -38,4 +38,6 @@ public class DataModule {
     ObjectMapper provideObjectMapper() {
         return new ObjectMapper();
     }
+
+    //TODO: Add picasso with okhttpdownloader so it uses the same cache.
 }
