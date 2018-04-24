@@ -1,6 +1,5 @@
 package xyz.moviecast.base.models;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import xyz.moviecast.base.managers.ProviderManager;
@@ -107,6 +106,6 @@ public class Movie extends Media {
 
     @Override
     public ProviderManager.ProviderType getProviderType() {
-        return ProviderManager.ProviderType.MOVIE;
+        return ProviderManager.ProviderType.MOVIES;
     }
 }

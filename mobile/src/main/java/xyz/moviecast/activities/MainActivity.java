@@ -11,23 +11,22 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.io.IOException;
+import javax.inject.Inject;
 
+import xyz.moviecast.MobileApplication;
 import xyz.moviecast.R;
-import xyz.moviecast.base.Constants;
-import xyz.moviecast.adapters.FragmentAdapter;
 import xyz.moviecast.base.managers.ProviderManager;
 import xyz.moviecast.fragments.MediaContainerFragment;
-import xyz.moviecast.fragments.SettingsFragment;
-import xyz.moviecast.views.NonSwipeableViewPager;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ProviderManager.ProviderListener {
 
     private static final String TAG = "MAIN_ACTIVITY";
+
+    @Inject
+    ProviderManager providerManager;
 
     private ListView listView;
     private DrawerLayout drawerLayout;
@@ -48,6 +47,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        MobileApplication.getInstance()
+                .getComponent()
+                .inject(this);
+
         setContentView(R.layout.activity_main);
         instance = this;
 
@@ -63,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        showProvider(ProviderManager.ProviderType.MOVIE);
+        showProvider(ProviderManager.ProviderType.MOVIES);
+        providerManager.addProviderListener(this);
     }
 
     private void addDrawerItems(){
@@ -119,5 +124,11 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager manager = getSupportFragmentManager();
         MediaContainerFragment containerFragment = new MediaContainerFragment();
         manager.beginTransaction().replace(R.id.container, containerFragment).commit();
+    }
+
+    @Override
+    public void onProviderChanged(ProviderManager.ProviderType provider) {
+        Log.d(TAG, "Provider changed to: " + provider);
+        showProvider(provider);
     }
 }

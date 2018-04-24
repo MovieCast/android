@@ -19,6 +19,7 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import xyz.moviecast.base.BaseApplication;
 import xyz.moviecast.base.models.Media;
 import xyz.moviecast.base.providers.models.movies.Movie;
 
@@ -38,14 +39,18 @@ public abstract class MediaProvider extends BaseProvider {
         this.detailPath = detailPath;
     }
 
+    public void providePage(final MediaCallback callback) {
+        providePage(new Filters(), callback);
+    }
+
     public void providePage(final Filters filters, final MediaCallback callback) {
         HttpUrl.Builder httpBuilder = HttpUrl.parse(baseUrl+listPath+filters.getPage()).newBuilder();
 
-        if(filters != null) {
+        //if(filters != null) {
             for(Map.Entry<String, String> param : filters.getQueryParams()) {
                 httpBuilder.addQueryParameter(param.getKey(), param.getValue());
             }
-        }
+        //}
 
         Request.Builder responseBuilder = new Request.Builder().url(httpBuilder.build());
 
