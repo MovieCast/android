@@ -1,10 +1,8 @@
 package xyz.moviecast.activities;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -91,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements ProviderManager.P
         ArrayList<DrawerAdapter.DrawerItem> drawerItems = new ArrayList<>();
         drawerItems.add(new DrawerAdapter.DrawerItem.ProviderDrawerItem(R.drawable.ic_nav_movies, R.string.title_movies, ProviderManager.ProviderType.MOVIES));
         drawerItems.add(new DrawerAdapter.DrawerItem.IntentDrawerItem(R.drawable.ic_nav_settings, R.string.title_settings, SettingsActivity.getIntent(this)));
+        drawerItems.add(new DrawerAdapter.DrawerItem.IntentDrawerItem(R.drawable.ic_play_arrow, R.string.title_player, PlayerActivity.getIntent(this)));
 
         DrawerAdapter adapter = new DrawerAdapter(this, drawerItems);
 
