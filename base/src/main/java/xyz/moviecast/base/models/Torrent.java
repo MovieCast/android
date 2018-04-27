@@ -1,50 +1,95 @@
 package xyz.moviecast.base.models;
 
-public class Torrent {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Torrent implements Parcelable {
+
+    public static final Parcelable.Creator<Torrent> CREATOR = new Parcelable.Creator<Torrent>() {
+        @Override
+        public Torrent createFromParcel(Parcel in) {
+            return new Torrent(in);
+        }
+
+        @Override
+        public Torrent[] newArray(int size) {
+            return new Torrent[size];
+        }
+    };
 
     private String resolution;
     private String hash;
     private int seeds;
     private int peers;
     private int size;
-    private String fileSize;
-    private String provider;
 
-    public Torrent(String resolution, String hash, int seeds, int peers, int size, String fileSize, String provider) {
+    public Torrent(String resolution, String hash, int seeds, int peers, int size) {
         this.resolution = resolution;
         this.hash = hash;
         this.seeds = seeds;
         this.peers = peers;
         this.size = size;
-        this.fileSize = fileSize;
-        this.provider = provider;
+    }
+
+    private Torrent(Parcel in) {
+        resolution = in.readString();
+        hash = in.readString();
+        seeds = in.readInt();
+        peers = in.readInt();
+        size = in.readInt();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(resolution);
+        dest.writeString(hash);
+        dest.writeInt(seeds);
+        dest.writeInt(peers);
+        dest.writeInt(size);
     }
 
     public String getResolution() {
         return resolution;
     }
 
+    public void setResolution(String resolution) {
+        this.resolution = resolution;
+    }
+
     public String getHash() {
         return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
     }
 
     public int getSeeds() {
         return seeds;
     }
 
+    public void setSeeds(int seeds) {
+        this.seeds = seeds;
+    }
+
     public int getPeers() {
         return peers;
+    }
+
+    public void setPeers(int peers) {
+        this.peers = peers;
     }
 
     public int getSize() {
         return size;
     }
 
-    public String getFileSize() {
-        return fileSize;
-    }
-
-    public String getProvider() {
-        return provider;
+    public void setSize(int size) {
+        this.size = size;
     }
 }

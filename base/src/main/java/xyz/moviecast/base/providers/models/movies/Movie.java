@@ -54,8 +54,7 @@ public class Movie {
             for (int i = 0; i < this.torrents.size(); i++) {
                 Torrent torrent = this.torrents.get(i);
                 torrents.add(new xyz.moviecast.base.models.Torrent(torrent.getQuality(), torrent.getHash(),
-                        torrent.getSeeds(), torrent.getPeers(), torrent.getSize(), torrent.getFileSize(),
-                        torrent.getProvider()));
+                        torrent.getSeeds(), torrent.getPeers(), torrent.getSize()));
             }
         }
 
@@ -64,7 +63,7 @@ public class Movie {
 
         Images images = this.images != null ? this.images : new Images();
 
-        return new xyz.moviecast.base.models.Movie(id, title, year, slug, synopsis, duration,
+        return new xyz.moviecast.base.models.Movie(id, title, year, synopsis, duration,
                country, released, trailer, certification, torrents, rating, images.getPosterImage(),
                images.getBackgroundImage(), genres);
     }

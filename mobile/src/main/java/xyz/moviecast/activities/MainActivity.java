@@ -103,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements ProviderManager.P
                     startActivity(((DrawerAdapter.DrawerItem.IntentDrawerItem) item).getIntent());
                     break;
                 case PROVIDER:
-                    //showProvider(((DrawerAdapter.DrawerItem.ProviderDrawerItem) item).getProvider());
                     providerManager.setCurrentProvider(((DrawerAdapter.DrawerItem.ProviderDrawerItem) item).getProvider());
                     break;
             }

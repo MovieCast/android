@@ -1,5 +1,7 @@
 package xyz.moviecast.fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +21,7 @@ import javax.inject.Inject;
 
 import xyz.moviecast.MobileApplication;
 import xyz.moviecast.R;
+import xyz.moviecast.activities.MediaDetailActivity;
 import xyz.moviecast.adapters.MediaGridAdapter;
 import xyz.moviecast.base.managers.ProviderManager;
 import xyz.moviecast.base.models.Media;
@@ -39,6 +42,9 @@ public class MediaListFragment extends Fragment {
 
     @Inject
     ProviderManager providerManager;
+
+    @Inject
+    Context applicationContext;
 
     private Mode mode = Mode.NORMAL;
     private State state = State.LOADING;
@@ -139,6 +145,11 @@ public class MediaListFragment extends Fragment {
         mediaAdapter.setOnItemClickListener((v, media) -> {
             Log.d("MEDIA_LIST", "Clicked on media item " + media.getId() + " with title '" + media.getTitle() + "'");
             Toast.makeText(getContext(), "Clicked on media item " + media.getId(), Toast.LENGTH_LONG).show();
+
+            Intent detailIntent = new Intent(applicationContext, MediaDetailActivity.class);
+            detailIntent.putExtra(MediaDetailActivity.MEDIA_OBJECT, media);
+
+            startActivity(detailIntent);
         });
         recyclerView.setAdapter(mediaAdapter);
     }
