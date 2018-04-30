@@ -27,6 +27,8 @@ ext {
     picassoVersion = "2.71828"
     jacksonVersion = "2.7.2"
     javaxAnnotationVersion = "1.2"
+
+    jlibtorrentVersion = '1.2.0.16'
 }
 
 allprojects {
