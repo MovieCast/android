@@ -11,6 +11,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import xyz.moviecast.R;
+import xyz.moviecast.adapters.SettingAdapter;
 import xyz.moviecast.base.providers.SettingsProvider;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -39,6 +40,8 @@ public class SettingsActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.title_settings);
+
+        //final SettingAdapter adapter = new SettingAdapter(this, settings);
     }
 }
 
