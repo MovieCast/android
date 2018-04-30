@@ -4,10 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.OkHttpClient;
-import xyz.moviecast.base.BaseApplication;
 import xyz.moviecast.base.R;
 import xyz.moviecast.base.models.Media;
 import xyz.moviecast.base.providers.models.movies.Movie;
@@ -34,13 +35,19 @@ public class MovieProvider extends MediaProvider {
     }
 
     @Override
-    List<Media> formatList(String response) {
-        ArrayList<Media> formattedItems = new ArrayList<>();
+    public xyz.moviecast.base.models.Movie getMediaById(String id) {
+        return (xyz.moviecast.base.models.Movie) super.getMediaById(id);
+    }
+
+    @Override
+    Map<String, Media> formatList(String response) {
+        // REALLLY IMPORTINO TO USE A LINKEDHASHMAP!!!!!
+        Map<String, Media> formattedItems = new LinkedHashMap<>();
 
         try {
             Page page = mapper.readValue(response, Page.class);
             for(Movie movie : page.getMovies()) {
-                formattedItems.add(movie.toApplicationMovie());
+                formattedItems.put(movie.getId(), movie.toApplicationMovie());
             }
         } catch (IOException e) {
             e.printStackTrace();

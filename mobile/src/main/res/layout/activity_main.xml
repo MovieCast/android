@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="xyz.moviecast.activities.MainActivity"
-    android:id="@+id/drawerLayout">
+    android:id="@+id/drawerLayout"
+    android:clipToPadding="false">
 
     <RelativeLayout
         android:layout_width="match_parent"

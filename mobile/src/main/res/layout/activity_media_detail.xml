@@ -2,7 +2,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -16,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="500dp"
             android:fitsSystemWindows="true"
-            app:contentScrim="@color/colorPrimary"
+            app:statusBarScrim="@android:color/transparent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:titleEnabled="false">
 
@@ -25,6 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
+                android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax" />
 
             <View
@@ -46,13 +48,13 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
+        android:background="@color/bg"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Failed loading info: NullPointerException"/>
+            android:text="Hello Detail" />
 
     </android.support.v4.widget.NestedScrollView>
 
@@ -61,6 +63,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:src="@drawable/ic_play_arrow"
         app:elevation="6dp"
         app:layout_anchor="@id/app_bar_layout"
         app:layout_anchorGravity="bottom|right|end" />
