@@ -1,5 +1,7 @@
 package xyz.moviecast.streamer;
 
+import android.util.Log;
+
 import com.frostwire.jlibtorrent.TorrentHandle;
 
 import java.io.File;
@@ -38,6 +40,7 @@ public class Torrent {
      */
     public void start() {
         // TODO: Write start logic
+        Log.d("MOVIECAST_STREAMER_TORR", "Start method was called");
     }
 
     /**

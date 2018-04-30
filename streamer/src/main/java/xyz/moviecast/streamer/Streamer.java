@@ -2,8 +2,13 @@ package xyz.moviecast.streamer;
 
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 
+import com.frostwire.jlibtorrent.AlertListener;
 import com.frostwire.jlibtorrent.SessionManager;
+import com.frostwire.jlibtorrent.alerts.AddTorrentAlert;
+
+import xyz.moviecast.streamer.listeners.AddTorrentAlertListener;
 
 public class Streamer {
 
@@ -20,6 +25,16 @@ public class Streamer {
 
     Streamer(SessionManager sessionManager) {
         torrentSession = sessionManager;
+
+        torrentSession.addListener(new AddTorrentAlertListener() {
+            @Override
+            public void onAddedTorrent(AddTorrentAlert alert) {
+                Log.d("MOVIECAST_STREAMER", "A new torrent was added: " + alert.toString());
+
+                Torrent torrent = new Torrent(alert.handle());
+                torrent.start();
+            }
+        });
 
         libTorrentThread = new HandlerThread("MOVIECAST_LIBTORRENT");
         libTorrentThread.start();
