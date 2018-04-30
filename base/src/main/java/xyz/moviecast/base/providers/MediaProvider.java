@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,9 +28,11 @@ public abstract class MediaProvider extends BaseProvider {
 
     private static final String TAG = "MEDIA_PROVIDER";
 
-    private String baseUrl;
-    private String listPath;
-    private String detailPath;
+    private final String baseUrl;
+    private final String listPath;
+    private final String detailPath;
+
+    private final Map<String, Media> itemCache = new HashMap<>();
 
     MediaProvider(OkHttpClient client, ObjectMapper mapper, String baseUrl, String listPath, String detailPath) {
         super(client, mapper);
@@ -39,6 +42,16 @@ public abstract class MediaProvider extends BaseProvider {
         this.detailPath = detailPath;
     }
 
+    /**
+     * Get a media object by it's id
+     * @param id The media id
+     */
+    public Media getMediaById(String id) {
+        if(!itemCache.containsKey(id)) return null;
+
+        return itemCache.get(id);
+    }
+
     public void providePage(final MediaCallback callback) {
         providePage(new Filters(), callback);
     }
@@ -46,11 +59,9 @@ public abstract class MediaProvider extends BaseProvider {
     public void providePage(final Filters filters, final MediaCallback callback) {
         HttpUrl.Builder httpBuilder = HttpUrl.parse(baseUrl+listPath+filters.getPage()).newBuilder();
 
-        //if(filters != null) {
-            for(Map.Entry<String, String> param : filters.getQueryParams()) {
-                httpBuilder.addQueryParameter(param.getKey(), param.getValue());
-            }
-        //}
+        for(Map.Entry<String, String> param : filters.getQueryParams()) {
+            httpBuilder.addQueryParameter(param.getKey(), param.getValue());
+        }
 
         Request.Builder responseBuilder = new Request.Builder().url(httpBuilder.build());
 
@@ -72,8 +83,11 @@ public abstract class MediaProvider extends BaseProvider {
                         return;
                     }
 
-                    List<Media> items = formatList(rawResponse);
-                    callback.onSuccess(filters, items);
+                    Map<String, Media> formattedItems = formatList(rawResponse);
+
+                    // Cache items
+                    itemCache.putAll(formattedItems);
+                    callback.onSuccess(filters, formattedItems.keySet());
                     return;
                 }
                 callback.onFailure(new NetworkErrorException("Unknown API error occurred"));
@@ -83,7 +97,7 @@ public abstract class MediaProvider extends BaseProvider {
 
     //public void provideDetails()
 
-    abstract List<Media> formatList(String response);
+    abstract Map<String, Media> formatList(String response);
 
     public abstract List<Tab> getTabs();
 
@@ -92,7 +106,7 @@ public abstract class MediaProvider extends BaseProvider {
     //public abstract T provideDetails(T object);
 
     public interface MediaCallback {
-        void onSuccess(Filters filters, List<Media> items);
+        void onSuccess(Filters filters, Set<String> result);
         void onFailure(Exception e);
     }
 

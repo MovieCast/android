@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="xyz.moviecast">
 
     <application
@@ -9,7 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/moviecast_icon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.MovieCast">
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,8 +18,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.MainActivityDebug" />
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:parentActivityName=".activities.MainActivity"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
 
-        <activity android:name=".activities.MainActivityDebug">
+        <activity
+            android:name=".activities.MediaDetailActivity"
+            android:theme="@style/Theme.MovieCast.TransparentStatusBar"
+            android:parentActivityName=".activities.MediaDetailActivity"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MediaDetailActivity" />
         </activity>
     </application>
 

@@ -40,7 +40,7 @@ public class MediaCatalogFragment extends Fragment{
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
         //recyclerView.setAdapter(new RecyclerViewAdapter(type, sorting, getContext()));
-        recyclerView.setAdapter(new MediaGridAdapter(getContext(), new ArrayList<>(), 2));
+        recyclerView.setAdapter(new MediaGridAdapter(getContext(), null, 2));
 
         return view;
     }

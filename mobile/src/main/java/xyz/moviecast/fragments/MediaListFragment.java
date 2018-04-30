@@ -1,5 +1,7 @@
 package xyz.moviecast.fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,18 +12,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
 import xyz.moviecast.MobileApplication;
 import xyz.moviecast.R;
+import xyz.moviecast.activities.MediaDetailActivity;
 import xyz.moviecast.adapters.MediaGridAdapter;
 import xyz.moviecast.base.managers.ProviderManager;
 import xyz.moviecast.base.models.Media;
-import xyz.moviecast.base.models.Movie;
 import xyz.moviecast.base.providers.MediaProvider;
 import xyz.moviecast.base.utils.ThreadUtils;
 
@@ -40,10 +46,15 @@ public class MediaListFragment extends Fragment {
     @Inject
     ProviderManager providerManager;
 
+    @Inject
+    Context applicationContext;
+
     private Mode mode = Mode.NORMAL;
     private State state = State.LOADING;
     private MediaProvider.Filters filters = new MediaProvider.Filters();
     private ArrayList<Media> items = new ArrayList<>();
+
+    private Set<String> itemResult = new LinkedHashSet<>();
 
     private RecyclerView recyclerView;
 
@@ -52,19 +63,12 @@ public class MediaListFragment extends Fragment {
 
     private MediaProvider.MediaCallback pageCallback = new MediaProvider.MediaCallback() {
         @Override
-        public void onSuccess(MediaProvider.Filters filters, List<Media> newItems) {
-            newItems.removeAll(items);
-
-            if(newItems.size() != 0) {
-                items.addAll(newItems);
-
-                Log.d("MEDIA_LIST", "Successfully loaded " + newItems.size() + " new items, we have a total of " + items.size() + " media items");
-
-                ThreadUtils.runOnUiThread(() -> {
-                    mediaAdapter.setItems(items);
-                });
+        public void onSuccess(MediaProvider.Filters filters, Set<String> result) {
+            if(result.size() != 0) {
+                itemResult.addAll(result);
+                Log.d("MEDIA_LIST", "Successfully loaded " + result.size() + " new items, we have a total of " + itemResult.size() + " media items");
+                ThreadUtils.runOnUiThread(() -> mediaAdapter.setResult(itemResult));
             }
-
             state = State.LOADED;
         }
 
@@ -135,7 +139,16 @@ public class MediaListFragment extends Fragment {
             }
         });
 
-        mediaAdapter = new MediaGridAdapter(getActivity(), new ArrayList<>(), 2);
+        mediaAdapter = new MediaGridAdapter(getActivity(), providerManager.getCurrentProvider(), 2);
+        mediaAdapter.setOnItemClickListener((v, media) -> {
+            Log.d("MEDIA_LIST", "Clicked on media item " + media.getId() + " with title '" + media.getTitle() + "'");
+            Toast.makeText(getContext(), "Clicked on media item " + media.getId(), Toast.LENGTH_LONG).show();
+
+            Intent detailIntent = new Intent(applicationContext, MediaDetailActivity.class);
+            detailIntent.putExtra(MediaDetailActivity.MEDIA_OBJECT, media);
+
+            startActivity(detailIntent);
+        });
         recyclerView.setAdapter(mediaAdapter);
     }
 
