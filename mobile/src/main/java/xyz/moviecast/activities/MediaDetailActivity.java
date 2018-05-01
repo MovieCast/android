@@ -5,6 +5,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -32,6 +33,8 @@ public class MediaDetailActivity extends AppCompatActivity {
         poster = findViewById(R.id.detail_poster);
 
         media = (Media) getIntent().getSerializableExtra(MEDIA_OBJECT);
+
+        Log.d("MEDIA_DETAIL", media.toString());
 
         setSupportActionBar(toolbar);
 

@@ -11,12 +11,23 @@ import java.util.Map;
 import okhttp3.OkHttpClient;
 import xyz.moviecast.base.R;
 import xyz.moviecast.base.models.Media;
-import xyz.moviecast.base.providers.response.MovieListResponse;
+import xyz.moviecast.base.providers.response.ShowListResponse;
 
-public class MovieProvider extends MediaProvider {
+public class ShowProvider extends MediaProvider {
+    ShowProvider(OkHttpClient client, ObjectMapper mapper) {
+        super(client, mapper, "http://staging.content.moviecast.xyz", "/shows/", "/detail/");
+    }
 
-    MovieProvider(OkHttpClient client, ObjectMapper mapper) {
-        super(client, mapper, "http://staging.content.moviecast.xyz", "/movies/", "/detail/");
+    @Override
+    Map<String, Media> formatList(String response) throws IOException {
+        Map<String, Media> formattedItems = new LinkedHashMap<>();
+
+        ShowListResponse page = mapper.readValue(response, ShowListResponse.class);
+        for(Media item : page.getFormattedResult()) {
+            formattedItems.put(item.getId(), item);
+        }
+
+        return formattedItems;
     }
 
     @Override
@@ -31,23 +42,5 @@ public class MovieProvider extends MediaProvider {
         tabs.add(new Tab(R.id.movie_filter_alphabetic, R.string.alphabet, Filters.Sort.ALPHABET, Filters.Order.DESC));
 
         return tabs;
-    }
-
-    @Override
-    public xyz.moviecast.base.models.Movie getMediaById(String id) {
-        return (xyz.moviecast.base.models.Movie) super.getMediaById(id);
-    }
-
-    @Override
-    Map<String, Media> formatList(String response) throws IOException {
-        // REALLLY IMPORTINO TO USE A LINKEDHASHMAP!!!!!
-        Map<String, Media> formattedItems = new LinkedHashMap<>();
-
-        MovieListResponse page = mapper.readValue(response, MovieListResponse.class);
-        for(Media item : page.getFormattedResult()) {
-            formattedItems.put(item.getId(), item);
-        }
-
-        return formattedItems;
     }
 }

@@ -10,19 +10,22 @@ import xyz.moviecast.base.BaseApplication;
 import xyz.moviecast.base.R;
 import xyz.moviecast.base.providers.MediaProvider;
 import xyz.moviecast.base.providers.MovieProvider;
+import xyz.moviecast.base.providers.ShowProvider;
 
 public class ProviderManager {
 
-    public enum ProviderType {MOVIES}
+    public enum ProviderType {MOVIES, SHOWS}
 
     private MediaProvider currentProvider;
     private final Map<ProviderType, MediaProvider> providers = new HashMap<>();
     private final ArrayList<ProviderListener> listeners = new ArrayList<>();
 
-    ProviderManager(MovieProvider movieProvider) {
+    ProviderManager(MovieProvider movieProvider, ShowProvider showProvider) {
         providers.put(ProviderType.MOVIES, movieProvider);
+        providers.put(ProviderType.SHOWS, showProvider);
 
         setCurrentProvider(ProviderType.MOVIES);
+
     }
 
     /**
@@ -35,6 +38,8 @@ public class ProviderManager {
         switch (provider) {
             case MOVIES:
                 return BaseApplication.getInstance().getString(R.string.title_movies);
+            case SHOWS:
+                return BaseApplication.getInstance().getString(R.string.title_shows);
             default:
                 throw new IllegalStateException(provider + " is not a valid provider type");
         }
