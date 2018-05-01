@@ -14,4 +14,18 @@ public class SettingsProvider {
         this.header = header;
         this.subText = subText;
     }
+
+
+    public Boolean getHeader() {
+        return header;
+    }
+
+    public String getHeadtext() {
+        return headtext;
+    }
+
+    public String getSubText() {
+        return subText;
+    }
 }
+

@@ -8,7 +8,6 @@
         android:id="@+id/setting_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:padding="10dp"
         android:text="Standard language"
         android:textStyle="bold" />
@@ -17,7 +16,6 @@
         android:id="@+id/setting_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:padding="10dp"
         android:text="Selected"
         android:textStyle="normal" />
