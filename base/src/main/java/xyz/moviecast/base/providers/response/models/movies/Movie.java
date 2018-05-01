@@ -1,23 +1,17 @@
-package xyz.moviecast.base.providers.models.movies;
+package xyz.moviecast.base.providers.response.models.movies;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import xyz.moviecast.base.providers.models.general.Images;
-import xyz.moviecast.base.providers.models.general.Rating;
+import xyz.moviecast.base.providers.response.models.ResponseItem;
+import xyz.moviecast.base.providers.response.models.general.Torrent;
 
-public class Movie {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Movie extends ResponseItem {
 
-    @JsonProperty("_id")
-    private String id;
-    @JsonProperty("imdb_id")
-    private String imdbId;
-    @JsonProperty("title")
-    private String title;
-    @JsonProperty("year")
-    private String year;
     @JsonProperty("slug")
     private String slug;
     @JsonProperty("synopsis")
@@ -34,12 +28,6 @@ public class Movie {
     private String certification;
     @JsonProperty("torrents")
     private ArrayList<Torrent> torrents;
-    @JsonProperty("rating")
-    private Rating rating;
-    @JsonProperty("images")
-    private Images images = new Images();
-    @JsonProperty("genres")
-    private List<String> genres = new ArrayList<>();
     @JsonProperty("language")
     private String language;
 
@@ -58,30 +46,14 @@ public class Movie {
             }
         }
 
-        xyz.moviecast.base.models.Rating rating = new xyz.moviecast.base.models.Rating(
-                this.rating.getVotes(), this.rating.getWatching(), this.rating.getPercentage());
+        //xyz.moviecast.base.models.Rating rating = new xyz.moviecast.base.models.Rating(
+        //        this.rating.getVotes(), this.rating.getWatching(), this.rating.getPercentage());
 
-        Images images = this.images != null ? this.images : new Images();
+        //Images images = this.images != null ? this.images : new Images();
 
-        return new xyz.moviecast.base.models.Movie(id, title, year, synopsis, duration,
-               country, released, trailer, certification, torrents, rating, images.getPosterImage(),
-               images.getBackgroundImage(), genres);
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getImdbId() {
-        return imdbId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getYear() {
-        return year;
+        return new xyz.moviecast.base.models.Movie(getId(), getTitle(), null, synopsis, duration,
+               country, released, trailer, certification, torrents, null, null,
+               null, null);
     }
 
     public String getSlug() {
@@ -114,18 +86,6 @@ public class Movie {
 
     public ArrayList<Torrent> getTorrents() {
         return torrents;
-    }
-
-    public Rating getRating() {
-        return rating;
-    }
-
-    public Images getImages() {
-        return images;
-    }
-
-    public List<String> getGenres() {
-        return genres;
     }
 
     public String getLanguage() {

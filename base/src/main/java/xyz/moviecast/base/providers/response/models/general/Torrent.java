@@ -1,13 +1,22 @@
-package xyz.moviecast.base.providers.models.movies;
+package xyz.moviecast.base.providers.response.models.general;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Torrent {
 
+    @JsonProperty("hash")
     private String hash;
+    @JsonProperty("seeds")
     private int seeds;
+    @JsonProperty("peers")
     private int peers;
+    @JsonProperty("size")
     private int size;
+    @JsonProperty("quality")
     private String quality;
+    @JsonProperty("fileSize")
     private String fileSize;
+    @JsonProperty("provider")
     private String provider;
 
     public Torrent() {
