@@ -33,11 +33,11 @@ public class SettingsActivity extends AppCompatActivity {
 
         ArrayList<SettingsProvider> settings = new ArrayList<>();
         settings.add(new SettingsProvider("User Interface", true));
-        settings.add(new SettingsProvider("Default Language", "English", false, 0));
-        settings.add(new SettingsProvider("Start Screen", "movies", false, 0));
+        settings.add(new SettingsProvider("Default Language", "English", false, R.drawable.ic_language));
+        settings.add(new SettingsProvider("Start Screen", "movies", false, R.drawable.ic_startscreen));
         settings.add(new SettingsProvider("subtitles",true));
-        settings.add(new SettingsProvider("Default Language", "English", false,0));
-        settings.add(new SettingsProvider("Size", "24px", false,0));
+        settings.add(new SettingsProvider("Default Language", "English", false, R.drawable.ic_subtitles));
+        settings.add(new SettingsProvider("Size", "24px", false, R.drawable.ic_format));
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

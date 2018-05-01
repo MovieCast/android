@@ -1,5 +1,6 @@
 package xyz.moviecast.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,7 @@ public class SettingAdapter extends BaseAdapter {
         return position;
     }
 
+    @SuppressLint("ResourceType")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -63,6 +65,7 @@ public class SettingAdapter extends BaseAdapter {
             ImageView icon = convertView.findViewById(R.id.icon);
             setting.setText((item.get(position).getHeadtext()));
             settingStatus.setText(item.get(position).getSubText());
+            icon.setImageResource(item.get(position).getRescourse());
         }
 
         return convertView;
