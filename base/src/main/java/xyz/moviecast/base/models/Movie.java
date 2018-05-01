@@ -30,6 +30,10 @@ public class Movie extends Media implements Serializable {
     private String certification;
     private List<Torrent> torrents = new ArrayList<>();
 
+    public Movie() {
+
+    }
+
     public Movie(String id, String title, String year, String synopsis, int duration,
                  String country, int released, String trailerUrl, String certification,
                  List<Torrent> torrents, Rating rating, String posterImageUrl,
