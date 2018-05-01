@@ -22,7 +22,7 @@ public abstract class AddTorrentAlertListener implements AlertListener {
     @Override
     public void alert(Alert<?> alert) {
         if(alert.type().equals(AlertType.ADD_TORRENT)) {
-
+            onAddedTorrent((AddTorrentAlert) alert);
         }
     }
 }
