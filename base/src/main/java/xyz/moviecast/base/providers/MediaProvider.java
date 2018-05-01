@@ -7,9 +7,7 @@ import android.util.Log;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +20,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import xyz.moviecast.base.BaseApplication;
 import xyz.moviecast.base.models.Media;
-import xyz.moviecast.base.providers.models.movies.Movie;
 
 public abstract class MediaProvider extends BaseProvider {
 
@@ -97,7 +94,7 @@ public abstract class MediaProvider extends BaseProvider {
 
     //public void provideDetails()
 
-    abstract Map<String, Media> formatList(String response);
+    abstract Map<String, Media> formatList(String response) throws IOException;
 
     public abstract List<Tab> getTabs();
 

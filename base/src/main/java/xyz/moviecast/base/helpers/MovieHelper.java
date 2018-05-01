@@ -16,7 +16,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 import xyz.moviecast.base.models.Movie;
 import xyz.moviecast.base.providers.MovieProvider;
-import xyz.moviecast.base.providers.models.general.Page;
+import xyz.moviecast.base.providers.response.models.general.Page;
 
 public class MovieHelper implements Callback{
 
