@@ -32,19 +32,21 @@ public class SettingsActivity extends AppCompatActivity {
         settingsList  = (ListView) findViewById(R.id.settings);
 
         ArrayList<SettingsProvider> settings = new ArrayList<>();
-        settings.add(new SettingsProvider("User Interface", "", true));
+        settings.add(new SettingsProvider("User Interface", true));
         settings.add(new SettingsProvider("Default Language", "English", false));
         settings.add(new SettingsProvider("Start Screen", "movies", false));
-        settings.add(new SettingsProvider("subtitles", "", true));
+        settings.add(new SettingsProvider("subtitles",true));
         settings.add(new SettingsProvider("Default Language", "English", false));
         settings.add(new SettingsProvider("Size", "24px", false));
-
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         final SettingAdapter adapter = new SettingAdapter(this, settings);
         settingsList.setAdapter(adapter);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.title_settings);
     }
 }
 

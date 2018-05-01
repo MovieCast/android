@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -59,6 +60,7 @@ public class SettingAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.fragment_settings, parent, false);
             TextView setting = convertView.findViewById(R.id.setting_name);
             TextView settingStatus = convertView.findViewById(R.id.setting_status);
+            ImageView icon = convertView.findViewById(R.id.icon);
             setting.setText((item.get(position).getHeadtext()));
             settingStatus.setText(item.get(position).getSubText());
         }
