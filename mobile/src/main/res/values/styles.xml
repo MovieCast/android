@@ -8,12 +8,13 @@
         <item name="android:windowBackground">@color/bg</item>
         <item name="android:textColor">@color/text_color</item>
         <item name="android:shadowColor">@android:color/transparent</item>
+        <item name="android:popupMenuStyle">@style/Theme.MovieCast.PopupMenu</item>
     </style>
 
     <!-- TODO: Find a way to make the status bar transparent in v18 and lower -->
-    <style name="Theme.MovieCast.TransparentStatusBar" parent="Theme.MovieCast" />
+    <style name="Theme.MovieCast.TransparentStatusBar" parent="Widget.AppCompat.PopupMenu" />
 
-    <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
+    <style name="Theme.MovieCast.PopupMenu" parent="Widget.AppCompat.PopupMenu">
         <item name="android:popupBackground">@color/bg</item>
     </style>
 </resources>

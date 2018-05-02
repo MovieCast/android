@@ -8,15 +8,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import xyz.moviecast.R;
-import xyz.moviecast.activities.MainActivity;
 import xyz.moviecast.base.providers.SettingsProvider;
 
 /**
@@ -26,6 +24,7 @@ import xyz.moviecast.base.providers.SettingsProvider;
 public class SettingAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<SettingsProvider> item;
+    private boolean status;
 
     public SettingAdapter(){
         super();
@@ -34,6 +33,7 @@ public class SettingAdapter extends BaseAdapter {
     public SettingAdapter(Context context, ArrayList<SettingsProvider> item){
         this.context = context;
         this.item = item;
+        status = true;
     }
 
     @Override
@@ -61,35 +61,62 @@ public class SettingAdapter extends BaseAdapter {
             TextView header = convertView.findViewById(R.id.divider);
             header.setText((item.get(position).getHeadtext()));
         }
-        else
-        {
-            // if item
-            convertView = inflater.inflate(R.layout.fragment_settings, parent, false);
+        else if(item.get(position).isSlider() ){
+            convertView = inflater.inflate(R.layout.fragment_setting, parent, false);
+
+            //assigning the xml to views
             TextView setting = convertView.findViewById(R.id.setting_name);
             TextView settingStatus = convertView.findViewById(R.id.setting_status);
             ImageView icon = convertView.findViewById(R.id.setting_icon);
+            Switch switchStatus = convertView.findViewById(R.id.switch1);
+
+            //changing the text in the xml files
             setting.setText((item.get(position).getHeadtext()));
-            settingStatus.setText(item.get(position).getSubText());
+            settingStatus.setText(item.get(position).getMode(0));
             icon.setImageResource(item.get(position).getRescourse());
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    PopupMenu popup = new PopupMenu(context, icon);
-                    popup.getMenuInflater().inflate(R.menu.fragment_popup_menu, popup.getMenu());
-                    Toast.makeText(context, setting.getText(), Toast.LENGTH_SHORT).show();
+           //switchStatus.setChecked(true);
 
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        public boolean onMenuItemClick(MenuItem item) {
-                            Toast.makeText(context,"You Clicked : " + item.getTitle(),Toast.LENGTH_SHORT).show();
-                            return true;
-                        }
-                    });
-
-                    popup.show();//showing popup menu
+            convertView.setOnClickListener(view -> {
+                if(status){
+                   // settingStatus.setText(item.get(position).getMode(1));
+                   // switchStatus.setChecked(false);
+                }
+                else {
+                    //settingStatus.setText(item.get(position).getMode(0));
+                   // switchStatus.setChecked(true);
                 }
             });
         }
 
+        else
+        {
+            // if item
+            convertView = inflater.inflate(R.layout.fragment_setting_slider, parent, false);
+
+            //assigning the xml to views
+            TextView setting = convertView.findViewById(R.id.setting_name);
+            TextView settingStatus = convertView.findViewById(R.id.setting_status);
+            ImageView icon = convertView.findViewById(R.id.setting_icon);
+
+            //changing the text in the xml files
+            setting.setText((item.get(position).getHeadtext()));
+            settingStatus.setText(item.get(position).getSubText());
+            icon.setImageResource(item.get(position).getRescourse());
+
+            //the dropdown menu handler
+            convertView.setOnClickListener(view -> {
+                PopupMenu popup = new PopupMenu(context, icon);
+                popup.getMenuInflater().inflate(R.menu.fragment_popup_menu, popup.getMenu());
+                Toast.makeText(context, setting.getText(), Toast.LENGTH_SHORT).show();
+
+                popup.setOnMenuItemClickListener(item -> {
+                    Toast.makeText(context,"You Clicked : " + item.getTitle(),Toast.LENGTH_SHORT).show();
+                    return true;
+                });
+
+                popup.show();//showing popup menu
+            });
+        }
         return convertView;
     }
 }

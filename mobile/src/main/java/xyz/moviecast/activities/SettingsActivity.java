@@ -26,6 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private ListView settingsList;
+    private ArrayList<String> modes = new ArrayList<>();
 
     public static Intent getIntent(Context context) {
         return new Intent(context, SettingsActivity.class);
@@ -34,6 +35,8 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        modes.add("Night Mode");
+        modes.add("Day Mode");
 
         setContentView(R.layout.activity_settings);
         settingsList  = (ListView) findViewById(R.id.settings);
@@ -42,8 +45,9 @@ public class SettingsActivity extends AppCompatActivity {
         ArrayList<SettingsProvider> settings = new ArrayList<>();
         settings.add(new SettingsProvider("User Interface", true));
         settings.add(new SettingsProvider("Default Language", "English", false, R.drawable.ic_language));
-        settings.add(new SettingsProvider("Start Screen", "movies", false, R.drawable.ic_startscreen));
-        settings.add(new SettingsProvider("subtitles",true));
+        settings.add(new SettingsProvider("Night Mode", true, R.drawable.ic_night_mode, modes));
+        settings.add(new SettingsProvider("Start Screen", "Movies", false, R.drawable.ic_startscreen));
+        settings.add(new SettingsProvider("Subtitles",true));
         settings.add(new SettingsProvider("Default Language", "English", false, R.drawable.ic_subtitles));
         settings.add(new SettingsProvider("Size", "24px", false, R.drawable.ic_format));
 
