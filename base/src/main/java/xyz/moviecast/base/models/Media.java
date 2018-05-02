@@ -19,19 +19,10 @@ public abstract class Media implements Parcelable {
     private String posterImageUrl;
     private String backgroundImageUrl;
 
+    private boolean detailLoaded = false;
+
     Media() {
 
-    }
-
-    Media(String id, String title, String year, Rating rating,
-          String posterImageUrl, String backgroundImageUrl, List<String> genres) {
-        this.id = id;
-        this.title = title;
-        this.year = year;
-        //this.rating = rating;
-        this.posterImageUrl = posterImageUrl;
-        this.backgroundImageUrl = backgroundImageUrl;
-        this.genres = genres;
     }
 
     Media(Parcel in) {
@@ -103,6 +94,14 @@ public abstract class Media implements Parcelable {
 
     public void setGenres(List<String> genres) {
         this.genres = genres;
+    }
+
+    public boolean isDetailLoaded() {
+        return detailLoaded;
+    }
+
+    public void setDetailLoaded(boolean flag) {
+        detailLoaded = flag;
     }
 
     public abstract ProviderManager.ProviderType getProviderType();

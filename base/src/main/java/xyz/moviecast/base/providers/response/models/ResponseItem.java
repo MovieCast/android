@@ -2,13 +2,13 @@ package xyz.moviecast.base.providers.response.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import java.util.List;
 
 import xyz.moviecast.base.providers.response.models.general.Images;
 import xyz.moviecast.base.providers.response.models.general.Rating;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class ResponseItem {
     @JsonProperty("_id")
     private String id;

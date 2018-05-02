@@ -1,6 +1,7 @@
 package xyz.moviecast.base.models;
 
 import android.os.Parcel;
+import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class Movie extends Media implements Serializable {
     private String synopsis;
     private int duration;
     private String country;
-    private int released;
+    private long released;
     private String trailerUrl;
     private String certification;
     private List<Torrent> torrents = new ArrayList<>();
@@ -34,26 +35,12 @@ public class Movie extends Media implements Serializable {
 
     }
 
-    public Movie(String id, String title, String year, String synopsis, int duration,
-                 String country, int released, String trailerUrl, String certification,
-                 List<Torrent> torrents, Rating rating, String posterImageUrl,
-                 String backgroundImageUrl, List<String> genres) {
-        super(id, title, year, rating, posterImageUrl, backgroundImageUrl, genres);
-        this.synopsis = synopsis;
-        this.duration = duration;
-        this.country = country;
-        this.released = released;
-        this.trailerUrl = trailerUrl;
-        this.certification = certification;
-        this.torrents = torrents;
-    }
-
     private Movie(Parcel in) {
         super(in);
         synopsis = in.readString();
         duration = in.readInt();
         country = in.readString();
-        released = in.readInt();
+        released = in.readLong();
         trailerUrl = in.readString();
         certification = in.readString();
 
@@ -70,7 +57,7 @@ public class Movie extends Media implements Serializable {
         dest.writeString(synopsis);
         dest.writeInt(duration);
         dest.writeString(country);
-        dest.writeInt(released);
+        dest.writeLong(released);
         dest.writeString(trailerUrl);
         dest.writeString(certification);
 
@@ -109,11 +96,11 @@ public class Movie extends Media implements Serializable {
         this.country = country;
     }
 
-    public int getReleased() {
+    public long getReleased() {
         return released;
     }
 
-    public void setReleased(int released) {
+    public void setReleased(long released) {
         this.released = released;
     }
 

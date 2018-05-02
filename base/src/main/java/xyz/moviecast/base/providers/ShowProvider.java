@@ -15,7 +15,7 @@ import xyz.moviecast.base.providers.response.ShowListResponse;
 
 public class ShowProvider extends MediaProvider {
     ShowProvider(OkHttpClient client, ObjectMapper mapper) {
-        super(client, mapper, "http://staging.content.moviecast.xyz", "/shows/", "/detail/");
+        super(client, mapper, "http://staging.content.moviecast.xyz", "shows", "detail");
     }
 
     @Override
@@ -28,6 +28,12 @@ public class ShowProvider extends MediaProvider {
         }
 
         return formattedItems;
+    }
+
+    @Override
+    Media formatDetail(String response, Media existingItem) throws IOException {
+        // TODO: Write ShowDetailResponse
+        return existingItem;
     }
 
     @Override
