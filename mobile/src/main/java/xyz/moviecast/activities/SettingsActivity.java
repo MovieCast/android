@@ -6,12 +6,20 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import xyz.moviecast.R;
+import xyz.moviecast.adapters.MediaGridAdapter;
 import xyz.moviecast.adapters.SettingAdapter;
+import xyz.moviecast.base.models.Media;
 import xyz.moviecast.base.providers.SettingsProvider;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -28,8 +36,8 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_settings);
-
         settingsList  = (ListView) findViewById(R.id.settings);
+
 
         ArrayList<SettingsProvider> settings = new ArrayList<>();
         settings.add(new SettingsProvider("User Interface", true));
@@ -38,6 +46,8 @@ public class SettingsActivity extends AppCompatActivity {
         settings.add(new SettingsProvider("subtitles",true));
         settings.add(new SettingsProvider("Default Language", "English", false, R.drawable.ic_subtitles));
         settings.add(new SettingsProvider("Size", "24px", false, R.drawable.ic_format));
+
+
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -49,5 +59,3 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.title_settings);
     }
 }
-
-

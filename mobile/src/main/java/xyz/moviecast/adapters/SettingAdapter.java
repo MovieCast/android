@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -62,10 +63,16 @@ public class SettingAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.fragment_settings, parent, false);
             TextView setting = convertView.findViewById(R.id.setting_name);
             TextView settingStatus = convertView.findViewById(R.id.setting_status);
-            ImageView icon = convertView.findViewById(R.id.icon);
+            ImageView icon = convertView.findViewById(R.id.setting_icon);
             setting.setText((item.get(position).getHeadtext()));
             settingStatus.setText(item.get(position).getSubText());
             icon.setImageResource(item.get(position).getRescourse());
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context, setting.getText(), Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         return convertView;
