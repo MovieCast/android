@@ -1,6 +1,7 @@
 package xyz.moviecast.base.models;
 
 import android.os.Parcel;
+import android.util.Log;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class Movie extends Media implements Serializable {
     private List<Torrent> torrents = new ArrayList<>();
 
     public Movie() {
-
+        Log.d("MOVIE_MODEL", "Using Movie Model");
     }
 
     public Movie(String id, String title, String year, String synopsis, int duration,

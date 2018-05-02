@@ -11,6 +11,8 @@ import java.util.Map;
 import okhttp3.OkHttpClient;
 import xyz.moviecast.base.R;
 import xyz.moviecast.base.models.Media;
+import xyz.moviecast.base.models.Movie;
+import xyz.moviecast.base.providers.response.MovieDetailResponse;
 import xyz.moviecast.base.providers.response.MovieListResponse;
 
 public class MovieProvider extends MediaProvider {
@@ -49,5 +51,12 @@ public class MovieProvider extends MediaProvider {
         }
 
         return formattedItems;
+    }
+
+    @Override
+    Media formatDetail(String response, Media existingItem) throws IOException {
+        MovieDetailResponse detailResponse = mapper.readValue(response, MovieDetailResponse.class);
+
+        return detailResponse.getFormattedItem((Movie) existingItem);
     }
 }

@@ -1,5 +1,7 @@
 package xyz.moviecast.base.providers.response;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,8 @@ public class MovieListResponse extends ListResponse<Movie> {
                 movie.setPosterImageUrl(item.getImages().getPosterImage());
                 movie.setBackgroundImageUrl(item.getImages().getBackgroundImage());
             }
+
+            Log.d("MOVIE_RESPONSE", item.getDuration() + "");
 
             // Movie specific
             movie.setSynopsis(item.getSynopsis());

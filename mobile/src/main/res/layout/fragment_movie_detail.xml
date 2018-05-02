@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragments.MovieDetailFragment">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="21sp"
+        tools:text="Deadpool" />
+
+    <RatingBar
+        android:id="@+id/rating"
+
+        style="@style/Theme.MovieCast.RatingBar"
+        android:layout_width="80dp"
+        android:layout_height="16dp"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="16dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:isIndicator="true"
+        android:max="10"
+        android:progress="5" />
+    
+    <TextView
+        android:id="@+id/meta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rating"
+        android:layout_marginTop="8dp"
+        android:textSize="14sp"
+        tools:text="2016 - 108 min - Action"/>
+
+    <TextView
+        android:id="@+id/synopsis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/meta"
+        android:layout_marginTop="24dp"
+        android:maxLines="5"
+        android:ellipsize="end"
+        android:textSize="15sp"
+        tools:text="Lorem ipsum" />
+
+</RelativeLayout>

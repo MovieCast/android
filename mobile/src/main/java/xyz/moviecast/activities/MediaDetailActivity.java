@@ -2,6 +2,7 @@ package xyz.moviecast.activities;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +14,8 @@ import com.squareup.picasso.Picasso;
 
 import xyz.moviecast.R;
 import xyz.moviecast.base.models.Media;
+import xyz.moviecast.base.models.Movie;
+import xyz.moviecast.fragments.MovieDetailFragment;
 
 public class MediaDetailActivity extends AppCompatActivity {
 
@@ -45,5 +48,10 @@ public class MediaDetailActivity extends AppCompatActivity {
         // TODO: Move picasso to NetModule
 
         Picasso.get().load(media.getPosterImageUrl()).into(poster);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if(media instanceof Movie) {
+            fragmentManager.beginTransaction().replace(R.id.content, MovieDetailFragment.newInstance((Movie) media)).commit();
+        }
     }
 }

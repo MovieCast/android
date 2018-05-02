@@ -92,9 +92,34 @@ public abstract class MediaProvider extends BaseProvider {
         });
     }
 
-    //public void provideDetails()
+    public void provideDetails(final String id) {
+        if(itemCache.containsKey(id)) {
+            Request.Builder requestBuilder = new Request.Builder().url(baseUrl+listPath+detailPath);
+
+            enqueue(requestBuilder.build(), new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String rawResponse = response.body().string();
+
+                    if(rawResponse.equals("")) {
+                        //callback.onFailure(new NetworkErrorException("API gave an empty response"));
+                        return;
+                    }
+
+                    itemCache.put(id, formatDetail(rawResponse, itemCache.get(id)));
+                }
+            });
+        }
+    }
 
     abstract Map<String, Media> formatList(String response) throws IOException;
+
+    abstract Media formatDetail(String response, Media existingItem) throws IOException;
 
     public abstract List<Tab> getTabs();
 

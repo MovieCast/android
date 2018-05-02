@@ -1,5 +1,7 @@
 package xyz.moviecast.base.providers.response.models.movies;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -32,7 +34,7 @@ public class Movie extends ResponseItem {
     private String language;
 
     public Movie() {
-
+        Log.d("Movie", "Using Movie Response Model");
     }
 
     public xyz.moviecast.base.models.Movie toApplicationMovie(){
