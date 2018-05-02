@@ -7,12 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import xyz.moviecast.R;
+import xyz.moviecast.activities.MainActivity;
 import xyz.moviecast.base.providers.SettingsProvider;
 
 /**
@@ -70,7 +74,18 @@ public class SettingAdapter extends BaseAdapter {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    PopupMenu popup = new PopupMenu(context, icon);
+                    popup.getMenuInflater().inflate(R.menu.fragment_popup_menu, popup.getMenu());
                     Toast.makeText(context, setting.getText(), Toast.LENGTH_SHORT).show();
+
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        public boolean onMenuItemClick(MenuItem item) {
+                            Toast.makeText(context,"You Clicked : " + item.getTitle(),Toast.LENGTH_SHORT).show();
+                            return true;
+                        }
+                    });
+
+                    popup.show();//showing popup menu
                 }
             });
         }
