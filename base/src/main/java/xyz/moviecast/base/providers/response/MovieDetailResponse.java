@@ -1,5 +1,7 @@
 package xyz.moviecast.base.providers.response;
 
+import android.util.Log;
+
 import xyz.moviecast.base.models.Media;
 import xyz.moviecast.base.providers.response.models.DetailResponse;
 import xyz.moviecast.base.providers.response.models.general.Torrent;
@@ -8,6 +10,13 @@ import xyz.moviecast.base.providers.response.models.movies.Movie;
 public class MovieDetailResponse extends Movie implements DetailResponse<xyz.moviecast.base.models.Movie> {
     @Override
     public Media getFormattedItem(xyz.moviecast.base.models.Movie existingMovie) {
+
+        // TODO: Find out why existingItem is sometimes null
+        if(existingMovie == null) {
+            Log.w("MOVIE_DETAIL", "Bug #1: existingMovie == null!! Applying tempfix to prevent crash");
+            existingMovie = new xyz.moviecast.base.models.Movie();
+        }
+
         // ResponseItem
         existingMovie.setId(getId());
         existingMovie.setTitle(getTitle());

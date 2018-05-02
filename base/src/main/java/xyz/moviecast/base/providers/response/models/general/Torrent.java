@@ -11,7 +11,7 @@ public class Torrent {
     @JsonProperty("peers")
     private int peers;
     @JsonProperty("size")
-    private int size;
+    private long size;
     @JsonProperty("quality")
     private String quality;
     @JsonProperty("fileSize")
@@ -34,7 +34,7 @@ public class Torrent {
         return peers;
     }
 
-    public int getSize() {
+    public long getSize() {
         return size;
     }
 

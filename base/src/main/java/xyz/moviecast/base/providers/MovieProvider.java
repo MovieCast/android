@@ -1,5 +1,7 @@
 package xyz.moviecast.base.providers;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -18,7 +20,7 @@ import xyz.moviecast.base.providers.response.MovieListResponse;
 public class MovieProvider extends MediaProvider {
 
     MovieProvider(OkHttpClient client, ObjectMapper mapper) {
-        super(client, mapper, "http://staging.content.moviecast.xyz", "/movies/", "/detail/");
+        super(client, mapper, "http://staging.content.moviecast.xyz", "movies", "detail");
     }
 
     @Override
@@ -56,7 +58,6 @@ public class MovieProvider extends MediaProvider {
     @Override
     Media formatDetail(String response, Media existingItem) throws IOException {
         MovieDetailResponse detailResponse = mapper.readValue(response, MovieDetailResponse.class);
-
         return detailResponse.getFormattedItem((Movie) existingItem);
     }
 }

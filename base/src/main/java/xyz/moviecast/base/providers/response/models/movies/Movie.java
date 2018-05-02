@@ -23,7 +23,7 @@ public class Movie extends ResponseItem {
     @JsonProperty("country")
     private String country;
     @JsonProperty("released")
-    private int released;
+    private long released;
     @JsonProperty("trailer")
     private String trailer;
     @JsonProperty("certification")
@@ -35,27 +35,6 @@ public class Movie extends ResponseItem {
 
     public Movie() {
         Log.d("Movie", "Using Movie Response Model");
-    }
-
-    public xyz.moviecast.base.models.Movie toApplicationMovie(){
-
-        List<xyz.moviecast.base.models.Torrent> torrents = new ArrayList<>();
-        if(this.torrents != null) {
-            for (int i = 0; i < this.torrents.size(); i++) {
-                Torrent torrent = this.torrents.get(i);
-                torrents.add(new xyz.moviecast.base.models.Torrent(torrent.getQuality(), torrent.getHash(),
-                        torrent.getSeeds(), torrent.getPeers(), torrent.getSize()));
-            }
-        }
-
-        //xyz.moviecast.base.models.Rating rating = new xyz.moviecast.base.models.Rating(
-        //        this.rating.getVotes(), this.rating.getWatching(), this.rating.getPercentage());
-
-        //Images images = this.images != null ? this.images : new Images();
-
-        return new xyz.moviecast.base.models.Movie(getId(), getTitle(), null, synopsis, duration,
-               country, released, trailer, certification, torrents, null, null,
-               null, null);
     }
 
     public String getSlug() {
@@ -74,7 +53,7 @@ public class Movie extends ResponseItem {
         return country;
     }
 
-    public int getReleased() {
+    public long getReleased() {
         return released;
     }
 

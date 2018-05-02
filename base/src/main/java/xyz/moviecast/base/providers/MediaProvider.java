@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -49,12 +50,15 @@ public abstract class MediaProvider extends BaseProvider {
         return itemCache.get(id);
     }
 
-    public void providePage(final MediaCallback callback) {
+    public void providePage(final MediaListCallback callback) {
         providePage(new Filters(), callback);
     }
 
-    public void providePage(final Filters filters, final MediaCallback callback) {
-        HttpUrl.Builder httpBuilder = HttpUrl.parse(baseUrl+listPath+filters.getPage()).newBuilder();
+    public void providePage(final Filters filters, final MediaListCallback callback) {
+        HttpUrl.Builder httpBuilder = HttpUrl.parse(baseUrl).newBuilder();
+
+        httpBuilder.addPathSegment(listPath);
+        httpBuilder.addPathSegment(String.valueOf(filters.getPage()));
 
         for(Map.Entry<String, String> param : filters.getQueryParams()) {
             httpBuilder.addQueryParameter(param.getKey(), param.getValue());
@@ -84,7 +88,9 @@ public abstract class MediaProvider extends BaseProvider {
 
                     // Cache items
                     itemCache.putAll(formattedItems);
-                    callback.onSuccess(filters, formattedItems.keySet());
+
+                    // Send list with item id's
+                    callback.onSuccess(filters, new LinkedHashSet<>(formattedItems.values()));
                     return;
                 }
                 callback.onFailure(new NetworkErrorException("Unknown API error occurred"));
@@ -92,29 +98,48 @@ public abstract class MediaProvider extends BaseProvider {
         });
     }
 
-    public void provideDetails(final String id) {
-        if(itemCache.containsKey(id)) {
-            Request.Builder requestBuilder = new Request.Builder().url(baseUrl+listPath+detailPath);
+    public void provideDetails(final String id, final MediaDetailCallback callback) {
+        if(itemCache.containsKey(id) && itemCache.get(id).isDetailLoaded()) {
+            callback.onSuccess(itemCache.get(id));
+            return;
+        }
 
-            enqueue(requestBuilder.build(), new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
+        HttpUrl.Builder httpBuilder = HttpUrl.parse(baseUrl).newBuilder();
+        httpBuilder.addPathSegment(listPath);
+        httpBuilder.addPathSegment(detailPath);
+        httpBuilder.addPathSegment(id);
 
-                }
+        Log.d(TAG, "Making request to url: " + httpBuilder.build().toString());
+        Request.Builder requestBuilder = new Request.Builder().url(httpBuilder.build());
 
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
+        enqueue(requestBuilder.build(), new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()) {
                     String rawResponse = response.body().string();
 
-                    if(rawResponse.equals("")) {
-                        //callback.onFailure(new NetworkErrorException("API gave an empty response"));
+                    if (rawResponse.equals("")) {
+                        callback.onFailure(new NetworkErrorException("API gave an empty response"));
                         return;
                     }
 
-                    itemCache.put(id, formatDetail(rawResponse, itemCache.get(id)));
+                    Media formattedItem = formatDetail(rawResponse, itemCache.get(id));
+                    formattedItem.setDetailLoaded(true);
+
+                    // TODO: Check whether this is needed...
+                    itemCache.put(id, formattedItem);
+
+                    callback.onSuccess(formattedItem);
+                    return;
                 }
-            });
-        }
+                callback.onFailure(new NetworkErrorException("Unknown API error occurred"));
+            }
+        });
     }
 
     abstract Map<String, Media> formatList(String response) throws IOException;
@@ -123,12 +148,13 @@ public abstract class MediaProvider extends BaseProvider {
 
     public abstract List<Tab> getTabs();
 
-    //public abstract Call getTotalAmountOfMedia(Callback callback);
-    //public abstract Call providePage(int page, String sorting, Callback callback);
-    //public abstract T provideDetails(T object);
+    public interface MediaListCallback {
+        void onSuccess(Filters filters, Set<Media> result);
+        void onFailure(Exception e);
+    }
 
-    public interface MediaCallback {
-        void onSuccess(Filters filters, Set<String> result);
+    public interface MediaDetailCallback {
+        void onSuccess(Media result);
         void onFailure(Exception e);
     }
 

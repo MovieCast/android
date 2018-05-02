@@ -37,21 +37,20 @@ public class MediaDetailActivity extends AppCompatActivity {
 
         media = (Media) getIntent().getSerializableExtra(MEDIA_OBJECT);
 
-        Log.d("MEDIA_DETAIL", media.toString());
-
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(media.getTitle());
 
+        if(media != null) {
+            getSupportActionBar().setTitle(media.getTitle());
 
-        // TODO: Move picasso to NetModule
+            // TODO: Move picasso to NetModule
+            Picasso.get().load(media.getPosterImageUrl()).into(poster);
 
-        Picasso.get().load(media.getPosterImageUrl()).into(poster);
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        if(media instanceof Movie) {
-            fragmentManager.beginTransaction().replace(R.id.content, MovieDetailFragment.newInstance((Movie) media)).commit();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            if (media instanceof Movie) {
+                fragmentManager.beginTransaction().replace(R.id.content, MovieDetailFragment.newInstance((Movie) media)).commit();
+            }
         }
     }
 }

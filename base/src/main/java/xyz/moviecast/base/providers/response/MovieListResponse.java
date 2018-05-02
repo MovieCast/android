@@ -28,23 +28,8 @@ public class MovieListResponse extends ListResponse<Movie> {
                 movie.setPosterImageUrl(item.getImages().getPosterImage());
                 movie.setBackgroundImageUrl(item.getImages().getBackgroundImage());
             }
-
-            Log.d("MOVIE_RESPONSE", item.getDuration() + "");
-
-            // Movie specific
-            movie.setSynopsis(item.getSynopsis());
-            movie.setDuration(item.getDuration());
-            movie.setCountry(item.getCountry());
+            
             movie.setReleased(item.getReleased());
-            movie.setTrailerUrl(item.getTrailer());
-            movie.setCertification(item.getCertification());
-
-            if(item.getTorrents() != null) {
-                for(Torrent torrent : item.getTorrents()) {
-                    movie.getTorrents().add(new xyz.moviecast.base.models.Torrent(torrent.getQuality(), torrent.getHash(),
-                            torrent.getSeeds(), torrent.getPeers(), torrent.getSize()));
-                }
-            }
 
             items.add(movie);
         }

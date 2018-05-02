@@ -41,20 +41,17 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private int itemHeight;
     private int columns;
 
-    private final MediaProvider provider;
-    private final List<String> result = new ArrayList<>();
+    private final List<Media> result = new ArrayList<>();
 
     private OnItemClickListener itemClickListener;
 
     /**
      *
      * @param context
-     * @param provider
      * @param columns
      */
-    public MediaGridAdapter(Context context, MediaProvider provider, int columns) {
+    public MediaGridAdapter(Context context, int columns) {
         this.columns = columns;
-        this.provider = provider;
 
         // Sorry little bit dirty atm...
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -109,10 +106,10 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             return null;
         }
 
-        return provider.getMediaById(result.get(position));
+        return result.get(position);
     }
 
-    public void setResult(Set<String> newResult) {
+    public void setResult(Set<Media> newResult) {
         result.clear();
         result.addAll(newResult);
         notifyDataSetChanged();

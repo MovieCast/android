@@ -102,7 +102,8 @@ public class MovieHelper implements Callback{
                 HelperResult<Integer> result = new HelperResult<>(page.getTotalResults());
                 callback.onResponse(id, result);
             }else if (position >= 0) {
-                Movie movie = page.getMovies().get(position % 50).toApplicationMovie();
+                //Movie movie = page.getMovies().get(position % 50).toApplicationMovie();
+                Movie movie = null;
 
                 ArrayList<String> movies = moviesIdMap.get(sorting);
                 while(movies.size() < position + 1)
