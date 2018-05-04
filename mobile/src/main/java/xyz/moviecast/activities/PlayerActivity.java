@@ -9,6 +9,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import xyz.moviecast.R;
+import xyz.moviecast.views.PlayerView;
 
 public class PlayerActivity extends AppCompatActivity {
 
@@ -21,12 +22,12 @@ public class PlayerActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_player);
-        setSupportActionBar(null);
-        videoView = findViewById(R.id.videoView);
-        videoView.setVideoPath("http://vjs.zencdn.net/v/oceans.mp4");
-        videoView.setOnClickListener((e) -> click());
-        Toast.makeText(this, "The player can pause: " + videoView.canPause(), Toast.LENGTH_LONG).show();
+        setContentView(new PlayerView(this));
+//        setSupportActionBar(null);
+//        videoView = findViewById(R.id.videoView);
+//        videoView.setVideoPath("http://vjs.zencdn.net/v/oceans.mp4");
+//        videoView.setOnClickListener((e) -> click());
+//        Toast.makeText(this, "The player can pause: " + videoView.canPause(), Toast.LENGTH_LONG).show();
     }
 
     public void click(){
