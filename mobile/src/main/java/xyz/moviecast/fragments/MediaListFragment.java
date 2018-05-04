@@ -15,9 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -54,16 +52,16 @@ public class MediaListFragment extends Fragment {
     private MediaProvider.Filters filters = new MediaProvider.Filters();
     private ArrayList<Media> items = new ArrayList<>();
 
-    private Set<String> itemResult = new LinkedHashSet<>();
+    private Set<Media> itemResult = new LinkedHashSet<>();
 
     private RecyclerView recyclerView;
 
     private GridLayoutManager layoutManager;
     private MediaGridAdapter mediaAdapter;
 
-    private MediaProvider.MediaCallback pageCallback = new MediaProvider.MediaCallback() {
+    private MediaProvider.MediaListCallback pageCallback = new MediaProvider.MediaListCallback() {
         @Override
-        public void onSuccess(MediaProvider.Filters filters, Set<String> result) {
+        public void onSuccess(MediaProvider.Filters filters, Set<Media> result) {
             if(result.size() != 0) {
                 itemResult.addAll(result);
                 Log.d("MEDIA_LIST", "Successfully loaded " + result.size() + " new items, we have a total of " + itemResult.size() + " media items");
@@ -139,15 +137,26 @@ public class MediaListFragment extends Fragment {
             }
         });
 
-        mediaAdapter = new MediaGridAdapter(getActivity(), providerManager.getCurrentProvider(), 2);
+        mediaAdapter = new MediaGridAdapter(getActivity(), 2);
         mediaAdapter.setOnItemClickListener((v, media) -> {
             Log.d("MEDIA_LIST", "Clicked on media item " + media.getId() + " with title '" + media.getTitle() + "'");
             Toast.makeText(getContext(), "Clicked on media item " + media.getId(), Toast.LENGTH_LONG).show();
 
-            Intent detailIntent = new Intent(applicationContext, MediaDetailActivity.class);
-            detailIntent.putExtra(MediaDetailActivity.MEDIA_OBJECT, media);
+            providerManager.getCurrentProvider().provideDetails(media.getId(), new MediaProvider.MediaDetailCallback() {
+                @Override
+                public void onSuccess(Media result) {
+                    Intent detailIntent = new Intent(applicationContext, MediaDetailActivity.class);
+                    detailIntent.putExtra(MediaDetailActivity.MEDIA_OBJECT, result);
 
-            startActivity(detailIntent);
+                    startActivity(detailIntent);
+                }
+
+                @Override
+                public void onFailure(Exception e) {
+                    e.printStackTrace();
+                    ThreadUtils.runOnUiThread(() -> Toast.makeText(getContext(), "Failed to load information", Toast.LENGTH_LONG).show());
+                }
+            });
         });
         recyclerView.setAdapter(mediaAdapter);
     }

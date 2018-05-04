@@ -16,4 +16,10 @@ public class ProviderModule {
     MovieProvider provideMovieProvider(OkHttpClient client, ObjectMapper mapper) {
         return new MovieProvider(client, mapper);
     }
+
+    @Provides
+    @Singleton
+    ShowProvider provideShowProvider(OkHttpClient client, ObjectMapper mapper) {
+        return new ShowProvider(client, mapper);
+    }
 }

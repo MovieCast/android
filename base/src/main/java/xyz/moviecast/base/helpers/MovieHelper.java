@@ -16,7 +16,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 import xyz.moviecast.base.models.Movie;
 import xyz.moviecast.base.providers.MovieProvider;
-import xyz.moviecast.base.providers.models.general.Page;
+import xyz.moviecast.base.providers.response.models.general.Page;
 
 public class MovieHelper implements Callback{
 
@@ -102,7 +102,8 @@ public class MovieHelper implements Callback{
                 HelperResult<Integer> result = new HelperResult<>(page.getTotalResults());
                 callback.onResponse(id, result);
             }else if (position >= 0) {
-                Movie movie = page.getMovies().get(position % 50).toApplicationMovie();
+                //Movie movie = page.getMovies().get(position % 50).toApplicationMovie();
+                Movie movie = null;
 
                 ArrayList<String> movies = moviesIdMap.get(sorting);
                 while(movies.size() < position + 1)

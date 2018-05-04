@@ -21,9 +21,9 @@ public class Torrent implements Parcelable {
     private String hash;
     private int seeds;
     private int peers;
-    private int size;
+    private long size;
 
-    public Torrent(String resolution, String hash, int seeds, int peers, int size) {
+    public Torrent(String resolution, String hash, int seeds, int peers, long size) {
         this.resolution = resolution;
         this.hash = hash;
         this.seeds = seeds;
@@ -36,7 +36,7 @@ public class Torrent implements Parcelable {
         hash = in.readString();
         seeds = in.readInt();
         peers = in.readInt();
-        size = in.readInt();
+        size = in.readLong();
     }
 
     @Override
@@ -50,7 +50,7 @@ public class Torrent implements Parcelable {
         dest.writeString(hash);
         dest.writeInt(seeds);
         dest.writeInt(peers);
-        dest.writeInt(size);
+        dest.writeLong(size);
     }
 
     public String getResolution() {
@@ -85,11 +85,11 @@ public class Torrent implements Parcelable {
         this.peers = peers;
     }
 
-    public int getSize() {
+    public long getSize() {
         return size;
     }
 
-    public void setSize(int size) {
+    public void setSize(long size) {
         this.size = size;
     }
 }

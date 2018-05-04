@@ -7,9 +7,8 @@ import android.util.Log;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +21,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import xyz.moviecast.base.BaseApplication;
 import xyz.moviecast.base.models.Media;
-import xyz.moviecast.base.providers.models.movies.Movie;
 
 public abstract class MediaProvider extends BaseProvider {
 
@@ -52,12 +50,15 @@ public abstract class MediaProvider extends BaseProvider {
         return itemCache.get(id);
     }
 
-    public void providePage(final MediaCallback callback) {
+    public void providePage(final MediaListCallback callback) {
         providePage(new Filters(), callback);
     }
 
-    public void providePage(final Filters filters, final MediaCallback callback) {
-        HttpUrl.Builder httpBuilder = HttpUrl.parse(baseUrl+listPath+filters.getPage()).newBuilder();
+    public void providePage(final Filters filters, final MediaListCallback callback) {
+        HttpUrl.Builder httpBuilder = HttpUrl.parse(baseUrl).newBuilder();
+
+        httpBuilder.addPathSegment(listPath);
+        httpBuilder.addPathSegment(String.valueOf(filters.getPage()));
 
         for(Map.Entry<String, String> param : filters.getQueryParams()) {
             httpBuilder.addQueryParameter(param.getKey(), param.getValue());
@@ -87,7 +88,9 @@ public abstract class MediaProvider extends BaseProvider {
 
                     // Cache items
                     itemCache.putAll(formattedItems);
-                    callback.onSuccess(filters, formattedItems.keySet());
+
+                    // Send list with item id's
+                    callback.onSuccess(filters, new LinkedHashSet<>(formattedItems.values()));
                     return;
                 }
                 callback.onFailure(new NetworkErrorException("Unknown API error occurred"));
@@ -95,18 +98,63 @@ public abstract class MediaProvider extends BaseProvider {
         });
     }
 
-    //public void provideDetails()
+    public void provideDetails(final String id, final MediaDetailCallback callback) {
+        if(itemCache.containsKey(id) && itemCache.get(id).isDetailLoaded()) {
+            callback.onSuccess(itemCache.get(id));
+            return;
+        }
 
-    abstract Map<String, Media> formatList(String response);
+        HttpUrl.Builder httpBuilder = HttpUrl.parse(baseUrl).newBuilder();
+        httpBuilder.addPathSegment(listPath);
+        httpBuilder.addPathSegment(detailPath);
+        httpBuilder.addPathSegment(id);
+
+        Log.d(TAG, "Making request to url: " + httpBuilder.build().toString());
+        Request.Builder requestBuilder = new Request.Builder().url(httpBuilder.build());
+
+        enqueue(requestBuilder.build(), new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                callback.onFailure(e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if(response.isSuccessful()) {
+                    String rawResponse = response.body().string();
+
+                    if (rawResponse.equals("")) {
+                        callback.onFailure(new NetworkErrorException("API gave an empty response"));
+                        return;
+                    }
+
+                    Media formattedItem = formatDetail(rawResponse, itemCache.get(id));
+                    formattedItem.setDetailLoaded(true);
+
+                    // TODO: Check whether this is needed...
+                    itemCache.put(id, formattedItem);
+
+                    callback.onSuccess(formattedItem);
+                    return;
+                }
+                callback.onFailure(new NetworkErrorException("Unknown API error occurred"));
+            }
+        });
+    }
+
+    abstract Map<String, Media> formatList(String response) throws IOException;
+
+    abstract Media formatDetail(String response, Media existingItem) throws IOException;
 
     public abstract List<Tab> getTabs();
 
-    //public abstract Call getTotalAmountOfMedia(Callback callback);
-    //public abstract Call providePage(int page, String sorting, Callback callback);
-    //public abstract T provideDetails(T object);
+    public interface MediaListCallback {
+        void onSuccess(Filters filters, Set<Media> result);
+        void onFailure(Exception e);
+    }
 
-    public interface MediaCallback {
-        void onSuccess(Filters filters, Set<String> result);
+    public interface MediaDetailCallback {
+        void onSuccess(Media result);
         void onFailure(Exception e);
     }
 
