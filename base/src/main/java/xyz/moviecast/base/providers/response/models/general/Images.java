@@ -1,4 +1,4 @@
-package xyz.moviecast.base.providers.models.general;
+package xyz.moviecast.base.providers.response.models.general;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
