@@ -5,19 +5,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-
 import xyz.moviecast.R;
 import xyz.moviecast.adapters.MediaGridAdapter;
-import xyz.moviecast.adapters.RecyclerViewAdapter;
 import xyz.moviecast.base.Constants;
-import xyz.moviecast.base.helpers.MovieHelper;
-import xyz.moviecast.base.providers.models.movies.Movie;
 
 public class MediaCatalogFragment extends Fragment{
 
@@ -40,7 +34,7 @@ public class MediaCatalogFragment extends Fragment{
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
         //recyclerView.setAdapter(new RecyclerViewAdapter(type, sorting, getContext()));
-        recyclerView.setAdapter(new MediaGridAdapter(getContext(), new ArrayList<>(), 2));
+        recyclerView.setAdapter(new MediaGridAdapter(getContext(), 2));
 
         return view;
     }

@@ -1,0 +1,14 @@
+<resources>
+    <!-- General -->
+    <string name="title_movies">Films</string>
+    <string name="title_settings">Paramètres</string>
+
+    <!-- Tabs -->
+    <string name="trending">Tendances</string>
+    <string name="popular">Populaire</string>
+    <string name="rating">Mieux Notés</string>
+    <string name="released">Date de Sortie</string>
+    <string name="year">Année</string>
+    <string name="alphabet">A - Z</string>
+
+</resources>

@@ -1,43 +1,75 @@
 package xyz.moviecast.base.models;
 
+import android.os.Parcel;
+import android.util.Log;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import xyz.moviecast.base.managers.ProviderManager;
 
-public class Movie extends Media {
+public class Movie extends Media implements Serializable {
 
-    private String slug;
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel source) {
+            return new Movie(source);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
+
     private String synopsis;
     private int duration;
     private String country;
-    private int released;
+    private long released;
     private String trailerUrl;
     private String certification;
-    private List<Torrent> torrents;
-    private List<String> genres;
+    private List<Torrent> torrents = new ArrayList<>();
 
-    public Movie(String id, String title, String year, String slug, String synopsis, int duration,
-                 String country, int released, String trailerUrl, String certification,
-                 List<Torrent> torrents, Rating rating, String posterImageUrl,
-                 String backgroundImageUrl, List<String> genres) {
-        super(id, title, year, rating, posterImageUrl, backgroundImageUrl);
-        this.slug = slug;
-        this.synopsis = synopsis;
-        this.duration = duration;
-        this.country = country;
-        this.released = released;
-        this.trailerUrl = trailerUrl;
-        this.certification = certification;
-        this.torrents = torrents;
-        this.genres = genres;
+    public Movie() {
+
     }
 
-    public String getSlug() {
-        return slug;
+    private Movie(Parcel in) {
+        super(in);
+        synopsis = in.readString();
+        duration = in.readInt();
+        country = in.readString();
+        released = in.readLong();
+        trailerUrl = in.readString();
+        certification = in.readString();
+
+        int torrentSize = in.readInt();
+        for(int i = 0; i < torrentSize; i++) {
+            Torrent torrent = in.readParcelable(Torrent.class.getClassLoader());
+            torrents.add(torrent);
+        }
     }
 
-    public void setSlug(String slug) {
-        this.slug = slug;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(synopsis);
+        dest.writeInt(duration);
+        dest.writeString(country);
+        dest.writeLong(released);
+        dest.writeString(trailerUrl);
+        dest.writeString(certification);
+
+        dest.writeInt(torrents.size());
+        for(Torrent torrent : torrents) {
+            dest.writeParcelable(torrent, flags);
+        }
+    }
+
+    @Override
+    public ProviderManager.ProviderType getProviderType() {
+        return ProviderManager.ProviderType.MOVIES;
     }
 
     public String getSynopsis() {
@@ -64,11 +96,11 @@ public class Movie extends Media {
         this.country = country;
     }
 
-    public int getReleased() {
+    public long getReleased() {
         return released;
     }
 
-    public void setReleased(int released) {
+    public void setReleased(long released) {
         this.released = released;
     }
 
@@ -94,18 +126,5 @@ public class Movie extends Media {
 
     public void setTorrents(List<Torrent> torrents) {
         this.torrents = torrents;
-    }
-
-    public List<String> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<String> genres) {
-        this.genres = genres;
-    }
-
-    @Override
-    public ProviderManager.ProviderType getProviderType() {
-        return ProviderManager.ProviderType.MOVIES;
     }
 }

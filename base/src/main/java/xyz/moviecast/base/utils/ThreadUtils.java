@@ -3,16 +3,18 @@ package xyz.moviecast.base.utils;
 import android.os.Handler;
 import android.os.Looper;
 
-public class ThreadUtils {
+public final class ThreadUtils {
 
     /**
      * Execute the given {@link Runnable} on the ui thread.
-     *
-     * @param runnable The runnable to execute.
+     * @param runnable The runnable to execute
      */
     public static void runOnUiThread(Runnable runnable) {
-        Thread uiThread = Looper.getMainLooper().getThread();
-        if (Thread.currentThread() != uiThread) new Handler(Looper.getMainLooper()).post(runnable);
-        else runnable.run();
+        Looper uiLooper = Looper.getMainLooper();
+        if (Thread.currentThread() != uiLooper.getThread()) {
+            new Handler(uiLooper).post(runnable);
+        } else {
+            runnable.run();
+        }
     }
 }
