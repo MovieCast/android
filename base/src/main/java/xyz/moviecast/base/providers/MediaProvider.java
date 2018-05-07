@@ -128,7 +128,7 @@ public abstract class MediaProvider extends BaseProvider {
                         return;
                     }
 
-                    Media formattedItem = formatDetail(rawResponse, itemCache.get(id));
+                    Media formattedItem = formatDetail(rawResponse);
                     formattedItem.setDetailLoaded(true);
 
                     // TODO: Check whether this is needed...
@@ -144,7 +144,7 @@ public abstract class MediaProvider extends BaseProvider {
 
     abstract Map<String, Media> formatList(String response) throws IOException;
 
-    abstract Media formatDetail(String response, Media existingItem) throws IOException;
+    abstract Media formatDetail(String response) throws IOException;
 
     public abstract List<Tab> getTabs();
 

@@ -56,8 +56,8 @@ public class MovieProvider extends MediaProvider {
     }
 
     @Override
-    Media formatDetail(String response, Media existingItem) throws IOException {
+    Media formatDetail(String response) throws IOException {
         MovieDetailResponse detailResponse = mapper.readValue(response, MovieDetailResponse.class);
-        return detailResponse.getFormattedItem((Movie) existingItem);
+        return detailResponse.getFormattedItem();
     }
 }

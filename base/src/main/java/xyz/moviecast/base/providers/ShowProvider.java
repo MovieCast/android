@@ -31,9 +31,9 @@ public class ShowProvider extends MediaProvider {
     }
 
     @Override
-    Media formatDetail(String response, Media existingItem) throws IOException {
+    Media formatDetail(String response) throws IOException {
         // TODO: Write ShowDetailResponse
-        return existingItem;
+        return null;
     }
 
     @Override
