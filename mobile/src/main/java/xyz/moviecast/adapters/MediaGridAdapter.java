@@ -35,7 +35,7 @@ import xyz.moviecast.base.models.Media;
 import xyz.moviecast.base.models.Movie;
 import xyz.moviecast.base.providers.MediaProvider;
 
-public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MediaGridAdapter extends RecyclerView.Adapter<MediaGridAdapter.ViewHolder> {
 
     private int itemWidth;
     private int itemHeight;
@@ -67,13 +67,13 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.media_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         GridLayoutManager.LayoutParams params = (GridLayoutManager.LayoutParams) holder.itemView.getLayoutParams();
         params.width = itemWidth;
         params.height = itemHeight;
@@ -82,17 +82,17 @@ public class MediaGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         Media item = getItem(position);
 
         // We need the item later so add it to the view holder
-        ((ViewHolder) holder).media = item;
-        ((ViewHolder) holder).title.setText(item.getTitle());
-        ((ViewHolder) holder).year.setText(item.getYear());
+        holder.media = item;
+        holder.title.setText(item.getTitle());
+        holder.year.setText(item.getYear());
 
 
         if(item.getPosterImageUrl() != null && !item.getPosterImageUrl().equals("")) {
-            Picasso.get().cancelRequest(((ViewHolder) holder).coverImage);
+            Picasso.get().cancelRequest(holder.coverImage);
             Picasso.get().load(item.getPosterImageUrl())
                          .resize(itemWidth, itemHeight)
                          .transform(GradientTransformation.getInstance())
-                         .into(((ViewHolder) holder).coverImage);
+                         .into(holder.coverImage);
         }
     }
 
