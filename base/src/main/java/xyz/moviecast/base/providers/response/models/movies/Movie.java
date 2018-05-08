@@ -34,7 +34,7 @@ public class Movie extends ResponseItem {
     private String language;
 
     public Movie() {
-        Log.d("Movie", "Using Movie Response Model");
+
     }
 
     public String getSlug() {
