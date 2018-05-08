@@ -44,9 +44,10 @@ dependencies {
     api "com.google.dagger:dagger-android:$daggerVersion"
     api "com.google.dagger:dagger-android-support:$daggerVersion"
 
+    api project(':streamer')
+
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     compileOnly "javax.annotation:javax.annotation-api:$javaxAnnotationVersion"
-
 }

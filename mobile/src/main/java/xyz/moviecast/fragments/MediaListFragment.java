@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.frostwire.jlibtorrent.TorrentInfo;
+
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -28,6 +30,7 @@ import xyz.moviecast.base.managers.ProviderManager;
 import xyz.moviecast.base.models.Media;
 import xyz.moviecast.base.providers.MediaProvider;
 import xyz.moviecast.base.utils.ThreadUtils;
+import xyz.moviecast.streamer.utils.TorrentUtils;
 
 public class MediaListFragment extends Fragment {
 
