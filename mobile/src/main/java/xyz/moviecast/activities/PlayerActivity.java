@@ -2,18 +2,20 @@ package xyz.moviecast.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
-import android.widget.VideoView;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import xyz.moviecast.R;
 import xyz.moviecast.views.PlayerView;
 
-public class PlayerActivity extends AppCompatActivity {
+public class PlayerActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private VideoView videoView;
+    private PlayerView playerView;
+    private Toolbar toolbar;
 
     public static Intent getIntent(Context context) {
         return new Intent(context, PlayerActivity.class);
@@ -22,18 +24,28 @@ public class PlayerActivity extends AppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(new PlayerView(this));
-//        setSupportActionBar(null);
+        setContentView(R.layout.activity_player);
+
+        toolbar = findViewById(R.id.toolbar);
+        playerView = findViewById(R.id.playerView);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        playerView.setOnClickListener(this);
+        playerView.setBackgroundColor(Color.RED);
+
+
+
 //        videoView = findViewById(R.id.videoView);
 //        videoView.setVideoPath("http://vjs.zencdn.net/v/oceans.mp4");
 //        videoView.setOnClickListener((e) -> click());
 //        Toast.makeText(this, "The player can pause: " + videoView.canPause(), Toast.LENGTH_LONG).show();
     }
 
-    public void click(){
-        if(videoView.isPlaying())
-            videoView.pause();
+    @Override
+    public void onClick(View v) {
+        if(getSupportActionBar().isShowing())
+            getSupportActionBar().hide();
         else
-            videoView.start();
+            getSupportActionBar().show();
     }
 }
