@@ -8,6 +8,7 @@
     tools:context=".fragments.ShowDetailFragment">
 
     <TabHost
+        android:id="@+id/tabHost"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -24,10 +25,11 @@
             <FrameLayout
                 android:id="@android:id/tabcontent"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:padding="24dp">
 
                 <LinearLayout
-                    android:id="@+id/Details"
+                    android:id="@+id/details"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -72,20 +74,18 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/Seasons"
+                    android:id="@+id/season"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
+                    <Button
+                        android:id="@+id/episode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Button" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/Episodes"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                </LinearLayout>
             </FrameLayout>
         </LinearLayout>
     </TabHost>

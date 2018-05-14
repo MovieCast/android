@@ -2,6 +2,7 @@ package xyz.moviecast.activities;
 
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ public class MediaDetailActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ImageView poster;
 
+    private FloatingActionButton button;
     private Media media;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -37,6 +39,7 @@ public class MediaDetailActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         poster = findViewById(R.id.detail_poster);
+        button = findViewById(R.id.flying_button);
 
         media = (Media) getIntent().getSerializableExtra(MEDIA_OBJECT);
 
@@ -58,6 +61,7 @@ public class MediaDetailActivity extends AppCompatActivity {
             }
             else if(media.getProviderType() == ProviderManager.ProviderType.SHOWS){
                 fragmentManager.beginTransaction().replace(R.id.content, ShowDetailFragment.newInstance((Show) media)).commit();
+                button.hide();
             }
         }
     }
