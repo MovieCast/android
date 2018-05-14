@@ -146,6 +146,7 @@ public class MediaListFragment extends Fragment {
                 @Override
                 public void onSuccess(Media result) {
                     Intent detailIntent = new Intent(applicationContext, MediaDetailActivity.class);
+                    Log.d("MEDIA_DETAIL", "onSuccess: " + media);
                     detailIntent.putExtra(MediaDetailActivity.MEDIA_OBJECT, result);
 
                     startActivity(detailIntent);

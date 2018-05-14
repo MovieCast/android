@@ -13,9 +13,12 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import xyz.moviecast.R;
+import xyz.moviecast.base.managers.ProviderManager;
 import xyz.moviecast.base.models.Media;
 import xyz.moviecast.base.models.Movie;
+import xyz.moviecast.base.models.Show;
 import xyz.moviecast.fragments.MovieDetailFragment;
+import xyz.moviecast.fragments.ShowDetailFragment;
 
 public class MediaDetailActivity extends AppCompatActivity {
 
@@ -47,9 +50,14 @@ public class MediaDetailActivity extends AppCompatActivity {
             // TODO: Move picasso to NetModule
             Picasso.get().load(media.getPosterImageUrl()).into(poster);
 
+            Log.d("MEDIA_DETAIL", "onCreate: " + media.getProviderType());
+
             FragmentManager fragmentManager = getSupportFragmentManager();
-            if (media instanceof Movie) {
+            if (media.getProviderType() == ProviderManager.ProviderType.MOVIES) {
                 fragmentManager.beginTransaction().replace(R.id.content, MovieDetailFragment.newInstance((Movie) media)).commit();
+            }
+            else if(media.getProviderType() == ProviderManager.ProviderType.SHOWS){
+                fragmentManager.beginTransaction().replace(R.id.content, ShowDetailFragment.newInstance((Show) media)).commit();
             }
         }
     }
