@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -58,8 +59,9 @@ public class ShowDetailFragment extends Fragment {
         RatingBar ratingBar = view.findViewById(R.id.rating);
         TextView meta = view.findViewById(R.id.meta);
         TextView synopsis = view.findViewById(R.id.synopsis);
+        LinearLayout season = view.findViewById(R.id.season);
         Button button = view.findViewById(R.id.episode);
-        TabHost tabHost = (TabHost)view.findViewById(R.id.tabHost);
+        TabHost tabHost = view.findViewById(R.id.tabHost);
         tabHost.setup();
 
         TabHost.TabSpec spec = tabHost.newTabSpec("Deatails");
@@ -68,14 +70,15 @@ public class ShowDetailFragment extends Fragment {
         tabHost.addTab(spec);
 
         for(int i = 0; i < show.getNumSeasons(); i++){
-            spec = tabHost.newTabSpec("Season " + (i + 1));
-            spec.setContent(R.id.season);
-            spec.setIndicator("Season " + (i + 1));
             for(Show.Episode e : show.getEpisodes()){
                 if(e.getSeason() == i);
-                button =view.findViewById(R.id.episode);
+                season.addView(view.findViewById(R.id.episode));
                 button.setText("" + e.getEpisode());
             }
+            spec = tabHost.newTabSpec("Season " + (i + 1));
+            spec.setContent((TabHost.TabContentFactory) season);
+            spec.setIndicator("Season " + (i + 1));
+
 
             tabHost.addTab(spec);
         }
