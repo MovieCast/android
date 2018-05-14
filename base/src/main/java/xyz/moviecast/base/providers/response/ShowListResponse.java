@@ -29,6 +29,7 @@ public class ShowListResponse extends ListResponse<Show> {
             }
 
             show.setTvdbId(item.getTvdbId());
+            show.setNumSeasons(item.getNumSeasons());
 
             items.add(show);
         }

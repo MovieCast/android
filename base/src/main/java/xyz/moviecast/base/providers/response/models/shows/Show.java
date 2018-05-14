@@ -25,6 +25,8 @@ public class Show extends ResponseItem {
     private String airTime;
     @JsonProperty("status")
     private String status;
+    @JsonProperty("num_seasons")
+    private int numSeasons;
     @JsonProperty("episodes")
     private List<Episode> episodes;
 
@@ -62,6 +64,10 @@ public class Show extends ResponseItem {
 
     public String getStatus() {
         return status;
+    }
+
+    public int getNumSeasons() {
+        return numSeasons;
     }
 
     public List<Episode> getEpisodes() {

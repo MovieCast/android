@@ -31,6 +31,7 @@ public class Show extends Media implements Serializable {
     private String airDay;
     private String airTime;
     private String status;
+    private int numSeasons;
     private List<Episode> episodes = new ArrayList<>();
 
     public Show() { }
@@ -45,6 +46,7 @@ public class Show extends Media implements Serializable {
         airDay = in.readString();
         airTime = in.readString();
         status = in.readString();
+        numSeasons = in.readInt();
         episodes = in.createTypedArrayList(Episode.CREATOR);
     }
 
@@ -112,6 +114,14 @@ public class Show extends Media implements Serializable {
         this.status = status;
     }
 
+    public int getNumSeasons() {
+        return numSeasons;
+    }
+
+    public void setNumSeasons(int numSeasons) {
+        this.numSeasons = numSeasons;
+    }
+
     public List<Episode> getEpisodes() {
         return episodes;
     }
@@ -136,6 +146,7 @@ public class Show extends Media implements Serializable {
         dest.writeString(airDay);
         dest.writeString(airTime);
         dest.writeString(status);
+        dest.writeInt(numSeasons);
         dest.writeTypedList(episodes);
     }
 

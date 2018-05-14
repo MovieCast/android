@@ -34,6 +34,7 @@ public class ShowDetailResponse extends Show implements DetailResponse {
         show.setAirTime(getAirTime());
 
         show.setStatus(getStatus());
+        show.setNumSeasons(getNumSeasons());
 
         for(Episode episodeItem : getEpisodes()) {
             xyz.moviecast.base.models.Show.Episode episode = new xyz.moviecast.base.models.Show.Episode();
