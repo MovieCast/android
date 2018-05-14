@@ -33,11 +33,7 @@ public abstract class Media implements Parcelable {
         rating = in.readDouble();
         posterImageUrl = in.readString();
         backgroundImageUrl = in.readString();
-
-        int genreSize = in.readInt();
-        for(int i = 0; i < genreSize; i++) {
-            genres.add(in.readString());
-        }
+        genres = in.createStringArrayList();
     }
 
     public String getId() {
@@ -121,10 +117,7 @@ public abstract class Media implements Parcelable {
         dest.writeString(posterImageUrl);
         dest.writeString(backgroundImageUrl);
 
-        dest.writeInt(genres.size());
-        for(int i = 0; i < genres.size(); i++) {
-            dest.writeString(genres.get(i));
-        }
+        dest.writeStringList(genres);
     }
 
 

@@ -38,11 +38,6 @@ public class MovieProvider extends MediaProvider {
     }
 
     @Override
-    public xyz.moviecast.base.models.Movie getMediaById(String id) {
-        return (xyz.moviecast.base.models.Movie) super.getMediaById(id);
-    }
-
-    @Override
     Map<String, Media> formatList(String response) throws IOException {
         // REALLLY IMPORTINO TO USE A LINKEDHASHMAP!!!!!
         Map<String, Media> formattedItems = new LinkedHashMap<>();

@@ -39,20 +39,6 @@ public class Torrent implements Parcelable {
         size = in.readLong();
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(resolution);
-        dest.writeString(hash);
-        dest.writeInt(seeds);
-        dest.writeInt(peers);
-        dest.writeLong(size);
-    }
-
     public String getResolution() {
         return resolution;
     }
@@ -91,5 +77,19 @@ public class Torrent implements Parcelable {
 
     public void setSize(long size) {
         this.size = size;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(resolution);
+        dest.writeString(hash);
+        dest.writeInt(seeds);
+        dest.writeInt(peers);
+        dest.writeLong(size);
     }
 }
