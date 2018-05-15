@@ -5,7 +5,10 @@ import android.os.Parcelable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import xyz.moviecast.base.managers.ProviderManager;
 
@@ -32,7 +35,7 @@ public class Show extends Media implements Serializable {
     private String airTime;
     private String status;
     private int numSeasons;
-    private List<Episode> episodes = new ArrayList<>();
+    private final Map<Integer, Season> seasons = new TreeMap<>();
 
     public Show() { }
 
@@ -47,7 +50,8 @@ public class Show extends Media implements Serializable {
         airTime = in.readString();
         status = in.readString();
         numSeasons = in.readInt();
-        episodes = in.createTypedArrayList(Episode.CREATOR);
+        //episodes = in.createTypedArrayList(Episode.CREATOR);
+        in.readMap(seasons, Season.class.getClassLoader());
     }
 
     public String getTvdbId() {
@@ -122,12 +126,22 @@ public class Show extends Media implements Serializable {
         this.numSeasons = numSeasons;
     }
 
-    public List<Episode> getEpisodes() {
-        return episodes;
+    public Map<Integer, Season> getSeasons() {
+        return seasons;
     }
 
-    public void setEpisodes(List<Episode> episodes) {
-        this.episodes = episodes;
+    public void addSeason(Season season) {
+        seasons.put(season.getSeason(), season);
+    }
+
+    public void addEpisode(Season.Episode episode) {
+        if(!seasons.containsKey(episode.getSeason())) {
+            Season season = new Season();
+            season.setSeason(episode.getSeason());
+
+            addSeason(season);
+        }
+        seasons.get(episode.getSeason()).addEpisode(episode);
     }
 
     @Override
@@ -147,87 +161,48 @@ public class Show extends Media implements Serializable {
         dest.writeString(airTime);
         dest.writeString(status);
         dest.writeInt(numSeasons);
-        dest.writeTypedList(episodes);
+        //dest.writeTypedList(episodes);
+        dest.writeMap(seasons);
     }
 
-    public static class Episode implements Parcelable {
+    public static class Season implements Parcelable {
 
-        public static final Creator<Episode> CREATOR = new Creator<Episode>() {
+        public static final Creator<Season> CREATOR = new Creator<Season>() {
             @Override
-            public Episode createFromParcel(Parcel in) {
-                return new Episode(in);
+            public Season createFromParcel(Parcel in) {
+                return new Season(in);
             }
 
             @Override
-            public Episode[] newArray(int size) {
-                return new Episode[size];
+            public Season[] newArray(int size) {
+                return new Season[size];
             }
         };
 
-        private String tvdbId;
         private int season;
-        private int episode;
-        private String title;
-        private String overview;
-        private List<Torrent> torrents = new ArrayList<>();
+        private final Map<Integer, Episode> episodes = new TreeMap<>();
 
-        public Episode() { }
+        public Season() {}
 
-        private Episode(Parcel in) {
-            tvdbId = in.readString();
+        Season(Parcel in) {
             season = in.readInt();
-            episode = in.readInt();
-            title = in.readString();
-            overview = in.readString();
-            torrents = in.createTypedArrayList(Torrent.CREATOR);
-        }
-
-        public String getTvdbId() {
-            return tvdbId;
-        }
-
-        public void setTvdbId(String tvdbId) {
-            this.tvdbId = tvdbId;
-        }
-
-        public int getSeason() {
-            return season;
+            in.readMap(episodes, Episode.class.getClassLoader());
         }
 
         public void setSeason(int season) {
             this.season = season;
         }
 
-        public int getEpisode() {
-            return episode;
+        public int getSeason() {
+            return season;
         }
 
-        public void setEpisode(int episode) {
-            this.episode = episode;
+        public void addEpisode(Episode episode) {
+            episodes.put(episode.getEpisode(), episode);
         }
 
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getOverview() {
-            return overview;
-        }
-
-        public void setOverview(String overview) {
-            this.overview = overview;
-        }
-
-        public List<Torrent> getTorrents() {
-            return torrents;
-        }
-
-        public void setTorrents(List<Torrent> torrents) {
-            this.torrents = torrents;
+        public Map<Integer, Episode> getEpisodes() {
+            return episodes;
         }
 
         @Override
@@ -237,12 +212,104 @@ public class Show extends Media implements Serializable {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(tvdbId);
             dest.writeInt(season);
-            dest.writeInt(episode);
-            dest.writeString(title);
-            dest.writeString(overview);
-            dest.writeTypedList(torrents);
+            dest.writeMap(episodes);
+        }
+
+        public static class Episode implements Parcelable {
+
+            public static final Creator<Episode> CREATOR = new Creator<Episode>() {
+                @Override
+                public Episode createFromParcel(Parcel in) {
+                    return new Episode(in);
+                }
+
+                @Override
+                public Episode[] newArray(int size) {
+                    return new Episode[size];
+                }
+            };
+
+            private String tvdbId;
+            private int season;
+            private int episode;
+            private String title;
+            private String overview;
+            private List<Torrent> torrents = new ArrayList<>();
+
+            public Episode() { }
+
+            private Episode(Parcel in) {
+                tvdbId = in.readString();
+                season = in.readInt();
+                episode = in.readInt();
+                title = in.readString();
+                overview = in.readString();
+                torrents = in.createTypedArrayList(Torrent.CREATOR);
+            }
+
+            public String getTvdbId() {
+                return tvdbId;
+            }
+
+            public void setTvdbId(String tvdbId) {
+                this.tvdbId = tvdbId;
+            }
+
+            public int getSeason() {
+                return season;
+            }
+
+            public void setSeason(int season) {
+                this.season = season;
+            }
+
+            public int getEpisode() {
+                return episode;
+            }
+
+            public void setEpisode(int episode) {
+                this.episode = episode;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public String getOverview() {
+                return overview;
+            }
+
+            public void setOverview(String overview) {
+                this.overview = overview;
+            }
+
+            public List<Torrent> getTorrents() {
+                return torrents;
+            }
+
+            public void setTorrents(List<Torrent> torrents) {
+                this.torrents = torrents;
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(Parcel dest, int flags) {
+                dest.writeString(tvdbId);
+                dest.writeInt(season);
+                dest.writeInt(episode);
+                dest.writeString(title);
+                dest.writeString(overview);
+                dest.writeTypedList(torrents);
+            }
         }
     }
 }

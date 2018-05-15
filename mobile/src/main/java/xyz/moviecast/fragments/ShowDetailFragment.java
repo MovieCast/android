@@ -17,13 +17,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import xyz.moviecast.R;
 import xyz.moviecast.base.models.Show;
-
-/**
- * Created by Bou's Laptop on 07/05/2018.
- */
 
 public class ShowDetailFragment extends Fragment {
     private static final String ARG_SHOW = "ARG_SHOW";
@@ -69,17 +66,22 @@ public class ShowDetailFragment extends Fragment {
         spec.setIndicator("Details");
         tabHost.addTab(spec);
 
-        for(int i = 0; i < show.getNumSeasons(); i++){
-            for(Show.Episode e : show.getEpisodes()){
-                if(e.getSeason() == i);
-                season.addView(view.findViewById(R.id.episode));
-                button.setText("" + e.getEpisode());
-            }
-            spec = tabHost.newTabSpec("Season " + (i + 1));
-            spec.setContent((TabHost.TabContentFactory) season);
-            spec.setIndicator("Season " + (i + 1));
-
-
+//        for(int i = 0; i < show.getNumSeasons(); i++){
+//            spec = tabHost.newTabSpec("Season " + (i + 1));
+//            spec.setContent(R.id.season);
+//            spec.setIndicator("Season " + (i + 1));
+//            for(Show.Episode e : show.getEpisodes()){
+//                if(e.getSeason() == i);
+//                button =view.findViewById(R.id.episode);
+//                button.setText("" + e.getEpisode());
+//            }
+//
+//            tabHost.addTab(spec);
+//        }
+        for(Map.Entry<Integer, Show.Season> entry : show.getSeasons().entrySet()) {
+            spec = tabHost.newTabSpec("Season " + entry.getKey());
+            spec.setContent(R.id.season);
+            spec.setIndicator("Season " + entry.getKey());
             tabHost.addTab(spec);
         }
 

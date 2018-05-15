@@ -1,6 +1,7 @@
 package xyz.moviecast.base.providers.response;
 
 import xyz.moviecast.base.models.Media;
+import xyz.moviecast.base.models.Show.Season;
 import xyz.moviecast.base.providers.response.models.DetailResponse;
 import xyz.moviecast.base.providers.response.models.general.Torrent;
 import xyz.moviecast.base.providers.response.models.shows.Episode;
@@ -37,7 +38,7 @@ public class ShowDetailResponse extends Show implements DetailResponse {
         show.setNumSeasons(getNumSeasons());
 
         for(Episode episodeItem : getEpisodes()) {
-            xyz.moviecast.base.models.Show.Episode episode = new xyz.moviecast.base.models.Show.Episode();
+            Season.Episode episode = new Season.Episode();
             episode.setTvdbId(episodeItem.getTvdbId());
             episode.setSeason(episodeItem.getSeason());
             episode.setEpisode(episodeItem.getEpisode());
@@ -52,7 +53,7 @@ public class ShowDetailResponse extends Show implements DetailResponse {
                 }
             }
 
-            show.getEpisodes().add(episode);
+            show.addEpisode(episode);
         }
         return show;
     }
