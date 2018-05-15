@@ -43,6 +43,8 @@ dependencies {
 
     api 'com.android.support.constraint:constraint-layout:1.1.0'
 
+    api "com.jakewharton:butterknife:$butterKnifeVersion"
+
     api "com.squareup.okhttp3:okhttp:$okHttpVersion"
     api "com.squareup.picasso:picasso:$picassoVersion"
 
@@ -53,6 +55,8 @@ dependencies {
     api project(':base')
 
     implementation 'com.android.support:support-v4:27.1.1'
+
+    annotationProcessor "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
 

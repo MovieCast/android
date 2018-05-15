@@ -13,27 +13,30 @@ import android.view.ViewGroup;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import xyz.moviecast.MobileApplication;
 import xyz.moviecast.R;
 import xyz.moviecast.adapters.MediaPagerAdapter;
+import xyz.moviecast.base.app.BaseFragment;
 import xyz.moviecast.base.managers.ProviderManager;
 import xyz.moviecast.base.providers.MediaProvider;
 
-public class MediaContainerFragment extends Fragment {
+public class MediaContainerFragment extends BaseFragment {
 
     public static final String KEY_TYPE = "TYPE";
     private static final String TAG = "MEDIA_CONTAINER";
 
-    private ViewPager viewPager;
-    private TabLayout tabs;
-    private View parent;
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;
+    @BindView(R.id.tabLayout)
+    TabLayout tabs;
 
     @Inject
     ProviderManager providerManager;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return parent = inflater.inflate(R.layout.fragment_media_container, container, false);
+        return super.onCreateView(inflater, container, savedInstanceState, R.layout.fragment_media_container);
     }
 
     @Override
@@ -43,9 +46,6 @@ public class MediaContainerFragment extends Fragment {
         MobileApplication.getInstance()
                 .getComponent()
                 .inject(this);
-
-        viewPager = parent.findViewById(R.id.viewPager);
-        tabs = parent.findViewById(R.id.tabLayout);
 
         MediaProvider provider = providerManager.getCurrentProvider();
 
