@@ -1,2 +1,3 @@
-# moviecast-android
-The Android App for MovieCast, build on top of React Native
+# MovieCast Android
+
+The official MovieCast Android application
