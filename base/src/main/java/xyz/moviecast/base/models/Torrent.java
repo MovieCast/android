@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) MovieCast and it's contributors. All rights reserved.
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
 package xyz.moviecast.base.models;
 
 import android.os.Parcel;
@@ -39,20 +44,6 @@ public class Torrent implements Parcelable {
         size = in.readLong();
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(resolution);
-        dest.writeString(hash);
-        dest.writeInt(seeds);
-        dest.writeInt(peers);
-        dest.writeLong(size);
-    }
-
     public String getResolution() {
         return resolution;
     }
@@ -91,5 +82,19 @@ public class Torrent implements Parcelable {
 
     public void setSize(long size) {
         this.size = size;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(resolution);
+        dest.writeString(hash);
+        dest.writeInt(seeds);
+        dest.writeInt(peers);
+        dest.writeLong(size);
     }
 }

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) MovieCast and it's contributors. All rights reserved.
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
 package xyz.moviecast.base.models;
 
 import android.os.Parcel;
@@ -43,33 +48,7 @@ public class Movie extends Media implements Serializable {
         released = in.readLong();
         trailerUrl = in.readString();
         certification = in.readString();
-
-        int torrentSize = in.readInt();
-        for(int i = 0; i < torrentSize; i++) {
-            Torrent torrent = in.readParcelable(Torrent.class.getClassLoader());
-            torrents.add(torrent);
-        }
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        super.writeToParcel(dest, flags);
-        dest.writeString(synopsis);
-        dest.writeInt(duration);
-        dest.writeString(country);
-        dest.writeLong(released);
-        dest.writeString(trailerUrl);
-        dest.writeString(certification);
-
-        dest.writeInt(torrents.size());
-        for(Torrent torrent : torrents) {
-            dest.writeParcelable(torrent, flags);
-        }
-    }
-
-    @Override
-    public ProviderManager.ProviderType getProviderType() {
-        return ProviderManager.ProviderType.MOVIES;
+        torrents = in.createTypedArrayList(Torrent.CREATOR);
     }
 
     public String getSynopsis() {
@@ -126,5 +105,22 @@ public class Movie extends Media implements Serializable {
 
     public void setTorrents(List<Torrent> torrents) {
         this.torrents = torrents;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(synopsis);
+        dest.writeInt(duration);
+        dest.writeString(country);
+        dest.writeLong(released);
+        dest.writeString(trailerUrl);
+        dest.writeString(certification);
+        dest.writeTypedList(torrents);
+    }
+
+    @Override
+    public ProviderManager.ProviderType getProviderType() {
+        return ProviderManager.ProviderType.MOVIES;
     }
 }

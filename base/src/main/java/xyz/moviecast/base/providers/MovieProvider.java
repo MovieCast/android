@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) MovieCast and it's contributors. All rights reserved.
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
 package xyz.moviecast.base.providers;
 
 import android.util.Log;
@@ -35,11 +40,6 @@ public class MovieProvider extends MediaProvider {
         tabs.add(new Tab(R.id.movie_filter_alphabetic, R.string.alphabet, Filters.Sort.ALPHABET, Filters.Order.DESC));
 
         return tabs;
-    }
-
-    @Override
-    public xyz.moviecast.base.models.Movie getMediaById(String id) {
-        return (xyz.moviecast.base.models.Movie) super.getMediaById(id);
     }
 
     @Override

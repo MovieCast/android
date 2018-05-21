@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) MovieCast and it's contributors. All rights reserved.
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
 package xyz.moviecast.fragments;
 
 import android.content.Context;
@@ -149,6 +154,7 @@ public class MediaListFragment extends Fragment {
                 @Override
                 public void onSuccess(Media result) {
                     Intent detailIntent = new Intent(applicationContext, MediaDetailActivity.class);
+                    Log.d("MEDIA_DETAIL", "onSuccess: " + media);
                     detailIntent.putExtra(MediaDetailActivity.MEDIA_OBJECT, result);
 
                     startActivity(detailIntent);

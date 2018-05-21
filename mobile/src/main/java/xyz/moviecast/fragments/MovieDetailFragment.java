@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) MovieCast and it's contributors. All rights reserved.
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
 package xyz.moviecast.fragments;
 
 import android.annotation.TargetApi;
@@ -7,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +66,6 @@ public class MovieDetailFragment extends Fragment {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -79,9 +84,9 @@ public class MovieDetailFragment extends Fragment {
         List<String> metaList = new ArrayList<>();
         metaList.add(movie.getYear());
         metaList.add(movie.getDuration() + " min");
-        metaList.add(String.join(", ", movie.getGenres()));
+        metaList.add(TextUtils.join(", ", movie.getGenres()));
 
-        meta.setText(String.join(" • ", metaList));
+        meta.setText(TextUtils.join(" • ", metaList));
 
         return view;
     }

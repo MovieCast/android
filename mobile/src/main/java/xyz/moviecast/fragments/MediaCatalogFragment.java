@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) MovieCast and it's contributors. All rights reserved.
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
 package xyz.moviecast.fragments;
 
 import android.os.Bundle;
@@ -11,7 +16,6 @@ import android.view.ViewGroup;
 
 import xyz.moviecast.R;
 import xyz.moviecast.adapters.MediaGridAdapter;
-import xyz.moviecast.base.Constants;
 
 public class MediaCatalogFragment extends Fragment{
 
@@ -24,11 +28,6 @@ public class MediaCatalogFragment extends Fragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        Bundle args = getArguments();
-        int type = args.getInt(KEY_TYPE, Constants.MOVIES);
-        String sorting = args.getString(KEY_SORTING, Constants.TRENDING);
-
         View view = inflater.inflate(R.layout.fragment_media_catalog, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerView);
