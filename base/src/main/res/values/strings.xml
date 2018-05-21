@@ -1,3 +1,22 @@
+<!--
+  ~ Copyright (c) MovieCast and it's contributors. All rights reserved.
+  ~ Licensed under the MIT License. See LICENSE in the project root for license information.
+  -->
+
 <resources>
-    <string name="app_name">base</string>
+    <string name="app_name" translatable="false">MovieCast</string>
+
+    <!-- General -->
+    <string name="title_movies">Movies</string>
+    <string name="title_shows">Shows</string>
+    <string name="title_settings">Settings</string>
+
+    <!-- Tabs -->
+    <string name="trending">Trending</string>
+    <string name="popular">Popular</string>
+    <string name="rating">Top Rated</string>
+    <string name="released">Release Date</string>
+    <string name="year">Year</string>
+    <string name="alphabet">A - Z</string>
+
 </resources>

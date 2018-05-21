@@ -1,0 +1,10 @@
+[main]
+host = https://www.transifex.com
+
+[moviecast-android.translations]
+file_filter = base/src/main/res/values-<lang>/strings.xml
+minimum_perc = 80
+source_file = src/main/res/values/strings.xml
+source_lang = en
+type = ANDROID
+

@@ -1,26 +1,35 @@
+/*
+ * Copyright (c) MovieCast and it's contributors. All rights reserved.
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
 package xyz.moviecast.base.providers;
 
-import android.content.Context;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.Cache;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
-public class BaseProvider {
+class BaseProvider {
 
-    static OkHttpClient client;
+    private final OkHttpClient client;
+    protected final ObjectMapper mapper;
 
-    public BaseProvider(Context context) {
+    BaseProvider(OkHttpClient client, ObjectMapper mapper) {
+        this.client = client;
+        this.mapper = mapper;
+    }
 
-        if(client == null){
-            client = new OkHttpClient.Builder()
-                    .cache(new Cache(context.getCacheDir(), 10*1024*1024))
-                    .connectTimeout(30, TimeUnit.SECONDS)
-                    .readTimeout(30, TimeUnit.SECONDS)
-                    .retryOnConnectionFailure(true)
-                    .build();
+    protected Call enqueue(Request request, Callback callback) {
+        request = request.newBuilder().tag(getClass()).build();
+
+        Call call = client.newCall(request);
+        if(callback != null) {
+            call.enqueue(callback);
         }
 
+        return call;
     }
 }

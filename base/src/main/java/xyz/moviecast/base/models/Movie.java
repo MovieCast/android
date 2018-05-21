@@ -1,74 +1,54 @@
+/*
+ * Copyright (c) MovieCast and it's contributors. All rights reserved.
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
 package xyz.moviecast.base.models;
 
-import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Movie {
+import xyz.moviecast.base.managers.ProviderManager;
 
-    private String id;
-    private String title;
-    private String year;
-    private String slug;
+public class Movie extends Media implements Serializable {
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel source) {
+            return new Movie(source);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
+
     private String synopsis;
     private int duration;
     private String country;
-    private int released;
+    private long released;
     private String trailerUrl;
     private String certification;
-    private List<Torrent> torrents;
-    private Rating rating;
-    private byte[] posterImageData;
-    private byte[] backgroundImageData;
-    private List<String> genres = new ArrayList<>();
+    private List<Torrent> torrents = new ArrayList<>();
 
-    public Movie(String id, String title, String year, String slug, String synopsis, int duration, String country, int released, String trailerUrl, String certification, List<Torrent> torrents, Rating rating, List<String> genres) {
-        this.id = id;
-        this.title = title;
-        this.year = year;
-        this.slug = slug;
-        this.synopsis = synopsis;
-        this.duration = duration;
-        this.country = country;
-        this.released = released;
-        this.trailerUrl = trailerUrl;
-        this.certification = certification;
-        this.torrents = torrents;
-        this.rating = rating;
-        this.genres = genres;
+    public Movie() {
+
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
+    private Movie(Parcel in) {
+        super(in);
+        synopsis = in.readString();
+        duration = in.readInt();
+        country = in.readString();
+        released = in.readLong();
+        trailerUrl = in.readString();
+        certification = in.readString();
+        torrents = in.createTypedArrayList(Torrent.CREATOR);
     }
 
     public String getSynopsis() {
@@ -95,11 +75,11 @@ public class Movie {
         this.country = country;
     }
 
-    public int getReleased() {
+    public long getReleased() {
         return released;
     }
 
-    public void setReleased(int released) {
+    public void setReleased(long released) {
         this.released = released;
     }
 
@@ -127,35 +107,20 @@ public class Movie {
         this.torrents = torrents;
     }
 
-    public Rating getRating() {
-        return rating;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(synopsis);
+        dest.writeInt(duration);
+        dest.writeString(country);
+        dest.writeLong(released);
+        dest.writeString(trailerUrl);
+        dest.writeString(certification);
+        dest.writeTypedList(torrents);
     }
 
-    public void setRating(Rating rating) {
-        this.rating = rating;
-    }
-
-    public byte[] getPosterImageData() {
-        return posterImageData;
-    }
-
-    public void setPosterImageData(byte[] posterImageData) {
-        this.posterImageData = posterImageData;
-    }
-
-    public byte[] getBackgroundImageData() {
-        return backgroundImageData;
-    }
-
-    public void setBackgroundImageData(byte[] backgroundImageData) {
-        this.backgroundImageData = backgroundImageData;
-    }
-
-    public List<String> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<String> genres) {
-        this.genres = genres;
+    @Override
+    public ProviderManager.ProviderType getProviderType() {
+        return ProviderManager.ProviderType.MOVIES;
     }
 }

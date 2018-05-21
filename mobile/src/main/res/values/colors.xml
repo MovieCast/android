@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) MovieCast and it's contributors. All rights reserved.
+  ~ Licensed under the MIT License. See LICENSE in the project root for license information.
+  -->
+
 <resources>
 
-    <color name="bg">#1F2224</color>
+    <color name="bg">#1f2224</color>
     <color name="bg_dark">#141617</color>
     <color name="overlay">#33000000</color>
 

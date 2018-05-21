@@ -1,8 +1,12 @@
+<!--
+  ~ Copyright (c) MovieCast and it's contributors. All rights reserved.
+  ~ Licensed under the MIT License. See LICENSE in the project root for license information.
+  -->
+
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+    <style name="Theme.MovieCast" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -11,4 +15,12 @@
         <item name="android:shadowColor">@android:color/transparent</item>
     </style>
 
+    <!-- TODO: Find a way to make the status bar transparent in v18 and lower -->
+    <style name="Theme.MovieCast.TransparentStatusBar" parent="Theme.MovieCast" />
+
+    <style name="Theme.MovieCast.RatingBar" parent="android:Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/ratingbar</item>
+        <item name="android:minHeight">16dp</item>
+        <item name="android:maxHeight">16dp</item>
+    </style>
 </resources>

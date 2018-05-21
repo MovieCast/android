@@ -1,42 +1,63 @@
+/*
+ * Copyright (c) MovieCast and it's contributors. All rights reserved.
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
 package xyz.moviecast.base.providers;
 
-import android.content.Context;
+import android.util.Log;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
-import okhttp3.CacheControl;
-import okhttp3.Request;
-import okhttp3.Request.Builder;
-import okhttp3.Response;
-import xyz.moviecast.base.providers.models.movies.Movie;
-import xyz.moviecast.base.providers.models.movies.Page;
+import okhttp3.OkHttpClient;
+import xyz.moviecast.base.R;
+import xyz.moviecast.base.models.Media;
+import xyz.moviecast.base.models.Movie;
+import xyz.moviecast.base.providers.response.MovieDetailResponse;
+import xyz.moviecast.base.providers.response.MovieListResponse;
 
-public class MovieProvider extends MediaProvider<Movie> {
+public class MovieProvider extends MediaProvider {
 
-    private static final String URL_PAGE = "https://content.moviecast.xyz/movies/";
-    private static final String URL_DETAIL = "https://content.moviecast.xyz/movies/detail/";
-
-    public MovieProvider(Context context) {
-        super(context);
+    MovieProvider(OkHttpClient client, ObjectMapper mapper) {
+        super(client, mapper, "http://staging.content.moviecast.xyz", "movies", "detail");
     }
 
     @Override
-    public Page providePage(int page) throws IOException{
-        Request request = new Builder()
-                .url(URL_PAGE + page)
-                .cacheControl(new CacheControl.Builder()
-                        .maxAge(7, TimeUnit.DAYS)
-                        .build())
-                .build();
+    public List<Tab> getTabs() {
+        List<Tab> tabs = new ArrayList<>();
 
-        Response response = client.newCall(request).execute();
-        String body = response.body().string();
-        return mapper.readValue(body, Page.class);
+        tabs.add(new Tab(R.id.movie_filter_trending, R.string.trending, Filters.Sort.TRENDING, Filters.Order.DESC));
+        tabs.add(new Tab(R.id.movie_filter_popular, R.string.popular, Filters.Sort.POPULARITY, Filters.Order.DESC));
+        tabs.add(new Tab(R.id.movie_filter_rating, R.string.rating, Filters.Sort.RATING, Filters.Order.DESC));
+        tabs.add(new Tab(R.id.movie_filter_released, R.string.released, Filters.Sort.RELEASED, Filters.Order.DESC));
+        tabs.add(new Tab(R.id.movie_filter_year, R.string.year, Filters.Sort.YEAR, Filters.Order.DESC));
+        tabs.add(new Tab(R.id.movie_filter_alphabetic, R.string.alphabet, Filters.Sort.ALPHABET, Filters.Order.DESC));
+
+        return tabs;
     }
 
     @Override
-    public Movie provideDetails(Movie object) throws IOException{
-        return null;
+    Map<String, Media> formatList(String response) throws IOException {
+        // REALLLY IMPORTINO TO USE A LINKEDHASHMAP!!!!!
+        Map<String, Media> formattedItems = new LinkedHashMap<>();
+
+        MovieListResponse page = mapper.readValue(response, MovieListResponse.class);
+        for(Media item : page.getFormattedResult()) {
+            formattedItems.put(item.getId(), item);
+        }
+
+        return formattedItems;
+    }
+
+    @Override
+    Media formatDetail(String response) throws IOException {
+        MovieDetailResponse detailResponse = mapper.readValue(response, MovieDetailResponse.class);
+        return detailResponse.getFormattedItem();
     }
 }
