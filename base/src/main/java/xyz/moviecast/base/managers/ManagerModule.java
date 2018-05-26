@@ -5,6 +5,8 @@
 
 package xyz.moviecast.base.managers;
 
+import android.content.Context;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -19,5 +21,11 @@ public class ManagerModule {
     @Singleton
     ProviderManager provideProviderManager(MovieProvider movieProvider, ShowProvider showProvider) {
         return new ProviderManager(movieProvider, showProvider);
+    }
+
+    @Provides
+    @Singleton
+    PreferenceManager providePreferenceManager(Context context) {
+        return new PreferenceManager(context);
     }
 }
