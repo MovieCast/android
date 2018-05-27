@@ -1,7 +1,9 @@
-package xyz.moviecast.streamer;
+package xyz.moviecast.streamer.torrent;
 
 import java.io.FilterInputStream;
 import java.io.InputStream;
+
+import xyz.moviecast.streamer.torrent.Torrent;
 
 public class TorrentInputStream extends FilterInputStream {
 

@@ -1,4 +1,4 @@
-package xyz.moviecast.streamer;
+package xyz.moviecast.streamer.torrent;
 
 import android.util.Log;
 

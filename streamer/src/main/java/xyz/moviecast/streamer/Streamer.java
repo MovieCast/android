@@ -3,22 +3,25 @@ package xyz.moviecast.streamer;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.frostwire.jlibtorrent.AlertListener;
 import com.frostwire.jlibtorrent.SessionManager;
-import com.frostwire.jlibtorrent.SessionParams;
-import com.frostwire.jlibtorrent.SettingsPack;
 import com.frostwire.jlibtorrent.TorrentInfo;
 import com.frostwire.jlibtorrent.alerts.AddTorrentAlert;
 
 import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
+import xyz.moviecast.streamer.exceptions.InitializeFailedException;
 import xyz.moviecast.streamer.listeners.AddTorrentAlertListener;
-import xyz.moviecast.streamer.listeners.DHTStatsAlertListener;
 import xyz.moviecast.streamer.utils.TorrentUtils;
 
 public class Streamer {
+
+    private static final String TAG = "MOVIECAST_STREAMER";
 
     private static Streamer instance;
 
@@ -40,62 +43,52 @@ public class Streamer {
     private HandlerThread streamerThread;
     private Handler streamerHandler;
 
-    Streamer() {
-
-//        torrentSession.addListener(new AddTorrentAlertListener() {
-//            @Override
-//            public void onAddedTorrent(AddTorrentAlert alert) {
-//                Log.d("MOVIECAST_STREAMER", "A new torrent was added: " + alert.toString());
-//
-//                Torrent torrent = new Torrent(alert.handle());
-//                torrent.start();
-//            }
-//        });
-
+    private Streamer() {
         initLatch = new CountDownLatch(1);
 
         libTorrentThread = new HandlerThread("MOVIECAST_LIBTORRENT");
         libTorrentThread.start();
         libTorrentHandler = new Handler(libTorrentThread.getLooper());
-        libTorrentHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                // initialize SettingsPack of LibTorrent
+        libTorrentHandler.post(() -> {
+            torrentSession = new SessionManager();
 
-                torrentSession = new SessionManager();
+            torrentSession.addListener(new AddTorrentAlertListener() {
+                @Override
+                public void onAddedTorrent(AddTorrentAlert alert) {
+                    Log.d(TAG, "New torrent was added");
+                }
+            });
 
+            torrentSession.start();
 
-                SettingsPack settingsPack = new SettingsPack()
-                        .anonymousMode(false)
-                        .connectionsLimit(200)
-                        .downloadRateLimit(0)
-                        .uploadRateLimit(0)
-                        .activeDhtLimit(88);
-
-                SessionParams sessionParams = new SessionParams(settingsPack);
-                torrentSession.start(sessionParams);
-
-                //torrentSession.startDht();
-                torrentSession.addListener(new DHTStatsAlertListener(torrentSession) {
-                    @Override
-                    public void onStats(int totalNodes) {
-                        Log.d("MOVIECAST_LIBTORRENT", "DHT Nodes: " + totalNodes);
-                        //torrentSession.postDhtStats();
-
-                        if(initLatch != null && totalNodes > 10) {
-                            initLatch.countDown();
-                        }
+            Timer initTimer = new Timer();
+            initTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    long nodes = torrentSession.stats().dhtNodes();
+                    if(nodes >= 10) {
+                        Log.d(TAG, "Initialized, DHT contains " + nodes + " nodes");
+                        initLatch.countDown();
+                        initTimer.cancel();
                     }
-                });
-                torrentSession.startDht();
-                //torrentSession.postDhtStats();
+                }
+            }, 0, 1000);
 
-                // add dth listener for information
-                // start dth
+            try {
+                Log.d(TAG, "Waiting for nodes in DHT (10 seconds)...");
+                boolean success = initLatch.await(10, TimeUnit.SECONDS);
 
-                //initLatch.countDown();
+                if(!success) {
+                    throw new InitializeFailedException("DHT bootstrap timeout, it looks like DHT's are being blocked");
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         });
+    }
+
+    public boolean isStreaming() {
+        return streaming;
     }
 
     public void start(String hash) {
@@ -105,31 +98,24 @@ public class Streamer {
         streamerThread.start();
         streamerHandler = new Handler(streamerThread.getLooper());
 
-        streamerHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                streaming = true;
+        streamerHandler.post(() -> {
+            streaming = true;
 
-                if(initLatch != null) {
-                    try {
-                        initLatch.await();
-                        Log.d("MOVIECAST_STREAMER", "Initialized");
-                        initLatch = null;
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        streaming = false;
-                    }
-                }
-
-                TorrentInfo info = TorrentUtils.getTorrentInfo(torrentSession, hash);
-
-                Log.d("MOVIECAST_STREAMER", "Torrent Name: " + info.name());
-                Log.d("MOVIECAST_STREAMER", "Torrent Amount Files: " + info.files().numFiles());
-
-                // TODO: Write the actual logic...
-
-                torrentSession.download(info, new File("/"));
+            try {
+                initLatch.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                streaming = false;
             }
+
+            TorrentInfo info = TorrentUtils.getTorrentInfo(torrentSession, hash);
+
+            Log.d(TAG, "Torrent Name: " + info.name());
+            Log.d(TAG, "Torrent Amount Files: " + info.files().numFiles());
+
+            // TODO: Write the actual logic...
+
+            torrentSession.download(info, new File("/"));
         });
     }
 
