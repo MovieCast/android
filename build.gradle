@@ -33,7 +33,7 @@ ext {
     jacksonVersion = "2.7.2"
     javaxAnnotationVersion = "1.2"
 
-    jlibtorrentVersion = '1.2.0.16'
+    jlibtorrentVersion = '1.2.0.18-RC5'
 }
 
 allprojects {
