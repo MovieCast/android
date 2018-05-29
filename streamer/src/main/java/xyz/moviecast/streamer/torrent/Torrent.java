@@ -1,16 +1,33 @@
 package xyz.moviecast.streamer.torrent;
 
+import android.support.annotation.MainThread;
 import android.util.Log;
 
+import com.frostwire.jlibtorrent.AlertListener;
 import com.frostwire.jlibtorrent.TorrentHandle;
+import com.frostwire.jlibtorrent.alerts.Alert;
+import com.frostwire.jlibtorrent.alerts.AlertType;
 
 import java.io.File;
 
-public class Torrent {
-    private TorrentHandle handle;
+public class Torrent implements AlertListener {
 
-    public Torrent(TorrentHandle handle) {
+    private static final String TAG = "MOVIECAST_TORRENT";
+
+    public enum State { METADATA, STARTING, STREAMING }
+
+    private TorrentHandle handle;
+    private TorrentListener listener;
+
+    private State state = State.METADATA;
+
+    public Torrent(TorrentHandle handle, TorrentListener listener) {
         this.handle = handle;
+        this.listener = listener;
+
+        if(this.listener != null) {
+            this.listener.onStreamPrepared(this);
+        }
     }
 
     /**
@@ -36,11 +53,19 @@ public class Torrent {
     }
 
     /**
+     * @return the current torrent state
+     */
+    public State getState() {
+        return state;
+    }
+
+    /**
      * Start the torrent.
      */
     public void start() {
         // TODO: Write start logic
-        Log.d("MOVIECAST_STREAMER_TORR", "Start method was called");
+        Log.d(TAG, "Start method was called");
+        handle.resume();
     }
 
     /**
@@ -56,4 +81,79 @@ public class Torrent {
     public void resume() {
         handle.resume();
     }
+
+    @Override
+    public int[] types() {
+        return new int[] {
+                AlertType.PIECE_FINISHED.swig(),
+                AlertType.BLOCK_FINISHED.swig()
+        };
+    }
+
+    @Override
+    public void alert(Alert<?> alert) {
+        switch (alert.type()) {
+            case PIECE_FINISHED:
+                Log.d(TAG, "alert: " + alert.toString());
+                break;
+            case BLOCK_FINISHED:
+                Log.d(TAG, "alert: " + alert.toString());
+                break;
+            default:
+                Log.d(TAG, "alert: unsupported type: " + alert.type());
+        }
+    }
+
+    /**
+     * Interface definition for callbacks to be invoked when streamer events occur.
+     */
+    public interface TorrentListener {
+        /**
+         * Called when a torrent has been prepared.
+         *
+         * @param torrent The torrent that has been prepared
+         */
+        @MainThread
+        void onStreamPrepared(Torrent torrent);
+
+        /**
+         * Called when a torrent has been started.
+         *
+         * @param torrent The torrent that is started
+         */
+        @MainThread
+        void onStreamStarted(Torrent torrent);
+
+        /**
+         * Called when a torrent has been prepared and is ready to be streamed.
+         *
+         * @param torrent The torrent that is ready
+         */
+        @MainThread
+        void onStreamReady(Torrent torrent);
+
+        /**
+         * Called when the progress state of a torrent changed.
+         *
+         * @param torrent The torrent on which the progress state was changed
+         */
+        @MainThread
+        void onStreamProgress(Torrent torrent);
+
+        /**
+         * Called when a torrent caused an error to occur.
+         *
+         * @param torrent   The torrent the error occurred on
+         * @param exception The exception that occurred
+         */
+        @MainThread
+        void onStreamError(Torrent torrent, Exception exception);
+
+        /**
+         * Called when a stream was stopped.
+         */
+        @MainThread
+        void onStreamStopped();
+    }
+
 }

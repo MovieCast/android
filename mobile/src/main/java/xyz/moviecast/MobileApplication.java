@@ -32,9 +32,9 @@ public class MobileApplication extends BaseApplication {
 
         //startService(new Intent(this, StreamerService.class));
 
-        //Streamer.getInstance().start("magnet:?xt=urn:btih:6268ABCCB049444BEE76813177AA46643A7ADA88");
+        Streamer.getInstance().start("magnet:?xt=urn:btih:6268ABCCB049444BEE76813177AA46643A7ADA88");
 
-        StreamerService.start(this);
+        //StreamerService.start(this);
 
         //TorrentInfo info = helper.getTorrentInfo("magnet:?xt=urn:btih:941D07549F35FFC8B7A3D033D50ABCFE137D976C");
 
