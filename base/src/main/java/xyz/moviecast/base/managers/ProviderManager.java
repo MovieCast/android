@@ -16,6 +16,7 @@ import xyz.moviecast.base.R;
 import xyz.moviecast.base.providers.MediaProvider;
 import xyz.moviecast.base.providers.MovieProvider;
 import xyz.moviecast.base.providers.ShowProvider;
+import xyz.moviecast.base.utils.ThreadUtils;
 
 public class ProviderManager {
 
@@ -60,14 +61,14 @@ public class ProviderManager {
     /**
      * Set the current provider.
      *
-     * Do note that this will also call @link {ProviderListener.onProviderChanged}
+     * Do note that this will also call {@link ProviderListener#onProviderChanged(ProviderType)}
      * @param provider The new provider
      */
     public void setCurrentProvider(ProviderType provider) {
         currentProvider = providers.get(provider);
         if(listeners.size() > 0) {
             for(ProviderListener listener : listeners) {
-                listener.onProviderChanged(provider);
+                ThreadUtils.runOnUiThread(() -> listener.onProviderChanged(provider));
             }
         }
     }
