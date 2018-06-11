@@ -5,12 +5,8 @@
 
 package xyz.moviecast;
 
-import android.content.Intent;
-
 import xyz.moviecast.base.BaseApplication;
 import xyz.moviecast.base.BaseApplicationModule;
-import xyz.moviecast.streamer.Streamer;
-import xyz.moviecast.streamer.StreamerService;
 
 public class MobileApplication extends BaseApplication {
 
@@ -29,16 +25,6 @@ public class MobileApplication extends BaseApplication {
         }
 
         super.onCreate();
-
-        //startService(new Intent(this, StreamerService.class));
-
-        Streamer.getInstance().start("magnet:?xt=urn:btih:6268ABCCB049444BEE76813177AA46643A7ADA88");
-
-        //StreamerService.start(this);
-
-        //TorrentInfo info = helper.getTorrentInfo("magnet:?xt=urn:btih:941D07549F35FFC8B7A3D033D50ABCFE137D976C");
-
-        //Log.d("TORRENT", info.toString());
     }
 
     public MobileApplicationComponent getComponent() {

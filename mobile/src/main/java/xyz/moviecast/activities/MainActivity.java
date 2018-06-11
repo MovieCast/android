@@ -5,12 +5,17 @@
 
 package xyz.moviecast.activities;
 
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -18,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -27,7 +33,9 @@ import xyz.moviecast.MobileApplication;
 import xyz.moviecast.R;
 import xyz.moviecast.adapters.DrawerAdapter;
 import xyz.moviecast.base.managers.ProviderManager;
+import xyz.moviecast.base.utils.PermissionUtils;
 import xyz.moviecast.fragments.MediaContainerFragment;
+import xyz.moviecast.streamer.Streamer;
 
 public class MainActivity extends AppCompatActivity implements ProviderManager.ProviderListener {
 
@@ -64,6 +72,20 @@ public class MainActivity extends AppCompatActivity implements ProviderManager.P
         getSupportActionBar().setHomeButtonEnabled(true);
 
         showProvider(ProviderManager.ProviderType.MOVIES);
+    }
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == PermissionUtils.REQUEST_PERMISSION_ID) {
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // This is just for testing purposes
+                Streamer.getInstance().start("magnet:?xt=urn:btih:6268ABCCB049444BEE76813177AA46643A7ADA88");
+            } else {
+                Toast.makeText(this, "Streamer will be disabled", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override
@@ -129,6 +151,18 @@ public class MainActivity extends AppCompatActivity implements ProviderManager.P
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         drawerToggle.syncState();
+
+        // The code below is ment to test the streamer, and should be removed as soon as there is a better way to test the streamer.
+        if(!PermissionUtils.checkPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            AlertDialog dialog = new AlertDialog.Builder(this)
+                    .setTitle("WARNING!")
+                    .setMessage("This version of MovieCast will run a streamer test on startup, if you do not want this test to run, deny the permission request or press cancel.")
+                    .setPositiveButton(android.R.string.ok, (dialog1, which) ->
+                            PermissionUtils.requestPermissions(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+                    .setNegativeButton(android.R.string.cancel, (dialog12, which) -> dialog12.dismiss())
+                    .create();
+            dialog.show();
+        }
     }
 
     @Override

@@ -1,2 +1,7 @@
+<!--
+  ~ Copyright (c) MovieCast and it's contributors. All rights reserved.
+  ~ Licensed under the MIT License. See LICENSE in the project root for license information.
+  -->
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="xyz.moviecast.streamer" />

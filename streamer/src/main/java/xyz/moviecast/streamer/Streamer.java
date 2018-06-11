@@ -1,5 +1,11 @@
+/*
+ * Copyright (c) MovieCast and it's contributors. All rights reserved.
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
 package xyz.moviecast.streamer;
 
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
@@ -7,6 +13,7 @@ import android.util.Log;
 import com.frostwire.jlibtorrent.SessionManager;
 import com.frostwire.jlibtorrent.TorrentHandle;
 import com.frostwire.jlibtorrent.TorrentInfo;
+import com.frostwire.jlibtorrent.TorrentStatus;
 import com.frostwire.jlibtorrent.alerts.AddTorrentAlert;
 
 import java.io.File;
@@ -37,6 +44,7 @@ public class Streamer implements Torrent.TorrentListener {
 
     private boolean streaming = false;
 
+    private Torrent currentTorrent;
     private SessionManager torrentSession;
 
     // Threads
@@ -63,14 +71,27 @@ public class Streamer implements Torrent.TorrentListener {
                 public void onAddedTorrent(AddTorrentAlert alert) {
                     Log.d(TAG, "New torrent was added");
                     TorrentHandle torrentHandle = torrentSession.find(alert.handle().infoHash());
-                    Torrent torrent = new Torrent(torrentHandle, Streamer.this);
-                    torrentSession.addListener(torrent);
-                    torrent.start();
+                    currentTorrent = new Torrent(torrentHandle, Streamer.this);
+
+                    torrentSession.addListener(currentTorrent);
+                    //torrent.start();
+
+                    Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            TorrentStatus status = torrentHandle.status();
+                            float progress = status.progress() * 100;
+                            int seeds = status.numSeeds();
+                            int downloadSpeed = status.downloadPayloadRate();
+
+                            Log.d(TAG, "run: " + progress + "% seeds: " + seeds + ", speed: " + downloadSpeed);
+                        }
+                    }, 0 , 2000);
                 }
             });
 
             torrentSession.start();
-
             Timer initTimer = new Timer();
             initTimer.schedule(new TimerTask() {
                 @Override
@@ -80,6 +101,8 @@ public class Streamer implements Torrent.TorrentListener {
                         Log.d(TAG, "Initialized, DHT contains " + nodes + " nodes");
                         initLatch.countDown();
                         initTimer.cancel();
+                    } else {
+                        Log.d(TAG, "Waiting for DHT, currently contains " + nodes + " nodes");
                     }
                 }
             }, 0, 1000);
@@ -125,8 +148,15 @@ public class Streamer implements Torrent.TorrentListener {
             Log.d(TAG, "Torrent Amount Files: " + info.files().numFiles());
 
             // TODO: Write the actual logic...
+            File saveDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
-            torrentSession.download(info, new File("/"));
+            Log.d(TAG, "start: " + saveDir);
+
+            if (!saveDir.exists()) {
+                Log.d(TAG, "start: " + saveDir.mkdirs());
+            }
+
+            torrentSession.download(info, saveDir);
         });
     }
 
@@ -160,6 +190,9 @@ public class Streamer implements Torrent.TorrentListener {
     @Override
     public void onStreamPrepared(Torrent torrent) {
         Log.d(TAG, "onStreamPrepared: " + torrent.toString());
+
+        torrent.start();
+
         for(Torrent.TorrentListener listener : listeners) {
             ThreadUtils.runOnUiThread(() -> listener.onStreamPrepared(torrent));
         }
