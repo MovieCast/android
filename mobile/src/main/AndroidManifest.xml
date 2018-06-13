@@ -23,7 +23,9 @@
 
         <service android:name=".streamer.StreamerService" />
 
-        <activity android:name=".activities.MainActivity">
+        <activity
+            android:launchMode="singleTask"
+            android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,6 +34,7 @@
         </activity>
         <activity
             android:name=".activities.SettingsActivity"
+            android:label="@string/title_settings"
             android:parentActivityName=".activities.MainActivity"
             tools:targetApi="jelly_bean">
             <meta-data
@@ -42,11 +45,11 @@
         <activity
             android:name=".activities.MediaDetailActivity"
             android:theme="@style/Theme.MovieCast.TransparentStatusBar"
-            android:parentActivityName=".activities.MediaDetailActivity"
+            android:parentActivityName=".activities.MainActivity"
             tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MediaDetailActivity" />
+                android:value=".activities.MainActivity" />
         </activity>
     </application>
 
