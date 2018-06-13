@@ -29,9 +29,12 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import xyz.moviecast.MobileApplication;
 import xyz.moviecast.R;
 import xyz.moviecast.adapters.DrawerAdapter;
+import xyz.moviecast.base.app.BaseActivity;
 import xyz.moviecast.base.managers.ProviderManager;
 import xyz.moviecast.base.utils.PermissionUtils;
 import xyz.moviecast.fragments.MediaContainerFragment;
@@ -44,26 +47,29 @@ public class MainActivity extends AppCompatActivity implements ProviderManager.P
     @Inject
     ProviderManager providerManager;
 
-    private ListView listView;
-    private DrawerLayout drawerLayout;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.navList)
+    ListView listView;
+    @BindView(R.id.drawerLayout)
+    DrawerLayout drawerLayout;
+
     private ArrayAdapter<String> arrayAdapter;
     private ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         MobileApplication.getInstance()
                 .getComponent()
                 .inject(this);
 
-        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
-
-        listView = findViewById(R.id.navList);
-        drawerLayout = findViewById(R.id.drawerLayout);
 
         addDrawerItems();
         setupDrawer();
@@ -103,9 +109,6 @@ public class MainActivity extends AppCompatActivity implements ProviderManager.P
     }
 
     private void addDrawerItems() {
-        //String[] osArray = {"Movies", "Shows", "Settings"};
-        //arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, osArray);
-
         ArrayList<DrawerAdapter.DrawerItem> drawerItems = new ArrayList<>();
         drawerItems.add(new DrawerAdapter.DrawerItem.ProviderDrawerItem(R.drawable.ic_nav_movies, R.string.title_movies, ProviderManager.ProviderType.MOVIES));
         drawerItems.add(new DrawerAdapter.DrawerItem.ProviderDrawerItem(R.drawable.ic_nav_shows, R.string.title_shows, ProviderManager.ProviderType.SHOWS));

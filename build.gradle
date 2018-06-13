@@ -27,6 +27,7 @@ ext {
     minSdk = 15
 
     appCompatVersion = "27.1.1"
+    butterKnifeVersion = "8.8.1"
     okHttpVersion = "3.10.0"
     daggerVersion = "2.15"
     picassoVersion = "2.71828"

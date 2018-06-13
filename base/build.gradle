@@ -46,6 +46,8 @@ dependencies {
 //    androidTestImplementation 'com.android.support.test:runner:1.0.1'
 //    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
+    api "com.jakewharton:butterknife:$butterKnifeVersion"
+
     api "com.squareup.okhttp3:okhttp:$okHttpVersion"
     api "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
 

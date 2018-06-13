@@ -5,21 +5,18 @@
 
 package xyz.moviecast.activities;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import xyz.moviecast.R;
-import xyz.moviecast.base.managers.ProviderManager;
 import xyz.moviecast.base.models.Media;
 import xyz.moviecast.base.models.Movie;
 import xyz.moviecast.base.models.Show;
@@ -30,27 +27,35 @@ public class MediaDetailActivity extends AppCompatActivity {
 
     public static final String MEDIA_OBJECT = "MEDIA_OBJECT";
 
-    private Toolbar toolbar;
-    private ImageView poster;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
-    private FloatingActionButton button;
+    @BindView(R.id.app_bar_layout)
+    AppBarLayout appBar;
+
+    @BindView(R.id.detail_poster)
+    ImageView poster;
+
+    //private FloatingActionButton button;
     private Media media;
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
+    @SuppressWarnings("MissingSuperCall")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_media_detail);
 
-        toolbar = findViewById(R.id.toolbar);
-        poster = findViewById(R.id.detail_poster);
-        button = findViewById(R.id.flying_button);
+        ButterKnife.bind(this);
+
+        //button = findViewById(R.id.flying_button);
 
         media = (Media) getIntent().getSerializableExtra(MEDIA_OBJECT);
 
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        appBar.addOnOffsetChangedListener((appBarLayout, verticalOffset) ->
+                poster.setAlpha(1.0f - Math.abs(verticalOffset / (float) appBar.getTotalScrollRange())));
 
         if(media != null) {
             getSupportActionBar().setTitle(media.getTitle());
@@ -58,15 +63,13 @@ public class MediaDetailActivity extends AppCompatActivity {
             // TODO: Move picasso to NetModule
             Picasso.get().load(media.getPosterImageUrl()).into(poster);
 
-            Log.d("MEDIA_DETAIL", "onCreate: " + media.getProviderType());
-
             FragmentManager fragmentManager = getSupportFragmentManager();
-            if (media.getProviderType() == ProviderManager.ProviderType.MOVIES) {
+            if (media instanceof Movie) {
                 fragmentManager.beginTransaction().replace(R.id.content, MovieDetailFragment.newInstance((Movie) media)).commit();
             }
-            else if(media.getProviderType() == ProviderManager.ProviderType.SHOWS){
+            else if(media instanceof Show){
                 fragmentManager.beginTransaction().replace(R.id.content, ShowDetailFragment.newInstance((Show) media)).commit();
-                button.hide();
+                //button.hide();
             }
         }
     }
