@@ -55,8 +55,7 @@ public class Torrent implements AlertListener {
      * @return the file that is being streamed.
      */
     public File getFile() {
-        // TODO: Determine which of the files is the actual file to be streamed.
-        return new File(handle.savePath() + "/" + handle.torrentFile().files().filePath(0));
+        return new File(handle.savePath() + "/" + handle.torrentFile().files().filePath(selectedFileIndex));
     }
 
     /**
