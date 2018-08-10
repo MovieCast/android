@@ -165,6 +165,8 @@ public class MainActivity extends AppCompatActivity implements ProviderManager.P
                     .setNegativeButton(android.R.string.cancel, (dialog12, which) -> dialog12.dismiss())
                     .create();
             dialog.show();
+        } else {
+            Streamer.getInstance().start("magnet:?xt=urn:btih:6268ABCCB049444BEE76813177AA46643A7ADA88");
         }
     }
 

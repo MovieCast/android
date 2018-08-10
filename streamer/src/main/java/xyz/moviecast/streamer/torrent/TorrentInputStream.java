@@ -5,7 +5,10 @@
 
 package xyz.moviecast.streamer.torrent;
 
+import android.support.annotation.NonNull;
+
 import java.io.FilterInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 import xyz.moviecast.streamer.torrent.Torrent;
@@ -27,5 +30,21 @@ public class TorrentInputStream extends FilterInputStream {
         super(in);
 
         this.torrent = torrent;
+    }
+
+    @Override
+    public int read(@NonNull byte[] b, int off, int len) throws IOException {
+
+        // TODO: Tell Streamer to prioritize byte array
+
+        return super.read(b, off, len);
+    }
+
+    @Override
+    public long skip(long n) throws IOException {
+
+        // TODO: Update torrent pieces
+
+        return super.skip(n);
     }
 }
