@@ -8,6 +8,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="xyz.moviecast">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".MobileApplication"
         android:allowBackup="true"
@@ -16,7 +20,12 @@
         android:roundIcon="@mipmap/moviecast_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieCast">
-        <activity android:name=".activities.MainActivity">
+
+        <service android:name=".streamer.StreamerService" />
+
+        <activity
+            android:launchMode="singleTask"
+            android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,6 +34,7 @@
         </activity>
         <activity
             android:name=".activities.SettingsActivity"
+            android:label="@string/title_settings"
             android:parentActivityName=".activities.MainActivity"
             tools:targetApi="jelly_bean">
             <meta-data
@@ -35,11 +45,11 @@
         <activity
             android:name=".activities.MediaDetailActivity"
             android:theme="@style/Theme.MovieCast.TransparentStatusBar"
-            android:parentActivityName=".activities.MediaDetailActivity"
+            android:parentActivityName=".activities.MainActivity"
             tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.MediaDetailActivity" />
+                android:value=".activities.MainActivity" />
         </activity>
     </application>
 

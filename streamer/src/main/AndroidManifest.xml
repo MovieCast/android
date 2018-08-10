@@ -1,9 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (c) MovieCast and it's contributors. All rights reserved.
   ~ Licensed under the MIT License. See LICENSE in the project root for license information.
   -->
 
-<resources>
-    <string name="pref_test">TEST</string>
-</resources>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="xyz.moviecast.streamer" />

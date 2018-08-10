@@ -13,8 +13,6 @@ android {
         targetSdkVersion rootProject.ext.targetSdk
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -24,41 +22,26 @@ android {
         }
     }
 
-    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/ASL2.0'
-    }
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
-    api "com.android.support:appcompat-v7:$appCompatVersion"
-//    testImplementation 'junit:junit:4.12'
-//    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-//    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
 
-    api "com.jakewharton:butterknife:$butterKnifeVersion"
-
-    api "com.squareup.okhttp3:okhttp:$okHttpVersion"
-    api "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
+    api "com.frostwire:jlibtorrent:$jlibtorrentVersion"
+    api "com.frostwire:jlibtorrent-android-arm:$jlibtorrentVersion"
+    api "com.frostwire:jlibtorrent-android-arm64:$jlibtorrentVersion"
+    api "com.frostwire:jlibtorrent-android-x86:$jlibtorrentVersion"
+    api "com.frostwire:jlibtorrent-android-x86_64:$jlibtorrentVersion"
 
     api "com.google.dagger:dagger:$daggerVersion"
     api "com.google.dagger:dagger-android:$daggerVersion"
     api "com.google.dagger:dagger-android-support:$daggerVersion"
 
-    api project(':streamer')
-
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
-
-    compileOnly "javax.annotation:javax.annotation-api:$javaxAnnotationVersion"
 }

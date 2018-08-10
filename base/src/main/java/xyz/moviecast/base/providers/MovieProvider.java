@@ -25,7 +25,7 @@ import xyz.moviecast.base.providers.response.MovieListResponse;
 public class MovieProvider extends MediaProvider {
 
     MovieProvider(OkHttpClient client, ObjectMapper mapper) {
-        super(client, mapper, "http://staging.content.moviecast.xyz", "movies", "detail");
+        super(client, mapper, "https://content.moviecast.io", "movies", "detail");
     }
 
     @Override
