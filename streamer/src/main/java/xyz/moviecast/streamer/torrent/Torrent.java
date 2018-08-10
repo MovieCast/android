@@ -63,7 +63,7 @@ public class Torrent implements AlertListener {
      * @return the file that is being streamed.
      */
     public File getFile() {
-        return new File(handle.savePath() + "/" + handle.torrentFile().files().filePath(selectedFileIndex));
+        return new File(handle.savePath() + "/" + handle.torrentFile().files().filePath(0));
     }
 
     /**
@@ -74,7 +74,7 @@ public class Torrent implements AlertListener {
     }
 
     public InputStream getInputStream() {
-
+        return null;
     }
 
     /**
