@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) MovieCast and it's contributors. All rights reserved.
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
 package xyz.moviecast.base.models;
 
 import android.os.Parcel;
@@ -33,11 +38,7 @@ public abstract class Media implements Parcelable {
         rating = in.readDouble();
         posterImageUrl = in.readString();
         backgroundImageUrl = in.readString();
-
-        int genreSize = in.readInt();
-        for(int i = 0; i < genreSize; i++) {
-            genres.add(in.readString());
-        }
+        genres = in.createStringArrayList();
     }
 
     public String getId() {
@@ -121,10 +122,7 @@ public abstract class Media implements Parcelable {
         dest.writeString(posterImageUrl);
         dest.writeString(backgroundImageUrl);
 
-        dest.writeInt(genres.size());
-        for(int i = 0; i < genres.size(); i++) {
-            dest.writeString(genres.get(i));
-        }
+        dest.writeStringList(genres);
     }
 
 

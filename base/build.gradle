@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) MovieCast and it's contributors. All rights reserved.
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
 apply plugin: 'com.android.library'
 
 android {
@@ -10,7 +15,6 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -30,6 +34,10 @@ android {
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
     }
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -38,6 +46,8 @@ dependencies {
 //    androidTestImplementation 'com.android.support.test:runner:1.0.1'
 //    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
+    api "com.jakewharton:butterknife:$butterKnifeVersion"
+
     api "com.squareup.okhttp3:okhttp:$okHttpVersion"
     api "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
 
@@ -45,9 +55,10 @@ dependencies {
     api "com.google.dagger:dagger-android:$daggerVersion"
     api "com.google.dagger:dagger-android-support:$daggerVersion"
 
+    api project(':streamer')
+
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     compileOnly "javax.annotation:javax.annotation-api:$javaxAnnotationVersion"
-
 }

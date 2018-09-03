@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) MovieCast and it's contributors. All rights reserved.
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
 package xyz.moviecast.activities;
 
 import android.content.Context;
@@ -27,6 +32,5 @@ public class SettingsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.title_settings);
     }
 }

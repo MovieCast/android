@@ -1,13 +1,16 @@
+/*
+ * Copyright (c) MovieCast and it's contributors. All rights reserved.
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
 package xyz.moviecast.fragments;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +20,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import xyz.moviecast.R;
+import xyz.moviecast.base.app.BaseFragment;
 import xyz.moviecast.base.models.Movie;
 
 /**
@@ -26,15 +31,22 @@ import xyz.moviecast.base.models.Movie;
  * Use the {@link MovieDetailFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MovieDetailFragment extends Fragment {
+public class MovieDetailFragment extends BaseFragment {
     private static final String ARG_MOVIE = "ARG_MOVIE";
+
+    @BindView(R.id.title)
+    TextView title;
+    @BindView(R.id.rating)
+    RatingBar ratingBar;
+    @BindView(R.id.meta)
+    TextView meta;
+    @BindView(R.id.synopsis)
+    TextView synopsis;
 
     // TODO: Rename and change types of parameters
     private Movie movie;
 
-    public MovieDetailFragment() {
-        // Required empty public constructor
-    }
+    public MovieDetailFragment() { }
 
     /**
      * Use this factory method to create a new instance of
@@ -60,17 +72,15 @@ public class MovieDetailFragment extends Fragment {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.O)
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState, R.layout.fragment_movie_detail);
+    }
 
-        View view = inflater.inflate(R.layout.fragment_movie_detail, container, false);
-
-        TextView title = view.findViewById(R.id.title);
-        RatingBar ratingBar = view.findViewById(R.id.rating);
-        TextView meta = view.findViewById(R.id.meta);
-        TextView synopsis = view.findViewById(R.id.synopsis);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         title.setText(movie.getTitle());
         ratingBar.setProgress((int) movie.getRating());
@@ -79,11 +89,9 @@ public class MovieDetailFragment extends Fragment {
         List<String> metaList = new ArrayList<>();
         metaList.add(movie.getYear());
         metaList.add(movie.getDuration() + " min");
-        metaList.add(String.join(", ", movie.getGenres()));
+        metaList.add(TextUtils.join(", ", movie.getGenres()));
 
-        meta.setText(String.join(" • ", metaList));
-
-        return view;
+        meta.setText(TextUtils.join(" • ", metaList));
     }
 
     @Override

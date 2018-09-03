@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) MovieCast and it's contributors. All rights reserved.
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
 package xyz.moviecast.base.providers.response.models.shows;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -25,6 +30,8 @@ public class Show extends ResponseItem {
     private String airTime;
     @JsonProperty("status")
     private String status;
+    @JsonProperty("num_seasons")
+    private int numSeasons;
     @JsonProperty("episodes")
     private List<Episode> episodes;
 
@@ -62,6 +69,10 @@ public class Show extends ResponseItem {
 
     public String getStatus() {
         return status;
+    }
+
+    public int getNumSeasons() {
+        return numSeasons;
     }
 
     public List<Episode> getEpisodes() {

@@ -1,7 +1,12 @@
+<!--
+  ~ Copyright (c) MovieCast and it's contributors. All rights reserved.
+  ~ Licensed under the MIT License. See LICENSE in the project root for license information.
+  -->
+
 <resources>
 
     <!-- Base application theme. -->
-    <style name="Theme.MovieCast" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.MovieCast" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>

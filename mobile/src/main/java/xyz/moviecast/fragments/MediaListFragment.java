@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) MovieCast and it's contributors. All rights reserved.
+ * Licensed under the MIT License. See LICENSE in the project root for license information.
+ */
+
 package xyz.moviecast.fragments;
 
 import android.content.Context;
@@ -14,22 +19,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.frostwire.jlibtorrent.TorrentInfo;
+
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import xyz.moviecast.MobileApplication;
 import xyz.moviecast.R;
 import xyz.moviecast.activities.MediaDetailActivity;
 import xyz.moviecast.adapters.MediaGridAdapter;
+import xyz.moviecast.base.app.BaseFragment;
 import xyz.moviecast.base.managers.ProviderManager;
 import xyz.moviecast.base.models.Media;
 import xyz.moviecast.base.providers.MediaProvider;
 import xyz.moviecast.base.utils.ThreadUtils;
+import xyz.moviecast.streamer.utils.TorrentUtils;
 
-public class MediaListFragment extends Fragment {
+public class MediaListFragment extends BaseFragment {
 
     public static final String ARG_MODE = "arg_mode";
     public static final String ARG_SORT = "arg_sort";
@@ -47,14 +57,15 @@ public class MediaListFragment extends Fragment {
     @Inject
     Context applicationContext;
 
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+
     private Mode mode = Mode.NORMAL;
     private State state = State.LOADING;
     private MediaProvider.Filters filters = new MediaProvider.Filters();
     private ArrayList<Media> items = new ArrayList<>();
 
     private Set<Media> itemResult = new LinkedHashSet<>();
-
-    private RecyclerView recyclerView;
 
     private GridLayoutManager layoutManager;
     private MediaGridAdapter mediaAdapter;
@@ -106,11 +117,9 @@ public class MediaListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_media_catalog, container, false);
+        View view = super.onCreateView(inflater, container, savedInstanceState, R.layout.fragment_media_catalog);
 
         layoutManager = new GridLayoutManager(getActivity(), 2);
-
-        recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
 
         return view;
@@ -146,6 +155,7 @@ public class MediaListFragment extends Fragment {
                 @Override
                 public void onSuccess(Media result) {
                     Intent detailIntent = new Intent(applicationContext, MediaDetailActivity.class);
+                    Log.d("MEDIA_DETAIL", "onSuccess: " + media);
                     detailIntent.putExtra(MediaDetailActivity.MEDIA_OBJECT, result);
 
                     startActivity(detailIntent);
