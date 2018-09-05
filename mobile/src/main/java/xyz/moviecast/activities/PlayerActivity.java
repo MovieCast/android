@@ -31,14 +31,6 @@ public class PlayerActivity extends AppCompatActivity implements View.OnClickLis
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         playerView.setOnClickListener(this);
-        playerView.setBackgroundColor(Color.RED);
-
-
-
-//        videoView = findViewById(R.id.videoView);
-//        videoView.setVideoPath("http://vjs.zencdn.net/v/oceans.mp4");
-//        videoView.setOnClickListener((e) -> click());
-//        Toast.makeText(this, "The player can pause: " + videoView.canPause(), Toast.LENGTH_LONG).show();
     }
 
     @Override

@@ -1,11 +1,14 @@
 package xyz.moviecast.views;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.VideoView;
+
+import java.io.ObjectOutputStream;
 
 import xyz.moviecast.R;
 

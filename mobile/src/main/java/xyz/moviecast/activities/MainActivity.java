@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements ProviderManager.P
 
         ButterKnife.bind(this);
 
+        startActivity(PlayerActivity.getIntent(this));
 
         setSupportActionBar(toolbar);
 

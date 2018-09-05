@@ -8,7 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.VideoView;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import xyz.moviecast.R;
 
@@ -18,12 +20,22 @@ public class PlayerControlView extends FrameLayout implements View.OnClickListen
 
     private onControlUsedListener listener;
 
+    private ImageButton playButton;
+    private TextView currentTime;
+    private TextView totalTime;
+    private ProgressBar progressBar;
+
     public PlayerControlView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.view_player_controller, this);
 
-        findViewById(R.id.playButton).setOnClickListener(this);
+        playButton = findViewById(R.id.playButton);
+        currentTime = findViewById(R.id.currentTimeTextView);
+        totalTime = findViewById(R.id.totalTimeTextView);
+        progressBar = findViewById(R.id.progressBar);
+
+        playButton.setOnClickListener(this);
     }
 
     public void setOnControlUsedListener(onControlUsedListener listener) {
@@ -45,6 +57,10 @@ public class PlayerControlView extends FrameLayout implements View.OnClickListen
 
     public interface onControlUsedListener{
         VideoState onPlayButtonPressed();
+    }
+
+    public void setVideoStream(){
+
     }
 
     public enum VideoState{
