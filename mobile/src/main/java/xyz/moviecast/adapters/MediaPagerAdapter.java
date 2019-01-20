@@ -5,10 +5,10 @@
 
 package xyz.moviecast.adapters;
 
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 import java.util.Locale;
@@ -18,12 +18,10 @@ import xyz.moviecast.fragments.MediaListFragment;
 
 public class MediaPagerAdapter extends FragmentStatePagerAdapter {
 
-    private MediaProvider provider;
     private final List<MediaProvider.Tab> tabs;
 
-    public MediaPagerAdapter(FragmentManager fm, MediaProvider provider, List<MediaProvider.Tab> tabs) {
+    public MediaPagerAdapter(FragmentManager fm, List<MediaProvider.Tab> tabs) {
         super(fm);
-        this.provider = provider;
         this.tabs = tabs;
     }
 

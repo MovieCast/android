@@ -5,13 +5,13 @@
 
 package xyz.moviecast.base.providers.response.models.general;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 public class Images {
 
-    @JsonProperty("background")
+    @SerializedName("background")
     private String backgroundImage;
-    @JsonProperty("poster")
+    @SerializedName("poster")
     private String posterImage;
 
     public String getBackgroundImage() {

@@ -5,7 +5,7 @@
 
 package xyz.moviecast.base.providers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -15,11 +15,11 @@ import okhttp3.Request;
 class BaseProvider {
 
     private final OkHttpClient client;
-    protected final ObjectMapper mapper;
+    protected final Gson gson;
 
-    BaseProvider(OkHttpClient client, ObjectMapper mapper) {
+    BaseProvider(OkHttpClient client, Gson gson) {
         this.client = client;
-        this.mapper = mapper;
+        this.gson = gson;
     }
 
     protected Call enqueue(Request request, Callback callback) {

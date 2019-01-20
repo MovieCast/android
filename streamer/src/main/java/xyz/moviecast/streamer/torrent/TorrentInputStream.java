@@ -5,13 +5,11 @@
 
 package xyz.moviecast.streamer.torrent;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
-import xyz.moviecast.streamer.torrent.Torrent;
 
 public class TorrentInputStream extends FilterInputStream {
 

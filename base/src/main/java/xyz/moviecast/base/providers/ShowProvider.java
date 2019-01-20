@@ -5,7 +5,7 @@
 
 package xyz.moviecast.base.providers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,20 +16,19 @@ import java.util.Map;
 import okhttp3.OkHttpClient;
 import xyz.moviecast.base.R;
 import xyz.moviecast.base.models.Media;
-import xyz.moviecast.base.providers.response.MovieDetailResponse;
 import xyz.moviecast.base.providers.response.ShowDetailResponse;
 import xyz.moviecast.base.providers.response.ShowListResponse;
 
 public class ShowProvider extends MediaProvider {
-    ShowProvider(OkHttpClient client, ObjectMapper mapper) {
-        super(client, mapper, "https://content.moviecast.io", "shows", "detail");
+    ShowProvider(OkHttpClient client, Gson gson) {
+        super(client, gson, "https://content.moviecast.io", "shows", "detail");
     }
 
     @Override
     Map<String, Media> formatList(String response) throws IOException {
         Map<String, Media> formattedItems = new LinkedHashMap<>();
 
-        ShowListResponse page = mapper.readValue(response, ShowListResponse.class);
+        ShowListResponse page = gson.fromJson(response, ShowListResponse.class);
         for(Media item : page.getFormattedResult()) {
             formattedItems.put(item.getId(), item);
         }
@@ -39,7 +38,7 @@ public class ShowProvider extends MediaProvider {
 
     @Override
     Media formatDetail(String response) throws IOException {
-        ShowDetailResponse detailResponse = mapper.readValue(response, ShowDetailResponse.class);
+        ShowDetailResponse detailResponse = gson.fromJson(response, ShowDetailResponse.class);
         return detailResponse.getFormattedItem();
     }
 

@@ -5,6 +5,8 @@
 
 package xyz.moviecast.base.providers.response;
 
+import android.util.Log;
+
 import xyz.moviecast.base.models.Media;
 import xyz.moviecast.base.providers.response.models.DetailResponse;
 import xyz.moviecast.base.providers.response.models.general.Torrent;
@@ -41,6 +43,8 @@ public class MovieDetailResponse extends Movie implements DetailResponse {
                         torrent.getSeeds(), torrent.getPeers(), torrent.getSize()));
             }
         }
+
+        Log.d("Movie", "Image: " + movie.getPosterImageUrl());
 
         return movie;
     }

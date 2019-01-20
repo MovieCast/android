@@ -29,7 +29,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
 
     api "com.frostwire:jlibtorrent:$jlibtorrentVersion"
     api "com.frostwire:jlibtorrent-android-arm:$jlibtorrentVersion"

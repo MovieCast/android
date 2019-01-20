@@ -8,7 +8,7 @@ package xyz.moviecast.base.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
+import androidx.core.app.ActivityCompat;
 
 public class PermissionUtils {
     public static final int REQUEST_PERMISSION_ID = 33812;

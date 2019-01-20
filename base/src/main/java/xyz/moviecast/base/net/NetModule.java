@@ -7,7 +7,8 @@ package xyz.moviecast.base.net;
 
 import android.content.Context;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
 
@@ -40,9 +41,15 @@ public class NetModule {
 
     @Provides
     @Singleton
-    ObjectMapper provideObjectMapper() {
-        return new ObjectMapper();
+    Gson provideGson() {
+        return new GsonBuilder().create();
     }
+
+//    @Provides
+//    @Singleton
+//    ObjectMapper provideObjectMapper() {
+//        return new ObjectMapper();
+//    }
 
     //TODO: Add picasso with okhttpdownloader so it uses the same cache.
 }

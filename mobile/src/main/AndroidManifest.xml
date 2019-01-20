@@ -19,7 +19,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/moviecast_icon"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MovieCast">
+        android:theme="@style/Theme.MovieCast"
+        android:usesCleartextTraffic="true">
 
         <service android:name=".streamer.StreamerService" />
 

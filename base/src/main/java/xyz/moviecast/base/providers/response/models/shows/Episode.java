@@ -5,26 +5,25 @@
 
 package xyz.moviecast.base.providers.response.models.shows;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 import xyz.moviecast.base.providers.response.models.general.Torrent;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+//@JsonIgnoreProperties(ignoreUnknown = true)
 public class Episode {
-    @JsonProperty("tvdb_id")
+    @SerializedName("tvdb_id")
     private String tvdbId;
-    @JsonProperty("season")
+    @SerializedName("season")
     private int season;
-    @JsonProperty("episode")
+    @SerializedName("episode")
     private int episode;
-    @JsonProperty("title")
+    @SerializedName("title")
     private String title;
-    @JsonProperty("overview")
+    @SerializedName("overview")
     private String overview;
-    @JsonProperty("torrents")
+    @SerializedName("torrents")
     private List<Torrent> torrents;
 
     public Episode() {

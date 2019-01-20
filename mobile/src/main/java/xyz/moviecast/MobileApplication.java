@@ -5,6 +5,15 @@
 
 package xyz.moviecast;
 
+import com.facebook.common.logging.FLog;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.facebook.imagepipeline.listener.RequestListener;
+import com.facebook.imagepipeline.listener.RequestLoggingListener;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import xyz.moviecast.base.BaseApplication;
 import xyz.moviecast.base.BaseApplicationModule;
 
@@ -18,6 +27,14 @@ public class MobileApplication extends BaseApplication {
 
     @Override
     public void onCreate() {
+        //Set<RequestListener> requestListeners = new HashSet<>();
+        //requestListeners.add(new RequestLoggingListener());
+        //ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
+        //        // other setters
+        //        .setRequestListeners(requestListeners)
+        //        .build();
+        Fresco.initialize(this);
+        //FLog.setMinimumLoggingLevel(FLog.VERBOSE);
         if(appComponent == null) {
             appComponent = DaggerMobileApplicationComponent.builder()
                     .baseApplicationModule(new BaseApplicationModule(this))

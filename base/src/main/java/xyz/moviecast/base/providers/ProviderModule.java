@@ -5,7 +5,7 @@
 
 package xyz.moviecast.base.providers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import javax.inject.Singleton;
 
@@ -18,13 +18,13 @@ public class ProviderModule {
 
     @Provides
     @Singleton
-    MovieProvider provideMovieProvider(OkHttpClient client, ObjectMapper mapper) {
-        return new MovieProvider(client, mapper);
+    MovieProvider provideMovieProvider(OkHttpClient client, Gson gson) {
+        return new MovieProvider(client, gson);
     }
 
     @Provides
     @Singleton
-    ShowProvider provideShowProvider(OkHttpClient client, ObjectMapper mapper) {
-        return new ShowProvider(client, mapper);
+    ShowProvider provideShowProvider(OkHttpClient client, Gson gson) {
+        return new ShowProvider(client, gson);
     }
 }
