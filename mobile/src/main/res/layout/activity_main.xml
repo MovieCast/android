@@ -9,7 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="xyz.moviecast.activities.MainActivity"
+    tools:context="io.moviecast.activities.MainActivity"
     android:id="@+id/drawerLayout"
     android:clipToPadding="false">
 

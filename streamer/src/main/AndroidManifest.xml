@@ -4,4 +4,4 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="xyz.moviecast.streamer" />
+    package="io.moviecast.streamer" />
