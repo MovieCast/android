@@ -58,7 +58,7 @@
             <ImageView
                 android:layout_width="75dp"
                 android:layout_height="75dp"
-                android:background="@mipmap/moviecast_icon"
+                android:background="@mipmap/ic_launcher"
                 android:scaleType="fitXY"
                 android:layout_marginBottom="15dp"
                 android:layout_marginStart="15dp"
