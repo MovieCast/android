@@ -8,7 +8,7 @@ package xyz.moviecast.base.managers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 public class PreferenceManager {
 

@@ -5,15 +5,15 @@
 
 package xyz.moviecast.base.providers.response.models.general;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 public class Rating {
 
-    @JsonProperty("votes")
+    @SerializedName("votes")
     private int votes;
-    @JsonProperty("watching")
+    @SerializedName("watching")
     private int watching;
-    @JsonProperty("percentage")
+    @SerializedName("percentage")
     private int percentage;
 
     public int getVotes() {

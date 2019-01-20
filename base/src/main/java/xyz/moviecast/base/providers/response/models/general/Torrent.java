@@ -5,23 +5,23 @@
 
 package xyz.moviecast.base.providers.response.models.general;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 public class Torrent {
 
-    @JsonProperty("hash")
+    @SerializedName("hash")
     private String hash;
-    @JsonProperty("seeds")
+    @SerializedName("seeds")
     private int seeds;
-    @JsonProperty("peers")
+    @SerializedName("peers")
     private int peers;
-    @JsonProperty("size")
+    @SerializedName("size")
     private long size;
-    @JsonProperty("quality")
+    @SerializedName("quality")
     private String quality;
-    @JsonProperty("fileSize")
+    @SerializedName("fileSize")
     private String fileSize;
-    @JsonProperty("provider")
+    @SerializedName("provider")
     private String provider;
 
     public Torrent() {

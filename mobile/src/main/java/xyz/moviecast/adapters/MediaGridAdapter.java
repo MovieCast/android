@@ -14,31 +14,33 @@ import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Shader;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.net.Uri;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
+import com.facebook.cache.common.CacheKey;
+import com.facebook.cache.common.SimpleCacheKey;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.request.BasePostprocessor;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import xyz.moviecast.R;
 import xyz.moviecast.base.models.Media;
-import xyz.moviecast.base.models.Movie;
-import xyz.moviecast.base.providers.MediaProvider;
+import xyz.moviecast.base.utils.ImageUtils;
 
 public class MediaGridAdapter extends RecyclerView.Adapter<MediaGridAdapter.ViewHolder> {
 
@@ -87,17 +89,22 @@ public class MediaGridAdapter extends RecyclerView.Adapter<MediaGridAdapter.View
         Media item = getItem(position);
 
         // We need the item later so add it to the view holder
-        holder.media = item;
         holder.title.setText(item.getTitle());
         holder.year.setText(item.getYear());
 
 
         if(item.getPosterImageUrl() != null && !item.getPosterImageUrl().equals("")) {
-            Picasso.get().cancelRequest(holder.coverImage);
-            Picasso.get().load(item.getPosterImageUrl())
-                         .resize(itemWidth, itemHeight)
-                         .transform(GradientTransformation.getInstance())
-                         .into(holder.coverImage);
+//            Picasso.get().setLoggingEnabled(true);
+//            Picasso.get().cancelRequest(holder.coverImage);
+//            Log.d("img", item.getPosterImageUrl());
+//            Picasso.get().load(item.getPosterImageUrl())
+//                         .resize(itemWidth, itemHeight)
+//                         .transform(GradientTransformation.getInstance())
+//                         .into(holder.coverImage);
+
+            ImageUtils.loadAndProcess(holder.coverImage, item.getPosterImageUrl(),
+                    new GradientPostprocessor(item.getId()));
+//            holder.coverImage.setImageURI(item.getPosterImageUrl());
         }
     }
 
@@ -124,62 +131,52 @@ public class MediaGridAdapter extends RecyclerView.Adapter<MediaGridAdapter.View
         itemClickListener = listener;
     }
 
-    private static class GradientTransformation implements Transformation {
-        private static GradientTransformation instance = new GradientTransformation();
+    private static class GradientPostprocessor extends BasePostprocessor {
+        private String id;
 
-        public static GradientTransformation getInstance() {
-            return instance;
+        GradientPostprocessor(String id) {
+            this.id = id;
         }
 
         @Override
-        public Bitmap transform(Bitmap source) {
-            int width = source.getWidth();
-            int height = source.getHeight();
-            float gradientHeight = height / 2f;
+        public void process(Bitmap source) {
+            //super.process(bitmap);
+            final int width = source.getWidth();
+            final int height = source.getHeight();
+            final float gradientHeight = height / 2f;
 
-            Bitmap overlay = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(overlay);
-
-            canvas.drawBitmap(source, 0, 0, null);
-            source.recycle();
+            Canvas canvas = new Canvas(source);
 
             Paint paint = new Paint();
-            LinearGradient shader = new LinearGradient(0,  height - gradientHeight, 0, height, 0xFFFFFFFF, 0x00FFFFFF, Shader.TileMode.CLAMP);
+            LinearGradient shader = new LinearGradient(0, height - gradientHeight, 0, height, 0xFFFFFFFF, 0x00FFFFFF, Shader.TileMode.CLAMP);
             paint.setShader(shader);
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
-            canvas.drawRect(0, height - gradientHeight, width, height, paint);
 
-            return overlay;
+            canvas.drawRect(0, height - gradientHeight, width, height, paint);
         }
 
         @Override
-        public String key() {
-            return "gradient";
+        public CacheKey getPostprocessorCacheKey() {
+            return new SimpleCacheKey("id="+id);
         }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        ImageView coverImage;
+        @BindView(R.id.item_poster)
+        SimpleDraweeView coverImage;
+        @BindView(R.id.item_title)
         TextView title;
+        @BindView(R.id.item_year)
         TextView year;
-
-        Media media;
 
         ViewHolder(View itemView) {
             super(itemView);
 
-            itemView.setOnClickListener(this);
+            ButterKnife.bind(this, itemView);
 
-            coverImage = itemView.findViewById(R.id.item_poster);
             coverImage.setMinimumHeight(itemHeight);
-
-            title = itemView.findViewById(R.id.item_title);
-            year = itemView.findViewById(R.id.item_year);
-        }
-
-        public Media getMedia() {
-            return media;
+            itemView.setOnClickListener(this);
         }
 
         @Override

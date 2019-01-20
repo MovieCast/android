@@ -5,7 +5,7 @@
 
 package xyz.moviecast.base.managers;
 
-import android.support.annotation.MainThread;
+import androidx.annotation.MainThread;
 
 import java.util.ArrayList;
 import java.util.HashMap;

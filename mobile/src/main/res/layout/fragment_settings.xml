@@ -4,7 +4,7 @@
   ~ Licensed under the MIT License. See LICENSE in the project root for license information.
   -->
 
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,4 +17,4 @@
         android:text="Switch"
         tools:layout_editor_absoluteX="151dp"
         tools:layout_editor_absoluteY="241dp" />
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

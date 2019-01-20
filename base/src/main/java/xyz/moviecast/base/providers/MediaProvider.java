@@ -6,10 +6,9 @@
 package xyz.moviecast.base.providers;
 
 import android.accounts.NetworkErrorException;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -18,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import androidx.annotation.NonNull;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -37,8 +37,8 @@ public abstract class MediaProvider extends BaseProvider {
 
     private final Map<String, Media> itemCache = new HashMap<>();
 
-    MediaProvider(OkHttpClient client, ObjectMapper mapper, String baseUrl, String listPath, String detailPath) {
-        super(client, mapper);
+    MediaProvider(OkHttpClient client, Gson gson, String baseUrl, String listPath, String detailPath) {
+        super(client, gson);
 
         this.baseUrl = baseUrl;
         this.listPath = listPath;

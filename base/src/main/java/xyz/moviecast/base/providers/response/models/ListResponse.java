@@ -5,7 +5,7 @@
 
 package xyz.moviecast.base.providers.response.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,16 +13,16 @@ import java.util.List;
 import xyz.moviecast.base.models.Media;
 
 public abstract class ListResponse<T extends ResponseItem> {
-    @JsonProperty("page")
+    @SerializedName("page")
     protected int pageNumber;
 
-    @JsonProperty("totalResults")
+    @SerializedName("totalResults")
     protected int totalResults;
 
-    @JsonProperty("totalPages")
+    @SerializedName("totalPages")
     protected int totalPages;
 
-    @JsonProperty("results")
+    @SerializedName("results")
     protected List<T> result = new ArrayList<>();
 
     public int getPageNumber() {

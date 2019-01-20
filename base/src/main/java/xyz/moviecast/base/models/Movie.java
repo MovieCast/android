@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import xyz.moviecast.base.managers.ProviderManager;
 
 public class Movie extends Media implements Serializable {

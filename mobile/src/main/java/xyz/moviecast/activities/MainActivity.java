@@ -6,22 +6,20 @@
 package xyz.moviecast.activities;
 
 import android.Manifest;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -34,7 +32,6 @@ import butterknife.ButterKnife;
 import xyz.moviecast.MobileApplication;
 import xyz.moviecast.R;
 import xyz.moviecast.adapters.DrawerAdapter;
-import xyz.moviecast.base.app.BaseActivity;
 import xyz.moviecast.base.managers.ProviderManager;
 import xyz.moviecast.base.utils.PermissionUtils;
 import xyz.moviecast.fragments.MediaContainerFragment;
@@ -54,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements ProviderManager.P
     @BindView(R.id.drawerLayout)
     DrawerLayout drawerLayout;
 
-    private ArrayAdapter<String> arrayAdapter;
+    //private ArrayAdapter<String> arrayAdapter;
     private ActionBarDrawerToggle drawerToggle;
 
     @Override

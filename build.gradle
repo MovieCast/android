@@ -12,7 +12,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.3.0'
         classpath 'org.moallemi.gradle.advanced-build-version:gradle-plugin:1.6.0'
         
 
@@ -35,17 +35,16 @@ advancedVersioning {
 }
 
 ext {
-    targetSdk = 27
-    compileSdk = 27
+    targetSdk = 28
+    compileSdk = 28
     minSdk = 15
 
-    appCompatVersion = "27.1.1"
-    butterKnifeVersion = "8.8.1"
+    appCompatVersion = '1.0.0'
+    butterKnifeVersion = "10.0.0"
     okHttpVersion = "3.10.0"
-    daggerVersion = "2.15"
-    picassoVersion = "2.71828"
-    jacksonVersion = "2.7.2"
-    javaxAnnotationVersion = "1.2"
+    gsonVersion = "2.8.5"
+    daggerVersion = "2.21"
+    frescoVersion = "1.11.0"
 
     jlibtorrentVersion = '1.2.0.18-RC5'
 

@@ -8,18 +8,15 @@ package xyz.moviecast.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
-import com.frostwire.jlibtorrent.TorrentInfo;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -37,7 +34,6 @@ import xyz.moviecast.base.managers.ProviderManager;
 import xyz.moviecast.base.models.Media;
 import xyz.moviecast.base.providers.MediaProvider;
 import xyz.moviecast.base.utils.ThreadUtils;
-import xyz.moviecast.streamer.utils.TorrentUtils;
 
 public class MediaListFragment extends BaseFragment {
 
@@ -149,16 +145,12 @@ public class MediaListFragment extends BaseFragment {
         mediaAdapter = new MediaGridAdapter(getActivity(), 2);
         mediaAdapter.setOnItemClickListener((v, media) -> {
             Log.d("MEDIA_LIST", "Clicked on media item " + media.getId() + " with title '" + media.getTitle() + "'");
-            Toast.makeText(getContext(), "Clicked on media item " + media.getId(), Toast.LENGTH_LONG).show();
+//            Toast.makeText(getContext(), "Clicked on media item " + media.getId(), Toast.LENGTH_LONG).show();
 
             providerManager.getCurrentProvider().provideDetails(media.getId(), new MediaProvider.MediaDetailCallback() {
                 @Override
                 public void onSuccess(Media result) {
-                    Intent detailIntent = new Intent(applicationContext, MediaDetailActivity.class);
-                    Log.d("MEDIA_DETAIL", "onSuccess: " + media);
-                    detailIntent.putExtra(MediaDetailActivity.MEDIA_OBJECT, result);
-
-                    startActivity(detailIntent);
+                    MediaDetailActivity.startActivity(getContext(), result);
                 }
 
                 @Override

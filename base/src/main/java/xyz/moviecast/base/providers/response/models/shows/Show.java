@@ -5,34 +5,33 @@
 
 package xyz.moviecast.base.providers.response.models.shows;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
 import xyz.moviecast.base.providers.response.models.ResponseItem;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+//@JsonIgnoreProperties(ignoreUnknown = true)
 public class Show extends ResponseItem {
-    @JsonProperty("tvdb_id")
+    @SerializedName("tvdb_id")
     private String tvdbId;
-    @JsonProperty("synopsis")
+    @SerializedName("synopsis")
     private String synopsis;
-    @JsonProperty("runtime")
+    @SerializedName("runtime")
     private int duration;
-    @JsonProperty("country")
+    @SerializedName("country")
     private String country;
-    @JsonProperty("network")
+    @SerializedName("network")
     private String network;
-    @JsonProperty("air_day")
+    @SerializedName("air_day")
     private String airDay;
-    @JsonProperty("air_time")
+    @SerializedName("air_time")
     private String airTime;
-    @JsonProperty("status")
+    @SerializedName("status")
     private String status;
-    @JsonProperty("num_seasons")
+    @SerializedName("num_seasons")
     private int numSeasons;
-    @JsonProperty("episodes")
+    @SerializedName("episodes")
     private List<Episode> episodes;
 
     public Show() {

@@ -5,14 +5,15 @@
 
 package xyz.moviecast.activities;
 
-import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.widget.ImageView;
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.android.material.appbar.AppBarLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.squareup.picasso.Picasso;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import androidx.appcompat.widget.Toolbar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +26,13 @@ import xyz.moviecast.fragments.ShowDetailFragment;
 
 public class MediaDetailActivity extends AppCompatActivity {
 
+    public static void startActivity(Context context, Media media) {
+        Intent detailIntent = new Intent(context, MediaDetailActivity.class);
+        detailIntent.putExtra(MediaDetailActivity.MEDIA_OBJECT, media);
+
+        context.startActivity(detailIntent);
+    }
+
     public static final String MEDIA_OBJECT = "MEDIA_OBJECT";
 
     @BindView(R.id.toolbar)
@@ -34,7 +42,7 @@ public class MediaDetailActivity extends AppCompatActivity {
     AppBarLayout appBar;
 
     @BindView(R.id.detail_poster)
-    ImageView poster;
+    SimpleDraweeView poster;
 
     //private FloatingActionButton button;
     private Media media;
@@ -61,7 +69,8 @@ public class MediaDetailActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(media.getTitle());
 
             // TODO: Move picasso to NetModule
-            Picasso.get().load(media.getPosterImageUrl()).into(poster);
+            //Picasso.get().load(media.getPosterImageUrl()).into(poster);
+            poster.setImageURI(media.getBackgroundImageUrl());
 
             FragmentManager fragmentManager = getSupportFragmentManager();
             if (media instanceof Movie) {

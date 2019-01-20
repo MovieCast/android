@@ -5,7 +5,7 @@
 
 package xyz.moviecast.base.providers.response.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -13,17 +13,18 @@ import xyz.moviecast.base.providers.response.models.general.Images;
 import xyz.moviecast.base.providers.response.models.general.Rating;
 
 public abstract class ResponseItem {
-    @JsonProperty("_id")
+
+    @SerializedName("_id")
     private String id;
-    @JsonProperty("title")
+    @SerializedName("title")
     private String title;
-    @JsonProperty("year")
+    @SerializedName("year")
     private String year;
-    @JsonProperty("rating")
+    @SerializedName("rating")
     private Rating rating;
-    @JsonProperty("images")
+    @SerializedName("images")
     private Images images;
-    @JsonProperty("genres")
+    @SerializedName("genres")
     private List<String> genres;
 
     public String getId() {

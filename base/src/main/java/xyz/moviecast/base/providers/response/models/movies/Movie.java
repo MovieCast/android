@@ -5,37 +5,34 @@
 
 package xyz.moviecast.base.providers.response.models.movies;
 
-import android.util.Log;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import xyz.moviecast.base.providers.response.models.ResponseItem;
 import xyz.moviecast.base.providers.response.models.general.Torrent;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+//@JsonIgnoreProperties(ignoreUnknown = true)
 public class Movie extends ResponseItem {
 
-    @JsonProperty("slug")
+    @SerializedName("slug")
     private String slug;
-    @JsonProperty("synopsis")
+    @SerializedName("synopsis")
     private String synopsis;
-    @JsonProperty("runtime")
+    @SerializedName("runtime")
     private int duration;
-    @JsonProperty("country")
+    @SerializedName("country")
     private String country;
-    @JsonProperty("released")
+    @SerializedName("released")
     private long released;
-    @JsonProperty("trailer")
+    @SerializedName("trailer")
     private String trailer;
-    @JsonProperty("certification")
+    @SerializedName("certification")
     private String certification;
-    @JsonProperty("torrents")
+    @SerializedName("torrents")
     private ArrayList<Torrent> torrents;
-    @JsonProperty("language")
+    @SerializedName("language")
     private String language;
 
     public Movie() {
