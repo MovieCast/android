@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
 
-package xyz.moviecast.fragments;
+package io.moviecast.fragments;
 
 import android.os.Bundle;
 import androidx.annotation.Nullable;
@@ -14,8 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import xyz.moviecast.R;
-import xyz.moviecast.adapters.MediaGridAdapter;
+import io.moviecast.R;
+import io.moviecast.adapters.MediaGridAdapter;
 
 public class MediaCatalogFragment extends Fragment{
 

@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
 
-package xyz.moviecast.adapters;
+package io.moviecast.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,8 +20,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import xyz.moviecast.R;
-import xyz.moviecast.base.managers.ProviderManager;
+import io.moviecast.R;
+import io.moviecast.base.managers.ProviderManager;
 
 public class DrawerAdapter extends ArrayAdapter<DrawerAdapter.DrawerItem> {
 

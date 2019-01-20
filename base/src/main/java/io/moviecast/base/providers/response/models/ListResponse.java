@@ -3,14 +3,14 @@
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
 
-package xyz.moviecast.base.providers.response.models;
+package io.moviecast.base.providers.response.models;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import xyz.moviecast.base.models.Media;
+import io.moviecast.base.models.Media;
 
 public abstract class ListResponse<T extends ResponseItem> {
     @SerializedName("page")

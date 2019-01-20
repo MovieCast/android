@@ -3,14 +3,14 @@
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
 
-package xyz.moviecast.base.providers.response.models.general;
+package io.moviecast.base.providers.response.models.general;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import xyz.moviecast.base.providers.response.models.movies.Movie;
+import io.moviecast.base.providers.response.models.movies.Movie;
 
 public class Page {
 

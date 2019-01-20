@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
 
-package xyz.moviecast.streamer.listeners;
+package io.moviecast.streamer.listeners;
 
 import com.frostwire.jlibtorrent.AlertListener;
 import com.frostwire.jlibtorrent.alerts.AddTorrentAlert;

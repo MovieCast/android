@@ -3,19 +3,19 @@
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
 
-package xyz.moviecast.base.providers.response;
+package io.moviecast.base.providers.response;
 
-import xyz.moviecast.base.models.Media;
-import xyz.moviecast.base.models.Show.Season;
-import xyz.moviecast.base.providers.response.models.DetailResponse;
-import xyz.moviecast.base.providers.response.models.general.Torrent;
-import xyz.moviecast.base.providers.response.models.shows.Episode;
-import xyz.moviecast.base.providers.response.models.shows.Show;
+import io.moviecast.base.models.Media;
+import io.moviecast.base.models.Show.Season;
+import io.moviecast.base.providers.response.models.DetailResponse;
+import io.moviecast.base.providers.response.models.general.Torrent;
+import io.moviecast.base.providers.response.models.shows.Episode;
+import io.moviecast.base.providers.response.models.shows.Show;
 
 public class ShowDetailResponse extends Show implements DetailResponse {
     @Override
     public Media getFormattedItem() {
-        xyz.moviecast.base.models.Show show = new xyz.moviecast.base.models.Show();
+        io.moviecast.base.models.Show show = new io.moviecast.base.models.Show();
 
         // ResponseItem
         show.setId(getId());
@@ -53,7 +53,7 @@ public class ShowDetailResponse extends Show implements DetailResponse {
             // Yay torrents
             if(episodeItem.getTorrents() != null) {
                 for(Torrent torrent : episodeItem.getTorrents()) {
-                    episode.getTorrents().add(new xyz.moviecast.base.models.Torrent(torrent.getQuality(), torrent.getHash(),
+                    episode.getTorrents().add(new io.moviecast.base.models.Torrent(torrent.getQuality(), torrent.getHash(),
                             torrent.getSeeds(), torrent.getPeers(), torrent.getSize()));
                 }
             }

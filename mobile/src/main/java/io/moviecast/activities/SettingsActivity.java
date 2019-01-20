@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
 
-package xyz.moviecast.activities;
+package io.moviecast.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import xyz.moviecast.R;
+import io.moviecast.R;
 
 public class SettingsActivity extends AppCompatActivity {
 

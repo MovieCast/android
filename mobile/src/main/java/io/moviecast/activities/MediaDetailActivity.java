@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
 
-package xyz.moviecast.activities;
+package io.moviecast.activities;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.android.material.appbar.AppBarLayout;
@@ -17,12 +17,12 @@ import androidx.appcompat.widget.Toolbar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import xyz.moviecast.R;
-import xyz.moviecast.base.models.Media;
-import xyz.moviecast.base.models.Movie;
-import xyz.moviecast.base.models.Show;
-import xyz.moviecast.fragments.MovieDetailFragment;
-import xyz.moviecast.fragments.ShowDetailFragment;
+import io.moviecast.R;
+import io.moviecast.base.models.Media;
+import io.moviecast.base.models.Movie;
+import io.moviecast.base.models.Show;
+import io.moviecast.fragments.MovieDetailFragment;
+import io.moviecast.fragments.ShowDetailFragment;
 
 public class MediaDetailActivity extends AppCompatActivity {
 

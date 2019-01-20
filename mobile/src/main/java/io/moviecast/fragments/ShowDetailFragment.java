@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
 
-package xyz.moviecast.fragments;
+package io.moviecast.fragments;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import xyz.moviecast.R;
-import xyz.moviecast.base.models.Show;
+import io.moviecast.R;
+import io.moviecast.base.models.Show;
 
 public class ShowDetailFragment extends Fragment {
     private static final String ARG_SHOW = "ARG_SHOW";

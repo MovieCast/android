@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
 
-package xyz.moviecast.fragments;
+package io.moviecast.fragments;
 
 import android.os.Bundle;
 import androidx.annotation.Nullable;
@@ -12,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import xyz.moviecast.R;
+import io.moviecast.R;
 
 public class SettingsFragment extends Fragment {
 

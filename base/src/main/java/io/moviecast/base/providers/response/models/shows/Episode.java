@@ -3,13 +3,13 @@
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
 
-package xyz.moviecast.base.providers.response.models.shows;
+package io.moviecast.base.providers.response.models.shows;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import xyz.moviecast.base.providers.response.models.general.Torrent;
+import io.moviecast.base.providers.response.models.general.Torrent;
 
 //@JsonIgnoreProperties(ignoreUnknown = true)
 public class Episode {

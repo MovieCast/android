@@ -1,4 +1,4 @@
-package xyz.moviecast.base.app;
+package io.moviecast.base.app;
 
 
 import android.os.Bundle;

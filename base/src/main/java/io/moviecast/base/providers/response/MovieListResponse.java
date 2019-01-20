@@ -3,21 +3,21 @@
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
 
-package xyz.moviecast.base.providers.response;
+package io.moviecast.base.providers.response;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import xyz.moviecast.base.models.Media;
-import xyz.moviecast.base.providers.response.models.ListResponse;
-import xyz.moviecast.base.providers.response.models.movies.Movie;
+import io.moviecast.base.models.Media;
+import io.moviecast.base.providers.response.models.ListResponse;
+import io.moviecast.base.providers.response.models.movies.Movie;
 
 public class MovieListResponse extends ListResponse<Movie> {
     @Override
     public List<Media> getFormattedResult() {
         List<Media> items = new ArrayList<>();
         for(Movie item : result) {
-            xyz.moviecast.base.models.Movie movie = new xyz.moviecast.base.models.Movie();
+            io.moviecast.base.models.Movie movie = new io.moviecast.base.models.Movie();
 
             // ResponseItem
             movie.setId(item.getId());

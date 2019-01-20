@@ -3,15 +3,15 @@
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
 
-package xyz.moviecast.base.providers.response.models.movies;
+package io.moviecast.base.providers.response.models.movies;
 
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-import xyz.moviecast.base.providers.response.models.ResponseItem;
-import xyz.moviecast.base.providers.response.models.general.Torrent;
+import io.moviecast.base.providers.response.models.ResponseItem;
+import io.moviecast.base.providers.response.models.general.Torrent;
 
 //@JsonIgnoreProperties(ignoreUnknown = true)
 public class Movie extends ResponseItem {

@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
 
-package xyz.moviecast.fragments;
+package io.moviecast.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -24,15 +24,15 @@ import java.util.Set;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import xyz.moviecast.MobileApplication;
-import xyz.moviecast.R;
-import xyz.moviecast.activities.MediaDetailActivity;
-import xyz.moviecast.adapters.MediaGridAdapter;
-import xyz.moviecast.base.app.BaseFragment;
-import xyz.moviecast.base.managers.ProviderManager;
-import xyz.moviecast.base.models.Media;
-import xyz.moviecast.base.providers.MediaProvider;
-import xyz.moviecast.base.utils.ThreadUtils;
+import io.moviecast.MobileApplication;
+import io.moviecast.R;
+import io.moviecast.activities.MediaDetailActivity;
+import io.moviecast.adapters.MediaGridAdapter;
+import io.moviecast.base.app.BaseFragment;
+import io.moviecast.base.managers.ProviderManager;
+import io.moviecast.base.models.Media;
+import io.moviecast.base.providers.MediaProvider;
+import io.moviecast.base.utils.ThreadUtils;
 
 public class MediaListFragment extends BaseFragment {
 

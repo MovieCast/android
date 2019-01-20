@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
 
-package xyz.moviecast.adapters;
+package io.moviecast.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -36,9 +36,9 @@ import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import xyz.moviecast.R;
-import xyz.moviecast.base.models.Media;
-import xyz.moviecast.base.utils.ImageUtils;
+import io.moviecast.R;
+import io.moviecast.base.models.Media;
+import io.moviecast.base.utils.ImageUtils;
 
 public class MediaGridAdapter extends RecyclerView.Adapter<MediaGridAdapter.ViewHolder> {
 

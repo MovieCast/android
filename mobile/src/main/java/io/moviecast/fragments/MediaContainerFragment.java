@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
 
-package xyz.moviecast.fragments;
+package io.moviecast.fragments;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -19,12 +19,12 @@ import android.view.ViewGroup;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import xyz.moviecast.MobileApplication;
-import xyz.moviecast.R;
-import xyz.moviecast.adapters.MediaPagerAdapter;
-import xyz.moviecast.base.app.BaseFragment;
-import xyz.moviecast.base.managers.ProviderManager;
-import xyz.moviecast.base.providers.MediaProvider;
+import io.moviecast.MobileApplication;
+import io.moviecast.R;
+import io.moviecast.adapters.MediaPagerAdapter;
+import io.moviecast.base.app.BaseFragment;
+import io.moviecast.base.managers.ProviderManager;
+import io.moviecast.base.providers.MediaProvider;
 
 public class MediaContainerFragment extends BaseFragment {
 

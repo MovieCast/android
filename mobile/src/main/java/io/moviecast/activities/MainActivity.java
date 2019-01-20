@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
 
-package xyz.moviecast.activities;
+package io.moviecast.activities;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -29,13 +29,13 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import xyz.moviecast.MobileApplication;
-import xyz.moviecast.R;
-import xyz.moviecast.adapters.DrawerAdapter;
-import xyz.moviecast.base.managers.ProviderManager;
-import xyz.moviecast.base.utils.PermissionUtils;
-import xyz.moviecast.fragments.MediaContainerFragment;
-import xyz.moviecast.streamer.Streamer;
+import io.moviecast.MobileApplication;
+import io.moviecast.R;
+import io.moviecast.adapters.DrawerAdapter;
+import io.moviecast.base.managers.ProviderManager;
+import io.moviecast.base.utils.PermissionUtils;
+import io.moviecast.fragments.MediaContainerFragment;
+import io.moviecast.streamer.Streamer;
 
 public class MainActivity extends AppCompatActivity implements ProviderManager.ProviderListener {
 

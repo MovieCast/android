@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
 
-package xyz.moviecast.fragments;
+package io.moviecast.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import xyz.moviecast.R;
-import xyz.moviecast.base.app.BaseFragment;
-import xyz.moviecast.base.models.Movie;
+import io.moviecast.R;
+import io.moviecast.base.app.BaseFragment;
+import io.moviecast.base.models.Movie;
 
 /**
  * A simple {@link Fragment} subclass.

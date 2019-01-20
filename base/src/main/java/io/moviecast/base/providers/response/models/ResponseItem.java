@@ -3,14 +3,14 @@
  * Licensed under the MIT License. See LICENSE in the project root for license information.
  */
 
-package xyz.moviecast.base.providers.response.models;
+package io.moviecast.base.providers.response.models;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import xyz.moviecast.base.providers.response.models.general.Images;
-import xyz.moviecast.base.providers.response.models.general.Rating;
+import io.moviecast.base.providers.response.models.general.Images;
+import io.moviecast.base.providers.response.models.general.Rating;
 
 public abstract class ResponseItem {
 
