@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements ProviderManager.P
         ArrayList<DrawerAdapter.DrawerItem> drawerItems = new ArrayList<>();
         drawerItems.add(new DrawerAdapter.DrawerItem.ProviderDrawerItem(R.drawable.ic_nav_movies, R.string.title_movies, ProviderManager.ProviderType.MOVIES));
         drawerItems.add(new DrawerAdapter.DrawerItem.ProviderDrawerItem(R.drawable.ic_nav_shows, R.string.title_shows, ProviderManager.ProviderType.SHOWS));
+        drawerItems.add(new DrawerAdapter.DrawerItem.IntentDrawerItem(R.drawable.ic_nav_player, R.string.title_player, PlayerActivity.getIntent(this)));
         drawerItems.add(new DrawerAdapter.DrawerItem.IntentDrawerItem(R.drawable.ic_nav_settings, R.string.title_settings, SettingsActivity.getIntent(this)));
 
         DrawerAdapter adapter = new DrawerAdapter(this, drawerItems);

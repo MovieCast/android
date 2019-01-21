@@ -52,6 +52,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.MainActivity" />
         </activity>
+
+        <activity android:name=".activities.PlayerActivity"
+            android:theme="@style/Theme.MovieCast.FullScreen"
+            android:screenOrientation="sensorLandscape"
+            tools:targetApi="jelly_bean" />
     </application>
 
 </manifest>
