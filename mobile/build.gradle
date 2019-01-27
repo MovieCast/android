@@ -48,6 +48,8 @@ dependencies {
     implementation "com.google.dagger:dagger-android:$daggerVersion"
     implementation "com.google.dagger:dagger-android-support:$daggerVersion"
 
+    implementation "com.github.timtim3001:videoplayer:$videoplayerVersion"
+
     implementation project(':base')
     implementation project(':streamer')
 

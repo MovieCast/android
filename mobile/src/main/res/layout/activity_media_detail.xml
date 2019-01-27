@@ -75,7 +75,7 @@
         android:layout_marginRight="16dp"
         android:focusable="true"
         android:clickable="true"
-        android:src="@drawable/ic_play_arrow"
+        android:src="@drawable/ic_nav_player"
         android:id="@+id/flying_button"
         app:elevation="6dp"
         app:layout_anchor="@id/app_bar_layout"
