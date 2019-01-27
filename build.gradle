@@ -45,7 +45,7 @@ ext {
     gsonVersion = "2.8.5"
     daggerVersion = "2.21"
     frescoVersion = "1.11.0"
-    videoplayerVersion = "1.0.0"
+    videoplayerVersion = "1.1.0"
 
     jlibtorrentVersion = '1.2.0.18-RC5'
 
