@@ -32,11 +32,12 @@ stages:
 
 assembleDebug:
   stage: build
+  when: manual
   script:
     - ./gradlew assembleDebug
   artifacts:
     paths:
-    - app/build/outputs/
+    - mobile/build/outputs/
 
 # debugTests:
 #   stage: test
